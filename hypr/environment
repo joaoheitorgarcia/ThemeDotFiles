@@ -1,0 +1,19 @@
+# --- NVIDIA Wayland / Hyprland fixes ---
+# Allow NVIDIA to expose GBM (required for Wayland compositors)
+export GBM_BACKEND=nvidia-drm
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+
+# Avoid hardware cursor issues (white box / missing cursor)
+export WLR_NO_HARDWARE_CURSORS=1
+
+# Use EGLStreams-compatible path for NVIDIA
+export WLR_RENDERER=vulkan
+
+# Ensure correct OpenGL context behavior
+export __GL_GSYNC_ALLOWED=0
+export __GL_VRR_ALLOWED=0
+export __GL_MaxFramesAllowed=1
+
+# Optional: improve performance / prevent flicker
+export LIBVA_DRIVER_NAME=nvidia
+export XDG_SESSION_TYPE=wayland

@@ -27,6 +27,8 @@ QtObject {
     //    Colors
     //───────────────
 
+    readonly property bool isDarkMode: false
+
     //theme
     readonly property string darkBase: "#303e4d"
     readonly property string lightBackground: "#e6ecef"

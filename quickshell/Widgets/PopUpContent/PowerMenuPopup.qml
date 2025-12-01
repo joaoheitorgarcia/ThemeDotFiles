@@ -7,7 +7,7 @@ import "../../Singletons" as Singletons
 Item {
     id: powerMenuContent
     implicitWidth: 200
-    implicitHeight: 200
+    implicitHeight: 15 + (35 * actionList.model.length)
 
     Rectangle {
         id: contentRect
@@ -18,6 +18,7 @@ Item {
         border.width: 2
 
         ColumnLayout {
+            id: powerMenuLayout
             anchors.fill: parent
             anchors.margins: 14
             spacing: 12

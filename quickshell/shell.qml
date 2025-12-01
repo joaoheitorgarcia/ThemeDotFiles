@@ -1,7 +1,12 @@
+//@ pragma UseQApplication
 import Quickshell
+import QtQuick
 import "Layers" as Layers
+import "Singletons" as Singletons
 
 Scope {
+
+    //TODO find way to match theme dark mode from singleton
     id: rootShell
 
     Variants {
@@ -13,4 +18,5 @@ Scope {
         Layers.Wallpaper{}
     }
     //TODO lockScreen
+
 }

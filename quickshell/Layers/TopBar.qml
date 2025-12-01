@@ -33,6 +33,9 @@ PanelWindow {
             spacing: 5
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
 
+            Widgets.SystemTray {
+                window: topBar
+            }
             Widgets.Clock {}
             Widgets.Bluetooth{}
             Widgets.Network {}

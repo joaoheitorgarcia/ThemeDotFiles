@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick
 import Quickshell.Services.UPower
 
+//TODO send notification on low energy
 QtObject {
     id: energyManager
 

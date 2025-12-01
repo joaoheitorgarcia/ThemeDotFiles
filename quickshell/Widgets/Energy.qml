@@ -25,6 +25,7 @@ Rectangle {
     anchors.verticalCenter: parent.verticalCenter
 
     property string batteryState: Managers.EnergyManager.stateString
+    property string batteryPercentage: Managers.EnergyManager.percentageInt
     property bool charging:
         batteryState == "Charging" || batteryState == "Fully Charged" ?
             true : false
@@ -36,18 +37,22 @@ Rectangle {
         Singletons.Icon {
             id: batteryIcon
             source: {
-                let pct = Managers.EnergyManager.percentageInt
-                if (pct < 5)  return Singletons.Theme.iconBatteryEmpty
-                if (pct < 15) return Singletons.Theme.iconBatteryLow
-                if (pct < 50) return Singletons.Theme.iconBatteryMedium
+                if (batteryPercentage < 5)  return Singletons.Theme.iconBatteryEmpty
+                if (batteryPercentage < 15) return Singletons.Theme.iconBatteryLow
+                if (batteryPercentage < 50) return Singletons.Theme.iconBatteryMedium
                 return Singletons.Theme.iconBatteryFull
             }
             size: Singletons.Theme.iconDefaultSize
             antialiasing: true
-            color:
-                hovered ?
-                    Singletons.Theme.accentSoft :
-                    Singletons.Theme.darkBase
+            color:{
+                if(hovered){
+                    return Singletons.Theme.accentSoft
+                }else{
+                    if (batteryPercentage <= 15 && batteryState != batteryState === "Charging")
+                        return Singletons.Theme.lowEnergy
+                    return Singletons.Theme.darkBase
+                }
+            }
         }
 
         Singletons.Icon {

@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Dialogs   // for MessageDialog
 import Quickshell.Bluetooth
 import "../../Singletons" as Singletons
 
