@@ -1,3 +1,7 @@
 #set nano as default editor
 export EDITOR=nano
 export VISUAL=nano
+
+dependencies:
+
+notification-daemon

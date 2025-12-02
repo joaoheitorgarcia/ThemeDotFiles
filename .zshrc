@@ -151,6 +151,9 @@ ZSH_HIGHLIGHT_STYLES[builtin]='fg=#ccdde8'               # subtle variant for bu
 ZSH_HIGHLIGHT_STYLES[alias]='fg=#ccdde8'                 # same calm tone for aliases
 ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=#8aa4b8,italic'  # muted blue-gray (if/then/do/fi)
 
+ZSH_HIGHLIGHT_STYLES[unknown-command]='fg=#d13030,bold'
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#d13030,bold'
+
 # Sudo stays subtle but recognizable
 ZSH_HIGHLIGHT_STYLES[sudo]='fg=#6faad1'
 
