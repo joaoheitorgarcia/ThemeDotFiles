@@ -42,6 +42,8 @@ PanelWindow {
             Widgets.Volume {}
             Widgets.Energy{}
             Widgets.Power {}
+
+            //TODO notification queue
         }
     }
 }

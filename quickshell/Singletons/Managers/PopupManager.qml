@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick
 
 QtObject {
+    //TODO close on click outside
     id: popupManager
     property var popups: []
 

@@ -42,7 +42,7 @@ Item {
                 Switch {
                     id: bluetoothSwitch
                     visible: adapter !== null
-                    checked: adapter ? adapter.enabled : false
+                    checked: false
                     enabled: adapter !== null
 
                     onToggled: {
@@ -76,16 +76,6 @@ Item {
                     }
                 }
             }
-
-            // Text {
-            //     visible: adapter?.discovering ?? false
-
-            //     text: "Discovering..."
-            //     color: Singletons.Theme.darkBase
-            //     font.pixelSize: 11
-            //     opacity: 0.8
-            //     elide: Text.ElideRight
-            // }
 
             ListView {
                 id: actionList

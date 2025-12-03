@@ -5,3 +5,9 @@ export VISUAL=nano
 dependencies:
 
 notification-daemon
+extra/pipewire
+extra/pipewire-alsa
+extra/pipewire-audio
+extra/pipewire-jack
+extra/pipewire-pulse
+extra/pipewire-session-manager

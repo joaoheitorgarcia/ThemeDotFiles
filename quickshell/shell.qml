@@ -5,8 +5,6 @@ import "Layers" as Layers
 import "Singletons" as Singletons
 
 Scope {
-
-    //TODO find way to match theme dark mode from singleton
     id: rootShell
 
     Variants {
@@ -17,6 +15,9 @@ Scope {
         model: Quickshell.screens
         Layers.Wallpaper{}
     }
+
+    Layers.Notifications{}
+
     //TODO lockScreen
 
 }
