@@ -4,6 +4,10 @@ import Quickshell.Wayland
 import Quickshell.Services.Notifications
 import "../Singletons" as Singletons
 
+
+//TODO Make Critical notifications not have a timer
+//add actions if notification has those
+
 Item {
     id: notifications
 
@@ -16,9 +20,12 @@ Item {
         exclusiveZone: 0
 
         WlrLayershell.layer: WlrLayer.Overlay
-        screen: Quickshell.screens && Quickshell.screens.length > 0 ? Quickshell.screens[0] : null
+        screen: Quickshell.screens && Quickshell.screens.length > 0
+                ? Quickshell.screens[0]
+                : null
 
         property real maxHeight: screen ? screen.height / 3 : 400
+        property var notifTimers: ({})
 
         anchors {
             top: true
@@ -35,22 +42,26 @@ Item {
         implicitWidth: 400
         implicitHeight: Math.min(notifColumn.implicitHeight + 20, maxHeight)
 
+        ListModel {
+            id: notifModel
+        }
+
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
             propagateComposedEvents: true
+
             onEntered: {
-                // Stop all hide timers when hovering
-                for (var i = 0; i < notifModel.count; i++) {
-                    var item = notifModel.get(i)
-                    if (item.timer) item.timer.stop()
+                for (var id in notifWindow.notifTimers) {
+                    var t = notifWindow.notifTimers[id]
+                    if (t) t.stop()
                 }
             }
+
             onExited: {
-                // Restart all hide timers when leaving
-                for (var i = 0; i < notifModel.count; i++) {
-                    var item = notifModel.get(i)
-                    if (item.timer) item.timer.restart()
+                for (var id in notifWindow.notifTimers) {
+                    var t = notifWindow.notifTimers[id]
+                    if (t) t.start()
                 }
             }
         }
@@ -67,7 +78,6 @@ Item {
                 width: 300
                 spacing: 10
 
-                // Counter badge for hidden notifications
                 Rectangle {
                     width: parent.width
                     height: 30
@@ -75,9 +85,13 @@ Item {
                     color: Singletons.Theme.lightBackground
                     border.color: Singletons.Theme.darkBase
                     border.width: 2
-                    visible: hiddenCount > 0
 
-                    property int hiddenCount: Math.max(0, notifModel.count - notifWindow.maxVisibleNotifications)
+                    property int hiddenCount: Math.max(
+                        0,
+                        notifModel.count - Singletons.Theme.maxVisibleNotifications
+                    )
+
+                    visible: hiddenCount > 0
 
                     Row {
                         anchors.centerIn: parent
@@ -86,7 +100,8 @@ Item {
                         Text {
                             text: "+" +
                                   parent.parent.hiddenCount +
-                                  " more notification" + (parent.parent.hiddenCount > 1 ? "s" : "")
+                                  " more notification" +
+                                  (parent.parent.hiddenCount > 1 ? "s" : "")
                             font.pixelSize: 14
                             font.bold: false
                             color: Singletons.Theme.darkBase
@@ -96,22 +111,22 @@ Item {
 
                     MouseArea {
                         anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            while (notifModel.count > 0) {
-                                removeNotification(0)
-                            }
+                            notifWindow.clearAllNotifications()
                         }
                     }
                 }
 
                 Repeater {
-                    model: ListModel { id: notifModel }
+                    model: notifModel
 
                     delegate: Item {
                         width: notifColumn.width
                         height: notifBg.height
                         opacity: model.opacity || 1
                         scale: model.scale || 1
+                        visible: index < Singletons.Theme.maxVisibleNotifications
 
                         Behavior on opacity {
                             NumberAnimation {
@@ -148,6 +163,7 @@ Item {
                                     spacing: 12
 
                                     Singletons.Icon {
+                                        visible: !!model.icon
                                         source: model.icon || ""
                                         color: Singletons.Theme.darkBase
                                         width: 32
@@ -172,12 +188,7 @@ Item {
                                             text: model.appName || ""
                                             width: parent.width
                                             font.pixelSize: 11
-                                            color: Qt.rgba(
-                                                Singletons.Theme.darkBase.r,
-                                                Singletons.Theme.darkBase.g,
-                                                Singletons.Theme.darkBase.b,
-                                                0.6
-                                            )
+                                            color: Singletons.Theme.darkBase
                                             elide: Text.ElideRight
                                             visible: text !== ""
                                         }
@@ -187,12 +198,7 @@ Item {
                                 Rectangle {
                                     width: parent.width
                                     height: 1
-                                    color: Qt.rgba(
-                                        Singletons.Theme.darkBase.r,
-                                        Singletons.Theme.darkBase.g,
-                                        Singletons.Theme.darkBase.b,
-                                        0.1
-                                    )
+                                    color: Singletons.Theme.darkBase
                                     visible: model.body !== ""
                                 }
 
@@ -209,11 +215,12 @@ Item {
                             }
 
                             MouseArea {
-                                id: closeButtonArea
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
-                                onClicked: notifWindow.removeNotification(index)
+                                onClicked: {
+                                    notifWindow.closeNotification(model.id)
+                                }
                             }
                         }
                     }
@@ -221,88 +228,95 @@ Item {
             }
         }
 
-        property int maxVisibleNotifications: 0
-
-        function calculateMaxVisible() {
-            var availableHeight = maxHeight - 40
-            var notificationHeight = 100
-            var spacing = 10
-            maxVisibleNotifications = Math.floor(availableHeight / (notificationHeight + spacing))
-            if (maxVisibleNotifications < 1) maxVisibleNotifications = 1
+        function indexOfNotification(id) {
+            for (var i = 0; i < notifModel.count; i++) {
+                if (notifModel.get(i).id === id)
+                    return i
+            }
+            return -1
         }
 
-        Component.onCompleted: calculateMaxVisible()
+        function closeNotification(id) {
+            var timer = notifTimers[id]
+            if (timer) {
+                timer.stop()
+                timer.destroy()
+                delete notifTimers[id]
+            }
 
-        function addNotification(icon, appName, summary, body) {
+            var idx = indexOfNotification(id)
+            if (idx === -1)
+                return
 
-            // Create auto-hide timer
+            notifModel.setProperty(idx, "opacity", 0)
+            notifModel.setProperty(idx, "scale", 0.95)
+
+            var removeTimer = Qt.createQmlObject(
+                'import QtQuick; Timer { interval: 250; running: true; repeat: false }',
+                notifWindow
+            )
+
+            removeTimer.triggered.connect(function() {
+                var idx2 = indexOfNotification(id)
+                if (idx2 !== -1) {
+                    notifModel.remove(idx2)
+                }
+
+                removeTimer.destroy()
+
+                if (notifModel.count === 0)
+                    notifWindow.visible = false
+            })
+        }
+
+        function clearAllNotifications() {
+            for (var id in notifTimers) {
+                var t = notifTimers[id]
+                if (t) t.destroy()
+            }
+            notifTimers = ({})
+            notifModel.clear()
+            notifWindow.visible = false
+        }
+
+        function addNotification(n) {
+            var notifId = Date.now() + Math.random()
+
+            notifModel.append({
+                id: notifId,
+                icon: n.appIcon || n.image,
+                appName: n.appName,
+                summary: n.summary,
+                body: n.body,
+                opacity: 0,
+                scale: 0.95
+            })
+
+            var index = notifModel.count - 1
+
+            notifModel.setProperty(index, "opacity", 1)
+            notifModel.setProperty(index, "scale", 1)
+
             var timer = Qt.createQmlObject(
                 'import QtQuick; Timer { interval: 5000; running: true; repeat: false }',
                 notifWindow
             )
 
-            var index = notifModel.count
+            notifTimers[notifId] = timer
+
             timer.triggered.connect(function() {
-                removeNotification(index)
+                notifWindow.closeNotification(notifId)
             })
 
-            // Add to model
-            notifModel.append({
-                icon: icon || "",
-                appName: appName || "",
-                summary: summary || "Notification",
-                body: body || "",
-                opacity: 0,
-                scale: 0.95,
-                timer: timer
-            })
-
-            // Animate in
-            notifModel.setProperty(index, "opacity", 1)
-            notifModel.setProperty(index, "scale", 1)
-
-            // Show window if hidden
-            if (!notifWindow.visible) {
+            if (!notifWindow.visible)
                 notifWindow.visible = true
-            }
-        }
-
-        function removeNotification(index) {
-            if (index < 0 || index >= notifModel.count) return
-
-            var item = notifModel.get(index)
-            if (item.timer) {
-                item.timer.stop()
-                item.timer.destroy()
-            }
-
-            notifModel.setProperty(index, "opacity", 0)
-            notifModel.setProperty(index, "scale", 0.95)
-
-            var removeTimer = Qt.createQmlObject(
-                'import QtQuick; Timer { interval: 300; running: true; repeat: false }',
-                notifWindow
-            )
-            removeTimer.triggered.connect(function() {
-                notifModel.remove(index)
-                removeTimer.destroy()
-
-                if (notifModel.count === 0) {
-                    notifWindow.visible = false
-                }
-            })
         }
     }
 
     NotificationServer {
         onNotification: function(n) {
-            console.log("Notification received:", n.summary, n.body)
-            notifWindow.addNotification(
-                n.appIcon,
-                n.appName,
-                n.summary,
-                n.body
-            )
+            console.log("Notification received:", n.appName, '->', n.summary, n.body)
+            notifWindow.addNotification(n)
         }
     }
 }

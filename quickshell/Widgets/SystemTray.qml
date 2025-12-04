@@ -22,7 +22,6 @@ Rectangle {
     property color hoverColor: Singletons.Theme.darkBase
     property color pressColor: Singletons.Theme.darkBase
     property int cornerRadius: 6
-    property bool isThemeDarkMode: Singletons.Theme.isDarkMode
 
     RowLayout {
         id: trayLayout

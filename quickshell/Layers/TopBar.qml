@@ -37,6 +37,7 @@ PanelWindow {
                 window: topBar
             }
             Widgets.Clock {}
+            Widgets.NotificationList {}
             Widgets.Bluetooth{}
             Widgets.Network {}
             Widgets.Volume {}

@@ -6,6 +6,11 @@ import "../FontLoaders" as FontLoaders
 QtObject {
     id: theme
 
+    //TopBar Variables
+    readonly property int topBarHeight: 40
+    readonly property int topBarItemHeight: topBarHeight - topBarHeight / 4
+    readonly property double topBarItemHorizontalPadding: 7.5
+
     //wallpaper Path
     function createWallpaperPath() {
         const base = "file://$HOME/Pictures/Wallpapers/";
@@ -14,20 +19,16 @@ QtObject {
     }
     readonly property string wallpaperPath: createWallpaperPath()
 
+    //Notification Vars
+    property int  maxVisibleNotifications: 3
+
     //Font
     readonly property string font: FontLoaders.Roboto.font
     readonly property int defaultFontSize: 18
 
-    //TopBar Variables
-    readonly property int topBarHeight: 40
-    readonly property int topBarItemHeight: topBarHeight - topBarHeight / 4
-    readonly property double topBarItemHorizontalPadding: 7.5
-
     //───────────────
     //    Colors
-    //───────────────
-
-    readonly property bool isDarkMode: false
+    //───────────────    
 
     //theme
     readonly property string darkBase: "#303e4d"
@@ -48,7 +49,9 @@ QtObject {
     // icon Path Svg
     //───────────────
 
+    //general
     readonly property int iconDefaultSize: 18
+    readonly property string iconClose: "../Icons/regular/bx-x.svg"
 
     //Network
     readonly property string iconWired: "../Icons/regular/bx-network-chart.svg"
@@ -90,4 +93,7 @@ QtObject {
     readonly property string iconBluetoothPaired: "../Icons/regular/bx-check.svg"
     readonly property string iconBluetoothPairing: "../Icons/regular/bx-loader.svg"
     readonly property string iconBluetoothBonded: "../Icons/regular/bx-save.svg"
+
+    //Notification
+    readonly property string iconNotificationList: "../Icons/regular/bx-message-notification.svg"
 }
