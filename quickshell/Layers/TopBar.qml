@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
-import Quickshell.Wayland
 import "../Widgets" as Widgets
 import "../Singletons" as Singletons
 

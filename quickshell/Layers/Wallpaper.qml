@@ -1,6 +1,6 @@
 import Quickshell
 import QtQuick
-import Quickshell.Wayland
+
 // Video
 //import QtMultimedia
 import "../Singletons" as Singletons
@@ -10,7 +10,6 @@ PanelWindow {
     screen: modelData
 
     id: wallpaper
-    WlrLayershell.layer: WlrLayer.Background
     exclusionMode: ExclusionMode.Ignore
 
     anchors{

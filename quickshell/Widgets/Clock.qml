@@ -6,6 +6,7 @@ import "PopUpContent" as PopUpContent
 import "../Singletons/Managers" as Managers
 
 Rectangle{
+    id: clockBtn
 
     border.color:
         hovered ?
@@ -44,7 +45,7 @@ Rectangle{
 
     PopupWindow {
         id: calendarPopup
-        anchor.item: textItem
+        anchor.item: clockBtn
         anchor.edges: Edges.Bottom | Edges.Left
         anchor.margins.top: 35
         implicitWidth: calendarContent.width

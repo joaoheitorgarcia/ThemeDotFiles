@@ -1,6 +1,8 @@
 Hight Prio:
+- Lock Screen
 - convert the wifi connections when mr is merged to main
 - make app launcher and supress hyprland default
+- Close Popups when clicking outside of them/topBar ✓
 
 Medium Prio:
 - improve/add animations
@@ -9,3 +11,4 @@ Medium Prio:
 
 Low Prio:
 - maybe add hyprshot shortcut button ( maybe make utility menu with this type of thing together)
+- Grub Loader

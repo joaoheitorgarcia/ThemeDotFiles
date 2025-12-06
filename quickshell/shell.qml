@@ -1,6 +1,7 @@
 //@ pragma UseQApplication
 import Quickshell
 import QtQuick
+import Quickshell.Wayland
 import "Layers" as Layers
 import "Singletons" as Singletons
 
@@ -9,11 +10,23 @@ Scope {
 
     Variants {
         model: Quickshell.screens
-        Layers.TopBar{}
+        Layers.Wallpaper{
+            WlrLayershell.layer: WlrLayer.Background
+        }
     }
+
     Variants {
         model: Quickshell.screens
-        Layers.Wallpaper{}
+        Layers.PopupClickDetectionOverlay{
+            WlrLayershell.layer: WlrLayer.Top
+        }
+    }
+
+    Variants {
+        model: Quickshell.screens
+        Layers.TopBar{
+            WlrLayershell.layer: WlrLayer.Top
+        }
     }
 
     Layers.Notifications{}

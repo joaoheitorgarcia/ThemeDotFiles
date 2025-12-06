@@ -130,7 +130,7 @@ alias gpush='git push'
 alias gpull='git pull'
 alias gcheckout='git checkout'
 alias gstat='git status'
-alias resetbg='rm /tmp/mpvpaper_*.sock'
+alias cmatrix='cmatrix -b -k'
 
 fds() {
   local cmd=$(fc -ln -1)
