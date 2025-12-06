@@ -1,0 +1,11 @@
+Hight Prio:
+- convert the wifi connections when mr is merged to main
+- make app launcher and supress hyprland default
+
+Medium Prio:
+- improve/add animations
+- theme by json and theme picker
+- command/shortcut cheat sheet
+
+Low Prio:
+- maybe add hyprshot shortcut button ( maybe make utility menu with this type of thing together)
