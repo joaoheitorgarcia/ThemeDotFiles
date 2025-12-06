@@ -53,6 +53,11 @@ QtObject {
     readonly property int iconDefaultSize: 18
     readonly property string iconClose: "../Icons/regular/bx-x.svg"
 
+    readonly property string iconArrowRight: "../Icons/regular/bx-right-arrow-alt.svg"
+    readonly property string iconArrowLeft: "../Icons/regular/bx-left-arrow-alt.svg"
+    readonly property string iconArrowTop: "../Icons/regular/bx-top-arrow-alt.svg"
+    readonly property string iconArrowDown: "../Icons/regular/bx-down-arrow-alt.svg"
+
     //Network
     readonly property string iconWired: "../Icons/regular/bx-network-chart.svg"
     readonly property string iconWifiStrength3: "../Icons/regular/bx-wifi.svg"
@@ -96,4 +101,5 @@ QtObject {
 
     //Notification
     readonly property string iconNotificationList: "../Icons/regular/bx-message-notification.svg"
+
 }

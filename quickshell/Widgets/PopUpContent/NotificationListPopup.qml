@@ -4,10 +4,15 @@ import QtQuick.Layouts
 import Quickshell.Services.Notifications
 import "../../Singletons" as Singletons
 
+
+//TODO expand with summary on hover too
+//dont add to list low (and maybe normal ) notifications
 Item {
     id: notificationListContent
     implicitWidth: 320
     implicitHeight: 300
+
+    property alias unTrackedNotifications: unTrackedNotifications
 
     ListModel{
         id: unTrackedNotifications

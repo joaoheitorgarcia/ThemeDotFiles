@@ -19,5 +19,6 @@ Scope {
     Layers.Notifications{}
 
     //TODO lockScreen
+    //make command/shortcut cheatSheet
 
 }

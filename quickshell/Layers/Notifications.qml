@@ -4,7 +4,6 @@ import Quickshell.Wayland
 import Quickshell.Services.Notifications
 import "../Singletons" as Singletons
 
-
 //TODO Make Critical notifications not have a timer
 //add actions if notification has those
 

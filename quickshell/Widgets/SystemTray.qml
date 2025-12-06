@@ -46,7 +46,7 @@ Rectangle {
                                               Singletons.Theme.darkBase
 
                 //set true for original icon colors
-                property bool colorizeIcons: true
+                property bool colorizeIcons: false
 
                 property bool isIconLight: (
                     modelData.icon.toString().match(/symbolic|light|white/i) !== null
