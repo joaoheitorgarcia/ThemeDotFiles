@@ -4,8 +4,6 @@ import Quickshell.Io
 import Quickshell
 import "../../Singletons" as Singletons
 
-
-//TODO Sinks not refreshing on change ( see jbl go 2 in bluetooth)
 QtObject {
     id: pipewire
 

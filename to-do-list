@@ -1,14 +1,22 @@
 Hight Prio:
-- Lock Screen
+- Lock Screen and Log out functionality
 - convert the wifi connections when mr is merged to main
-- make app launcher and supress hyprland default
+- make app launcher and remove hyprlauncher
 - Close Popups when clicking outside of them/topBar ✓
+- Make Critical Notifications not have a timer ✓
 
 Medium Prio:
 - improve/add animations
-- theme by json and theme picker
+- theme by json and theme picker ( try ColorQuantization for automatic theming) 
 - command/shortcut cheat sheet
+- settings for monitor managment (brightness, orientation, etc...)
+- Some way to list workspaces
 
 Low Prio:
 - maybe add hyprshot shortcut button ( maybe make utility menu with this type of thing together)
 - Grub Loader
+- Volume sinks not refreshing when new output is connected ( see jbl 2 on bluettoth)
+- Refactor PopupWindow of topbar to a singeltons so it can be standerized
+- Calendar -> choose moth year by clicking on them
+- Show Notification summary on hover inside NotificationList PopUp
+- Change appearance of systemTray app menus to fit theme

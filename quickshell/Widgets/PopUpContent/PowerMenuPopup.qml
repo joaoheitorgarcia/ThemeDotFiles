@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import "../../Singletons" as Singletons
 
-//TODO log out
 Item {
     id: powerMenuContent
     implicitWidth: 200

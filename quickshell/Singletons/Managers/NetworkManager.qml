@@ -8,7 +8,7 @@ import ".." as Singletons
     Refactor when this is merged
     https://github.com/quickshell-mirror/quickshell/pull/96
 
-    In the meantime just improve this
+    In the meantime just use nmtui
 
     Error its lockin on wrong password
     also doesnt remeber previously connected passwords

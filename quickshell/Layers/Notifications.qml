@@ -4,9 +4,6 @@ import Quickshell.Wayland
 import Quickshell.Services.Notifications
 import "../Singletons" as Singletons
 
-//TODO Make Critical notifications not have a timer
-//add actions if notification has those
-
 Item {
     id: notifications
 
@@ -171,7 +168,7 @@ Item {
                                     }
 
                                     Column {
-                                        width: parent.width - 44
+                                        width: parent.width - (!!model.icon ? 0 : 44)
                                         spacing: 4
 
                                         Text {
@@ -184,12 +181,15 @@ Item {
                                         }
 
                                         Text {
-                                            text: model.appName || ""
+                                            text: model.body || ""
                                             width: parent.width
-                                            font.pixelSize: 11
+                                            wrapMode: Text.Wrap
+                                            font.pixelSize: 13
                                             color: Singletons.Theme.darkBase
                                             elide: Text.ElideRight
                                             visible: text !== ""
+                                            maximumLineCount: 4
+
                                         }
                                     }
                                 }
@@ -202,14 +202,14 @@ Item {
                                 }
 
                                 Text {
-                                    text: model.body || ""
+                                    text: model.appName || ""
                                     width: parent.width
                                     wrapMode: Text.Wrap
-                                    font.pixelSize: 13
+                                    font.pixelSize: 10
                                     color: Singletons.Theme.darkBase
-                                    maximumLineCount: 4
                                     elide: Text.ElideRight
                                     visible: text !== ""
+                                    maximumLineCount: 4
                                 }
                             }
 
@@ -296,16 +296,21 @@ Item {
             notifModel.setProperty(index, "opacity", 1)
             notifModel.setProperty(index, "scale", 1)
 
-            var timer = Qt.createQmlObject(
-                'import QtQuick; Timer { interval: 5000; running: true; repeat: false }',
-                notifWindow
-            )
+            //if nor critical add timer to close it
+            if(n.urgency !== NotificationUrgency.Critical){
+                var timer = Qt.createQmlObject(
+                    'import QtQuick; Timer { interval: 5000; running: true; repeat: false }',
+                    notifWindow
+                )
+            }
 
             notifTimers[notifId] = timer
 
-            timer.triggered.connect(function() {
-                notifWindow.closeNotification(notifId)
-            })
+            if(n.urgency !== NotificationUrgency.Critical){
+                timer.triggered.connect(function() {
+                    notifWindow.closeNotification(notifId)
+                })
+            }
 
             if (!notifWindow.visible)
                 notifWindow.visible = true
@@ -314,7 +319,6 @@ Item {
 
     NotificationServer {
         onNotification: function(n) {
-            console.log("Notification received:", n.appName, '->', n.summary, n.body)
             notifWindow.addNotification(n)
         }
     }

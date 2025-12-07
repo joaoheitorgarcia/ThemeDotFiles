@@ -2,12 +2,14 @@
 import Quickshell
 import QtQuick
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import "Layers" as Layers
 import "Singletons" as Singletons
 
 Scope {
     id: rootShell
 
+    //Background
     Variants {
         model: Quickshell.screens
         Layers.Wallpaper{
@@ -15,6 +17,7 @@ Scope {
         }
     }
 
+    //Top
     Variants {
         model: Quickshell.screens
         Layers.PopupClickDetectionOverlay{
@@ -29,9 +32,20 @@ Scope {
         }
     }
 
-    Layers.Notifications{}
+    //OverLay
+    Layers.Notifications{} //defaults to primary screen
 
-    //TODO lockScreen
-    //make command/shortcut cheatSheet
+    Layers.AppLauncher {
+        id: appLauncher
+        WlrLayershell.layer: WlrLayer.Overlay
+    }
 
+    GlobalShortcut {
+        name: "launcher-toggle"
+        description: "Toggle QuickShell app launcher"
+
+        onPressed: {
+            appLauncher.toggle()
+        }
+    }
 }

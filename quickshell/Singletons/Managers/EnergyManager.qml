@@ -1,14 +1,11 @@
 pragma Singleton
 import QtQuick
 import Quickshell.Services.UPower
+import "../../Singletons" as Singletons
 
-//TODO send notification on low energy
 QtObject {
     id: energyManager
 
-    // ─────────────────────────────
-    // BATTERY / ENERGY
-    // ─────────────────────────────
     readonly property var device: UPower.displayDevice
     readonly property bool onBattery: UPower.onBattery
 
@@ -28,6 +25,32 @@ QtObject {
         if (!device || !device.ready)
             return ""
         return formatTime(device.timeToEmpty)
+    }
+
+    property var deviceWatcher: Connections {
+        target: device
+
+        function onPercentageChanged() {
+            if(percentageInt == 15){
+                Singletons.CommandRunner.run([
+                    'notify-send',
+                    '-a', 'Energy Manager',
+                    '-u', 'critical',
+                    'Battery Low',
+                    percentageInt + '% remaining'
+                ])
+            }
+
+            if(percentageInt == 5){
+                Singletons.CommandRunner.run([
+                    'notify-send',
+                    '-a', 'Energy Manager',
+                    '-u', 'critical',
+                    'Battery Critically Low',
+                    percentageInt + '% remaining'
+                ])
+            }
+        }
     }
 
     function formatTime(seconds) {
@@ -74,7 +97,6 @@ QtObject {
     // (This is exposed as a QML singleton PowerProfiles.)
     readonly property var powerProfiles: PowerProfiles
 
-    // Raw enum value from PowerProfile
     readonly property int powerProfile: powerProfiles
         ? powerProfiles.profile
         : PowerProfile.Balanced

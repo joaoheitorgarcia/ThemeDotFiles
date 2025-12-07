@@ -7,7 +7,7 @@ PanelWindow {
     required property var modelData
     screen: modelData
 
-    color: "transparent"
+    color: "red"
     implicitWidth: screen.width
     implicitHeight: screen.height - Singletons.Theme.topBarHeight
 

@@ -4,9 +4,10 @@ import QtQuick.Layouts
 import QtQuick.Window
 import QtQuick.Effects
 import Quickshell.Services.SystemTray
+import Quickshell
+import Quickshell.Wayland
 import "../Singletons" as Singletons
 
-//TODO fix icon menu and filter
 Rectangle {
     id: trayBar
     radius: 6
@@ -48,10 +49,6 @@ Rectangle {
                 //set true for original icon colors
                 property bool colorizeIcons: false
 
-                property bool isIconLight: (
-                    modelData.icon.toString().match(/symbolic|light|white/i) !== null
-                )
-
                 Behavior on color {
                     ColorAnimation { duration: 200 }
                 }
@@ -61,7 +58,9 @@ Rectangle {
                     anchors.centerIn: parent
                     width: iconSize
                     height: iconSize
-                    source: modelData.icon
+                    source: Quickshell.iconPath(modelData.icon, true) !== "" ?
+                                Quickshell.iconPath(modelData.icon, true):
+                                modelData.icon
                     fillMode: Image.PreserveAspectFit
                     visible: !colorizeIcons
                     smooth: true
@@ -89,15 +88,22 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
+                    cursorShape: Qt.PointingHandCursor
 
                     onClicked: function(mouse) {
                         if (mouse.button === Qt.LeftButton) {
                             modelData.activate()
                         } else if (mouse.button === Qt.RightButton) {
-                            var pos = trayIcon.mapToGlobal(trayIcon.width / 2, trayIcon.height)
+
+                            var pos = trayIcon.mapToItem(
+                                trayBar.window.contentItem,
+                                trayIcon.width / 2,
+                                trayIcon.height
+                            )
                             modelData.display(trayBar.window, pos.x, pos.y)
                         }
                     }
+
 
                     onPressedChanged: {
                         trayItemWrapper.scale = pressed ? 0.92 : 1.0

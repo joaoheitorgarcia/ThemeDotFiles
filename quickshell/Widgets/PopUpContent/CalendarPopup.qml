@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Window
 import "../../Singletons" as Singletons
 
-// TODO select month and year by clicking on it
 // reset calender on open of  modal
 
 Item {
