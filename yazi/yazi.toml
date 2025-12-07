@@ -1,0 +1,53 @@
+##############
+# OPENERS
+##############
+[opener]
+
+# IMAGES
+image = [
+  { run = 'imv "$@"', block = false, desc = "imv" }
+]
+
+# VIDEOS
+video = [
+  { run = 'mpv --no-terminal "$@"', block = false, desc = "mpv" }
+]
+
+# AUDIO
+audio = [
+  { run = 'mpv --no-terminal "$@"', block = false, desc = "mpv-audio" }
+]
+
+##############
+# EXTENSION GROUPS
+##############
+[open]
+
+# Image formats
+image = ["png", "jpg", "jpeg", "webp", "gif", "bmp", "svg"]
+
+# Video formats
+video = ["mp4", "mkv", "webm", "avi", "mov"]
+
+# Audio formats
+audio = ["mp3", "wav", "flac", "ogg"]
+
+##############
+# RULES (new Yazi syntax!)
+##############
+
+# --- IMAGES ---
+[[open.rules]]
+mime = "image/*"
+use  = "image"
+
+# --- VIDEOS ---
+[[open.rules]]
+mime = "video/*"
+use  = "video"
+
+# --- AUDIO ---
+[[open.rules]]
+mime = "audio/*"
+use  = "audio"
+

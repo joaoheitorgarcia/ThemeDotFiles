@@ -1,7 +1,7 @@
 Hight Prio:
 - Lock Screen and Log out functionality
 - convert the wifi connections when mr is merged to main
-- make app launcher and remove hyprlauncher
+- make app launcher and remove hyprlauncher ✓
 - Close Popups when clicking outside of them/topBar ✓
 - Make Critical Notifications not have a timer ✓
 
@@ -11,6 +11,7 @@ Medium Prio:
 - command/shortcut cheat sheet
 - settings for monitor managment (brightness, orientation, etc...)
 - Some way to list workspaces
+- PAM Support
 
 Low Prio:
 - maybe add hyprshot shortcut button ( maybe make utility menu with this type of thing together)
@@ -20,3 +21,4 @@ Low Prio:
 - Calendar -> choose moth year by clicking on them
 - Show Notification summary on hover inside NotificationList PopUp
 - Change appearance of systemTray app menus to fit theme
+- MPRIS support and gui on sound Menu
