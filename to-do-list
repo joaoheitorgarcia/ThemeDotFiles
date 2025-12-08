@@ -1,16 +1,18 @@
 Hight Prio:
-- Lock Screen and Log out functionality
-- convert the wifi connections when mr is merged to main
+- Lock Screen and Log out functionality ✓
+- convert the wifi connections when mr is merged to main - WAITING ON MERGE TO MASTER BRANCH
 - make app launcher and remove hyprlauncher ✓
 - Close Popups when clicking outside of them/topBar ✓
 - Make Critical Notifications not have a timer ✓
 
 Medium Prio:
+- Replace hyprpollkitagent or theme it ( see Quickshell.Services.Polkit.PolkitAgent)
+- Some way to list workspace
 - improve/add animations
-- theme by json and theme picker ( try ColorQuantization for automatic theming) 
+- Before theming - standarize the look, maybe a like a console , on windows, menus, etc...
+	- then theme by json and theme picker ( try ColorQuantization for automatic theming) 
 - command/shortcut cheat sheet
 - settings for monitor managment (brightness, orientation, etc...)
-- Some way to list workspaces
 - PAM Support
 
 Low Prio:
@@ -22,3 +24,4 @@ Low Prio:
 - Show Notification summary on hover inside NotificationList PopUp
 - Change appearance of systemTray app menus to fit theme
 - MPRIS support and gui on sound Menu
+- Blue Ligh Filter (USE HYPRSHADER) shortcut + button in brightness menu maybe

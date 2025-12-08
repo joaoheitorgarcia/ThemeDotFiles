@@ -6,6 +6,7 @@ import QtQuick.Effects
 import Quickshell.Services.SystemTray
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Widgets
 import "../Singletons" as Singletons
 
 Rectangle {
@@ -42,18 +43,7 @@ Rectangle {
                     return "transparent"
                 }
 
-                property color iconColor: trayMouseArea.containsMouse ?
-                                              Singletons.Theme.lightBackground :
-                                              Singletons.Theme.darkBase
-
-                //set true for original icon colors
-                property bool colorizeIcons: false
-
-                Behavior on color {
-                    ColorAnimation { duration: 200 }
-                }
-
-                Image {
+                IconImage {
                     id: trayIcon
                     anchors.centerIn: parent
                     width: iconSize
@@ -61,26 +51,8 @@ Rectangle {
                     source: Quickshell.iconPath(modelData.icon, true) !== "" ?
                                 Quickshell.iconPath(modelData.icon, true):
                                 modelData.icon
-                    fillMode: Image.PreserveAspectFit
-                    visible: !colorizeIcons
                     smooth: true
                     antialiasing: true
-                }
-
-                MultiEffect {
-                    anchors.centerIn: parent
-                    width: iconSize
-                    height: iconSize
-                    source: trayIcon
-                    colorization: colorizeIcons ? 1.0 : 0
-                    colorizationColor: iconColor
-
-                    smooth: true
-                    antialiasing: true
-
-                    Behavior on opacity {
-                        NumberAnimation { duration: 150 }
-                    }
                 }
 
                 MouseArea {

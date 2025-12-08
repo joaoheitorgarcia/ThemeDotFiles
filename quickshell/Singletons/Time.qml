@@ -13,4 +13,9 @@ QtObject {
         clock.date,
         "HH:mm"
     )
+
+    readonly property string date: Qt.formatDateTime(
+        clock.date,
+        "dd MMMM yyyy"
+    )
 }

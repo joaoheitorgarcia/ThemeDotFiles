@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import "../../Singletons" as Singletons
+import "../../Singletons/Managers" as Managers
 
 Item {
     id: powerMenuContent
@@ -29,9 +30,9 @@ Item {
                 clip: true
                 interactive: false
                 model: [
+                    { id: "lock", action: "", label: "Lock" },
                     { id: "suspend", action: "systemctl suspend", label: "Sleep" },
                     { id: "hibernate", action: "systemctl hibernate", label: "Hibernate" },
-                    { id: "lock", action: "lock", label: "Lock" },
                     { id: "reboot", action: "reboot", label: "Restart" },
                     { id: "shutdown", action: "shutdown now", label: "Shut Down" }
                 ]
@@ -90,7 +91,11 @@ Item {
                         onExited: parent.hovered = false
 
                         onClicked: {
-                            Singletons.CommandRunner.run(modelData.action.split(' '))
+                            if (modelData.id === "lock") {
+                                Managers.SessionManager.lock()
+                            } else {
+                                Singletons.CommandRunner.run(modelData.action.split(' '))
+                            }
                         }
                     }
                 }

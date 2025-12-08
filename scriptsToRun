@@ -1,8 +1,11 @@
 #set nano as default editor
 export EDITOR=nano
 export VISUAL=nano
+export $EDITOR=nano
+export $VISUAL=nano
 
-dependencies:
+
+- Dependencies:
 
 notification-daemon
 extra/pipewire
@@ -11,3 +14,12 @@ extra/pipewire-audio
 extra/pipewire-jack
 extra/pipewire-pulse
 extra/pipewire-session-manager
+hyprshader
+hypridle
+hyprland
+quickshell-git
+kitty
+yazi
+wireplumber
+gnome-keyring-daemon
+gnome-keyring ???
