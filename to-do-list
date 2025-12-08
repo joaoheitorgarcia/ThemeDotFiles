@@ -7,13 +7,12 @@ Hight Prio:
 
 Medium Prio:
 - Replace hyprpollkitagent or theme it ( see Quickshell.Services.Polkit.PolkitAgent) ✓
-- Before theming - standarize the look, maybe a like a console , on windows, menus, etc...
-	- then theme by json and theme picker ( try ColorQuantization for automatic theming) 
+- standarize the look, maybe a like a console , on windows, menus, etc...
+- Theme by json and theme picker ( try ColorQuantization for automatic theming) 
 - improve/add animations
 - Some way to list workspace
 - command/shortcut cheat sheet
 - settings for monitor managment (brightness, orientation, etc...)
-- PAM Support
 
 Low Prio:
 - maybe add hyprshot shortcut button ( maybe make utility menu with this type of thing together)
@@ -25,3 +24,4 @@ Low Prio:
 - Change appearance of systemTray app menus to fit theme
 - MPRIS support and gui on sound Menu
 - Blue Ligh Filter (USE HYPRSHADER) shortcut + button in brightness menu maybe
+- Video has Background

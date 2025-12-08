@@ -1,0 +1,71 @@
+[config]
+# Optional: let matugen reload some apps for you
+reload_apps = true
+
+[config.reload_apps_list]
+hyprland = false
+kitty = true
+gtk_theme = true
+qt = true
+
+# ─────────────
+# Hyprland
+# ─────────────
+[templates.hyprland]
+input_path  = '~/.config/matugen/templates/hyprland-colors.conf'
+output_path = '~/.config/hypr/colors.conf'
+post_hook   = 'hyprctl reload'
+# then in ~/.config/hypr/hyprland.conf add:
+#   source = colors.conf
+# at the top
+
+# ─────────────
+# GTK 3 / 4
+# ─────────────
+[templates.gtk3]
+input_path  = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.config/gtk-3.0/colors.css'
+post_hook   = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
+
+[templates.gtk4]
+input_path  = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.config/gtk-4.0/colors.css'
+# In both ~/.config/gtk-3.0/gtk.css and gtk-4.0/gtk.css:
+#   @import "colors.css";
+
+# ─────────────
+# Qt (qt5ct / qt6ct)
+# ─────────────
+[templates.qt5ct]
+input_path  = '~/.config/matugen/templates/qtct-colors.conf'
+output_path = '~/.config/qt5ct/colors/matugen.conf'
+
+# in ~/.config/qt5ct/qt5ct.conf:
+# [Appearance]
+# color_scheme_path=/home/YOU/.config/qt5ct/colors/matugen.conf
+# custom_palette=true
+
+# for qt6ct do same in # in ~/.config/qt6ct/qt6ct.conf
+
+# ─────────────
+# Kitty (example terminal)
+# ─────────────
+[templates.kitty]
+input_path  = '~/.config/matugen/templates/kitty-colors.conf'
+output_path = '~/.config/kitty/colors.conf'
+post_hook   = 'pkill -SIGUSR1 kitty'
+# add at bottom of ~/.config/kitty/kitty.conf:
+#   include colors.conf
+
+# ─────────────
+# Yazi
+# ─────────────
+[templates.yazi]
+input_path  = '~/.config/matugen/templates/yazi-theme.toml'
+output_path = '~/.config/yazi/theme.toml'
+
+[templates.quickshell]
+input_path  = '~/.config/matugen/templates/quickshell-theme.qml'
+output_path = '~/.config/quickshell/Singletons/MatugenTheme.qml'
+# if you want, you can auto-restart quickshell:
+# post_hook = 'pkill quickshell'
