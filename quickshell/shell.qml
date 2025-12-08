@@ -47,7 +47,11 @@ Scope {
         Component.onCompleted: Managers.SessionManager.lockScreen = lockScreen
     }
 
-    //GLOBAL SHORTCUTS
+    Layers.PolkitAgent {
+        WlrLayershell.layer: WlrLayer.Overlay
+    }
+
+    //----------- GLOBAL SHORTCUTS --------------//
     GlobalShortcut {
         name: "launcher-toggle"
         description: "Toggle QuickShell app launcher"

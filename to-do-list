@@ -6,11 +6,11 @@ Hight Prio:
 - Make Critical Notifications not have a timer ✓
 
 Medium Prio:
-- Replace hyprpollkitagent or theme it ( see Quickshell.Services.Polkit.PolkitAgent)
-- Some way to list workspace
-- improve/add animations
+- Replace hyprpollkitagent or theme it ( see Quickshell.Services.Polkit.PolkitAgent) ✓
 - Before theming - standarize the look, maybe a like a console , on windows, menus, etc...
 	- then theme by json and theme picker ( try ColorQuantization for automatic theming) 
+- improve/add animations
+- Some way to list workspace
 - command/shortcut cheat sheet
 - settings for monitor managment (brightness, orientation, etc...)
 - PAM Support
