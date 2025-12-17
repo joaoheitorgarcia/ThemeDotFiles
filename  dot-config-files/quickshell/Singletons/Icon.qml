@@ -1,6 +1,7 @@
 import QtQuick
 import Qt5Compat.GraphicalEffects
 
+//TODO REMOVEW THIS SINGLETON AND USE THE APPROPRIATE ONE MAYBE
 Item {
     id: root
     property alias source: icon.source

@@ -23,7 +23,7 @@ PanelWindow {
     property string query: ""
 
     Component.onCompleted: {
-        Managers.PopupManager.register(launcher)
+        Managers.PopupManager.register(this)
     }
 
     Component.onDestruction: {
@@ -33,8 +33,8 @@ PanelWindow {
     Rectangle {
         anchors.fill: parent
         radius: 16
-        color: Singletons.Theme.lightBackground
-        border.color: Singletons.Theme.darkBase
+        color: Singletons.MatugenTheme.surfaceText
+        border.color: Singletons.MatugenTheme.surfaceContainer
         border.width: 2
 
         ColumnLayout {
@@ -45,12 +45,12 @@ PanelWindow {
             TextField {
                 id: searchField
                 placeholderText: "Search apps…"
-                placeholderTextColor: Singletons.Theme.mediumGray
+                placeholderTextColor: Singletons.MatugenTheme.surfaceVariant
                 Layout.fillWidth: true
                 font.pixelSize: 16
-                color: Singletons.Theme.darkBase
-                selectionColor: Singletons.Theme.accentSoftYellow
-                selectedTextColor: Singletons.Theme.darkBase
+                color: Singletons.MatugenTheme.surfaceContainer
+                selectionColor: Singletons.MatugenTheme.secondaryContainer
+                selectedTextColor: Singletons.MatugenTheme.surfaceContainer
 
                 background: Item {
                     implicitHeight: 30
@@ -64,8 +64,8 @@ PanelWindow {
                         height: 2
                         radius: 1
                         color: searchField.activeFocus
-                               ? Singletons.Theme.accentSoft
-                               : Singletons.Theme.mediumGray
+                               ? Singletons.MatugenTheme.surfaceVariant
+                               : Singletons.MatugenTheme.surfaceVariant
                     }
                 }
 
@@ -111,9 +111,10 @@ PanelWindow {
                     height: 55
                     radius: 8
 
-                    color: (ListView.isCurrentItem || hovered) ?
-                            Singletons.Theme.accentSoft:
-                            "transparent"
+                    color: ListView.isCurrentItem
+                           ? Qt.rgba(1, 1, 1, 0.12)
+                           : hovered ? Qt.rgba(1, 1, 1, 0.08)
+                                     : "transparent"
 
                     RowLayout {
                         anchors.fill: parent
@@ -143,7 +144,7 @@ PanelWindow {
                             Text {
                                 text: modelData ? modelData.name : "Unknown App"
                                 font.pixelSize: 14
-                                color: Singletons.Theme.darkBase
+                                color: Singletons.MatugenTheme.surfaceContainer
                                 Layout.fillWidth: true
                                 elide: Text.ElideRight
                             }
@@ -151,7 +152,7 @@ PanelWindow {
                             Text {
                                 text: modelData.genericName !== "" ? modelData.genericName : modelData.comment
                                 font.pixelSize: 10
-                                color: Singletons.Theme.darkBase
+                                color: Singletons.MatugenTheme.surfaceContainer
                                 Layout.fillWidth: true
                                 elide: Text.ElideRight
                             }
@@ -220,76 +221,76 @@ PanelWindow {
             return allEntries
 
         return allEntries
-            .map(function (entry) {
-                const name    = (entry.name || "")
-                const generic = (entry.genericName || "")
-                const comment = (entry.comment || "")
+        .map(function (entry) {
+            const name    = (entry.name || "")
+            const generic = (entry.genericName || "")
+            const comment = (entry.comment || "")
 
-                const nameLower    = name.toLowerCase()
-                const genericLower = generic.toLowerCase()
-                const commentLower = comment.toLowerCase()
+            const nameLower    = name.toLowerCase()
+            const genericLower = generic.toLowerCase()
+            const commentLower = comment.toLowerCase()
 
-                const exactName    = nameLower === q
-                const exactGeneric = genericLower === q
-                const exactComment = commentLower === q
+            const exactName    = nameLower === q
+            const exactGeneric = genericLower === q
+            const exactComment = commentLower === q
 
-                const containsName    = nameLower.includes(q)
-                const containsGeneric = genericLower.includes(q)
-                const containsComment = commentLower.includes(q)
+            const containsName    = nameLower.includes(q)
+            const containsGeneric = genericLower.includes(q)
+            const containsComment = commentLower.includes(q)
 
-                const contains = containsName || containsGeneric || containsComment
+            const contains = containsName || containsGeneric || containsComment
 
-                return {
-                    entry: entry,
+            return {
+                entry: entry,
 
-                    exactName: exactName,
-                    exactGeneric: exactGeneric,
-                    exactComment: exactComment,
+                exactName: exactName,
+                exactGeneric: exactGeneric,
+                exactComment: exactComment,
 
-                    containsName: containsName,
-                    containsGeneric: containsGeneric,
-                    containsComment: containsComment,
+                containsName: containsName,
+                containsGeneric: containsGeneric,
+                containsComment: containsComment,
 
-                    contains: contains,
+                contains: contains,
 
-                    sortKey: nameLower || genericLower || commentLower
-                }
-            })
-            .filter(function (item) {
-                return item.contains || item.exactName || item.exactGeneric || item.exactComment
-            })
-            .sort(function (a, b) {
-                // 1) exact name first
-                if (a.exactName && !b.exactName) return -1
-                if (!a.exactName && b.exactName) return 1
+                sortKey: nameLower || genericLower || commentLower
+            }
+        })
+        .filter(function (item) {
+            return item.contains || item.exactName || item.exactGeneric || item.exactComment
+        })
+        .sort(function (a, b) {
+            // 1) exact name first
+            if (a.exactName && !b.exactName) return -1
+            if (!a.exactName && b.exactName) return 1
 
-                // 2) then exact genericName
-                if (a.exactGeneric && !b.exactGeneric) return -1
-                if (!a.exactGeneric && b.exactGeneric) return 1
+            // 2) then exact genericName
+            if (a.exactGeneric && !b.exactGeneric) return -1
+            if (!a.exactGeneric && b.exactGeneric) return 1
 
-                // 3) then exact comment
-                if (a.exactComment && !b.exactComment) return -1
-                if (!a.exactComment && b.exactComment) return 1
+            // 3) then exact comment
+            if (a.exactComment && !b.exactComment) return -1
+            if (!a.exactComment && b.exactComment) return 1
 
-                // 4) then partial matches in name
-                if (a.containsName && !b.containsName) return -1
-                if (!a.containsName && b.containsName) return 1
+            // 4) then partial matches in name
+            if (a.containsName && !b.containsName) return -1
+            if (!a.containsName && b.containsName) return 1
 
-                // 5) then partial matches in genericName
-                if (a.containsGeneric && !b.containsGeneric) return -1
-                if (!a.containsGeneric && b.containsGeneric) return 1
+            // 5) then partial matches in genericName
+            if (a.containsGeneric && !b.containsGeneric) return -1
+            if (!a.containsGeneric && b.containsGeneric) return 1
 
-                // 6) then partial matches in comment
-                if (a.containsComment && !b.containsComment) return -1
-                if (!a.containsComment && b.containsComment) return 1
+            // 6) then partial matches in comment
+            if (a.containsComment && !b.containsComment) return -1
+            if (!a.containsComment && b.containsComment) return 1
 
-                // 7) finally, alphabetical for stability
-                if (a.sortKey < b.sortKey) return -1
-                if (a.sortKey > b.sortKey) return 1
-                return 0
-            })
-            .map(function (item) {
-                return item.entry
-            })
+            // 7) finally, alphabetical for stability
+            if (a.sortKey < b.sortKey) return -1
+            if (a.sortKey > b.sortKey) return 1
+            return 0
+        })
+        .map(function (item) {
+            return item.entry
+        })
     }
 }

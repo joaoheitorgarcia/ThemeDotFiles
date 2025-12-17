@@ -4,11 +4,15 @@
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+if [ -f "$HOME/.config/matugen/zsh-colors.sh" ]; then
+  source "$HOME/.config/matugen/zsh-colors.sh"
+fi
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="hyper-oh-my-zsh"
+#ZSH_THEME="hyper-oh-my-zsh"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -91,6 +95,7 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='nvim'
 # fi
+export EDITOR=nano
 
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
@@ -130,7 +135,7 @@ alias gpush='git push'
 alias gpull='git pull'
 alias gcheckout='git checkout'
 alias gstat='git status'
-alias cmatrix='cmatrix -b -k'
+alias cmatrix='cmatrix -k -C white -s -b'
 
 fds() {
   local cmd=$(fc -ln -1)
@@ -139,30 +144,36 @@ fds() {
 }
 
 #AUTO SUGGEST SETTINGS
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#6c7a89,standout'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=${MATUGEN_ACCENT},standout"
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 
 #SYNTAX HIGLIGH SETTINGS
-# Core syntax
-ZSH_HIGHLIGHT_STYLES[command]='fg=#ccdde8'          # off-blue (less vibrant)
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=#ccdde8'               # subtle variant for builtins
-ZSH_HIGHLIGHT_STYLES[alias]='fg=#ccdde8'                 # same calm tone for aliases
-ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=#8aa4b8,italic'  # muted blue-gray (if/then/do/fi)
+ZSH_HIGHLIGHT_STYLES[default]='fg=white'
+ZSH_HIGHLIGHT_STYLES[command]="fg=${MATUGEN_ON_SURFACE}"
+ZSH_HIGHLIGHT_STYLES[builtin]="fg=${MATUGEN_ON_SURFACE}"
+ZSH_HIGHLIGHT_STYLES[alias]="fg=${MATUGEN_ON_SURFACE}"
+ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=${MATUGEN_ACCENT},italic"
 
-ZSH_HIGHLIGHT_STYLES[unknown-command]='fg=#d13030,bold'
-ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#d13030,bold'
+ZSH_HIGHLIGHT_STYLES[unknown-command]="fg=${MATUGEN_ERROR},bold"
+ZSH_HIGHLIGHT_STYLES[unknown-token]="fg=${MATUGEN_ON_SURFACE}"
 
-# Sudo stays subtle but recognizable
-ZSH_HIGHLIGHT_STYLES[sudo]='fg=#6faad1'
+ZSH_HIGHLIGHT_STYLES[sudo]="fg=${MATUGEN_PRIMARY}"
 
 # PATH SETTING
+
 autoload -U colors && colors
 
-# Iceberg-inspired color tuning
-local FG_LAVENDER="%F{139}"
-local RESET="%f"
-local FG_PATH="%F{109}"
+# Matugen-driven prompt colors – with fallbacks
+#: ${MATUGEN_PRIMARY:="#8ab4f8"}
+: ${MATUGEN_ACCENT:="#f38ba8"}
+: ${MATUGEN_SURFACE:="#11111b"}
+: ${MATUGEN_ON_SURFACE:="#cdd6f4"}
 
-PROMPT="%B${FG_LAVENDER}%n${RESET}:${FG_LAVENDER}%m ${FG_PATH}%~${RESET}%b %# "
+local PROMPT_USER_COLOR="%F{$MATUGEN_PRIMARY}"
+local PROMPT_HOST_COLOR="%F{$MATUGEN_PRIMARY}"
+local PROMPT_PATH_COLOR="%F{$MATUGEN_ACCENT}"
+local RESET="%f"
+
+PROMPT="%B${PROMPT_USER_COLOR}%n${RESET}:${PROMPT_HOST_COLOR}%m ${PROMPT_PATH_COLOR}%~${RESET}%b %# "

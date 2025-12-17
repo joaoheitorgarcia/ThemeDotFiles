@@ -9,28 +9,30 @@ Item {
     implicitWidth: 350
     implicitHeight: 150
 
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
     property color batteryFillColor: {
         const pct = Managers.EnergyManager.percentageInt
         const state = Managers.EnergyManager.stateString
 
         if (state === "Charging")
-            return Singletons.Theme.hightEnergy
+            return Singletons.MatugenTheme.secondary
 
         if (pct <= 15)
-            return Singletons.Theme.lowEnergy
+            return Singletons.MatugenTheme.errorColor
         if (pct <= 50)
-            return Singletons.Theme.mediumEnergy
+            return Singletons.MatugenTheme.primary
 
-        return Singletons.Theme.hightEnergy
+        return Singletons.MatugenTheme.secondary
     }
 
     Rectangle {
         id: contentRect
         anchors.fill: parent
-        radius: 10
-        color: Singletons.Theme.lightBackground
-        border.color: Singletons.Theme.darkBase
-        border.width: 2
+        radius: 12
+        color: Singletons.MatugenTheme.surfaceText
+        border.color: Singletons.MatugenTheme.outline
+        border.width: 1
 
         ColumnLayout {
             anchors.fill: parent
@@ -44,7 +46,7 @@ Item {
                 text: "Energy"
                 font.bold: true
                 font.pixelSize: 16
-                color: Singletons.Theme.darkBase
+                color: Singletons.MatugenTheme.surfaceContainer
                 Layout.alignment: Qt.AlignLeft
             }
 
@@ -68,13 +70,13 @@ Item {
                             id: batteryIcon
                             anchors.fill: parent
                             size: 24
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                             source: {
                                 let pct = Managers.EnergyManager.percentageInt
-                                if (pct < 5)  return Singletons.Theme.iconBatteryEmpty
-                                if (pct < 15) return Singletons.Theme.iconBatteryLow
-                                if (pct < 50) return Singletons.Theme.iconBatteryMedium
-                                return Singletons.Theme.iconBatteryFull
+                                if (pct < 5)  return generalConfigs.icons.battery.empty
+                                if (pct < 15) return generalConfigs.icons.battery.low
+                                if (pct < 50) return generalConfigs.icons.battery.medium
+                                return generalConfigs.icons.battery.full
                             }
                         }
                     }
@@ -88,14 +90,14 @@ Item {
 
                         Text {
                             text: Managers.EnergyManager.percentageInt + "%"
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                             font.pixelSize: 18
                             font.bold: true
                         }
 
                         Text {
                             text: Managers.EnergyManager.stateString
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceVariantText
                             font.pixelSize: 12
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -121,7 +123,9 @@ Item {
                             anchors.right: parent.right
                             height: 8
                             radius: 4
-                            color: Singletons.Theme.accentSoft
+                            color: Singletons.MatugenTheme.surfaceVariantText
+                            border.color: Singletons.MatugenTheme.outlineVariant
+                            border.width: 1
 
                             Rectangle {
                                 width: Math.max(
@@ -146,7 +150,7 @@ Item {
                             visible: Managers.EnergyManager.stateString === "Charging"
                                      && Managers.EnergyManager.timeToFullText !== ""
                             text: "Time to Full: " + Managers.EnergyManager.timeToFullText
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceVariantText
                             font.pixelSize: 12
                         }
 
@@ -154,7 +158,7 @@ Item {
                             visible: Managers.EnergyManager.stateString === "Discharging"
                                      && Managers.EnergyManager.timeToEmptyText !== ""
                             text: "Time Remaining: " + Managers.EnergyManager.timeToEmptyText
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceVariantText
                             font.pixelSize: 12
                         }
                     }
@@ -170,7 +174,7 @@ Item {
 
                 Text {
                     text: "Power Mode:"
-                    color: Singletons.Theme.darkBase
+                    color: Singletons.MatugenTheme.surfaceContainer
                     font.pixelSize: 12
                 }
 
@@ -181,8 +185,10 @@ Item {
                     Text {
                         text: "Saver"
                         font.pixelSize: 11
-                        color: Singletons.Theme.darkBase
-                        opacity: Managers.EnergyManager.powerProfileLabel === "Power Saver" ? 1.0 : 0.6
+                        color: Managers.EnergyManager.powerProfileLabel === "Power Saver"
+                               ? Singletons.MatugenTheme.secondary
+                               : Singletons.MatugenTheme.surfaceVariantText
+                        opacity: Managers.EnergyManager.powerProfileLabel === "Power Saver" ? 1.0 : 0.8
 
                         MouseArea {
                             cursorShape: Qt.PointingHandCursor
@@ -195,8 +201,10 @@ Item {
                     Text {
                         text: "Balanced"
                         font.pixelSize: 11
-                        color: Singletons.Theme.darkBase
-                        opacity: Managers.EnergyManager.powerProfileLabel === "Balanced" ? 1.0 : 0.6
+                        color: Managers.EnergyManager.powerProfileLabel === "Balanced"
+                               ? Singletons.MatugenTheme.secondary
+                               : Singletons.MatugenTheme.surfaceVariantText
+                        opacity: Managers.EnergyManager.powerProfileLabel === "Balanced" ? 1.0 : 0.8
 
                         MouseArea {
                             cursorShape: Qt.PointingHandCursor
@@ -209,9 +217,11 @@ Item {
                     Text {
                         text: "Performance"
                         font.pixelSize: 11
-                        color: Singletons.Theme.darkBase
+                        color: Managers.EnergyManager.powerProfileLabel === "Performance"
+                               ? Singletons.MatugenTheme.secondary
+                               : Singletons.MatugenTheme.surfaceVariantText
                         visible: Managers.EnergyManager.hasPerformanceProfile
-                        opacity: Managers.EnergyManager.powerProfileLabel === "Performance" ? 1.0 : 0.6
+                        opacity: Managers.EnergyManager.powerProfileLabel === "Performance" ? 1.0 : 0.8
 
                         MouseArea {
                             cursorShape: Qt.PointingHandCursor

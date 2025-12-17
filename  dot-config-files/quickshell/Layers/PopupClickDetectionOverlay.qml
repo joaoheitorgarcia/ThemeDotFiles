@@ -7,9 +7,11 @@ PanelWindow {
     required property var modelData
     screen: modelData
 
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
     color: "transparent"
     implicitWidth: screen.width
-    implicitHeight: screen.height - Singletons.Theme.topBarHeight
+    implicitHeight: screen.height - generalConfigs.topBar.height
 
     visible: Managers.PopupManager.hasOpenPopups()
 

@@ -7,6 +7,8 @@ import "../Singletons" as Singletons
 Item {
     id: notifications
 
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
     PanelWindow {
         id: notifWindow
         visible: false
@@ -78,13 +80,13 @@ Item {
                     width: parent.width
                     height: 30
                     radius: 12
-                    color: Singletons.Theme.lightBackground
-                    border.color: Singletons.Theme.darkBase
-                    border.width: 2
+                    color: Singletons.MatugenTheme.surfaceText
+                    border.color: Singletons.MatugenTheme.outlineVariant
+                    border.width: 1
 
                     property int hiddenCount: Math.max(
                         0,
-                        notifModel.count - Singletons.Theme.maxVisibleNotifications
+                        notifModel.count - generalConfigs.notifications.maxVisible
                     )
 
                     visible: hiddenCount > 0
@@ -100,7 +102,7 @@ Item {
                                   (parent.parent.hiddenCount > 1 ? "s" : "")
                             font.pixelSize: 14
                             font.bold: false
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                             anchors.verticalCenter: parent.verticalCenter
                         }
                     }
@@ -122,7 +124,7 @@ Item {
                         height: notifBg.height
                         opacity: model.opacity || 1
                         scale: model.scale || 1
-                        visible: index < Singletons.Theme.maxVisibleNotifications
+                        visible: index < generalConfigs.notifications.maxVisible
 
                         Behavior on opacity {
                             NumberAnimation {
@@ -144,9 +146,9 @@ Item {
                             width: parent.width
                             height: notifContent.implicitHeight + 28
                             radius: 12
-                            color: Singletons.Theme.lightBackground
-                            border.color: Singletons.Theme.darkBase
-                            border.width: 2
+                            color: Singletons.MatugenTheme.surfaceText
+                            border.color: Singletons.MatugenTheme.outlineVariant
+                            border.width: 1
 
                             Column {
                                 id: notifContent
@@ -161,7 +163,7 @@ Item {
                                     Singletons.Icon {
                                         visible: !!model.icon
                                         source: model.icon || ""
-                                        color: Singletons.Theme.darkBase
+                                        color: Singletons.MatugenTheme.surfaceContainer
                                         width: 32
                                         height: 32
                                         anchors.verticalCenter: parent.verticalCenter
@@ -176,7 +178,7 @@ Item {
                                             width: parent.width
                                             font.bold: true
                                             font.pixelSize: 14
-                                            color: Singletons.Theme.darkBase
+                                            color: Singletons.MatugenTheme.surfaceContainer
                                             elide: Text.ElideRight
                                         }
 
@@ -185,7 +187,7 @@ Item {
                                             width: parent.width
                                             wrapMode: Text.Wrap
                                             font.pixelSize: 13
-                                            color: Singletons.Theme.darkBase
+                                            color: Singletons.MatugenTheme.surfaceVariantText
                                             elide: Text.ElideRight
                                             visible: text !== ""
                                             maximumLineCount: 4
@@ -194,19 +196,19 @@ Item {
                                     }
                                 }
 
-                                Rectangle {
-                                    width: parent.width
-                                    height: 1
-                                    color: Singletons.Theme.darkBase
-                                    visible: model.body !== ""
-                                }
+                                    Rectangle {
+                                        width: parent.width
+                                        height: 1
+                                        color: Singletons.MatugenTheme.outlineVariant
+                                        visible: model.body !== ""
+                                    }
 
-                                Text {
-                                    text: model.appName || ""
-                                    width: parent.width
-                                    wrapMode: Text.Wrap
-                                    font.pixelSize: 10
-                                    color: Singletons.Theme.darkBase
+                                    Text {
+                                        text: model.appName || ""
+                                        width: parent.width
+                                        wrapMode: Text.Wrap
+                                        font.pixelSize: 10
+                                        color: Singletons.MatugenTheme.surfaceVariantText
                                     elide: Text.ElideRight
                                     visible: text !== ""
                                     maximumLineCount: 4

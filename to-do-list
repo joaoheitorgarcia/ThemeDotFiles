@@ -7,12 +7,10 @@ Hight Prio:
 
 Medium Prio:
 - Replace hyprpollkitagent or theme it ( see Quickshell.Services.Polkit.PolkitAgent) ✓
-- standarize the look, maybe a like a console , on windows, menus, etc...
-- Theme by json and theme picker ( try ColorQuantization for automatic theming) 
+- Theme by json and theme picker ( try ColorQuantization for automatic theming) - WIP MIssing Transition ?? also fix colors
 - improve/add animations
 - Some way to list workspace
 - command/shortcut cheat sheet
-- settings for monitor managment (brightness, orientation, etc...)
 
 Low Prio:
 - maybe add hyprshot shortcut button ( maybe make utility menu with this type of thing together)
@@ -25,3 +23,5 @@ Low Prio:
 - MPRIS support and gui on sound Menu
 - Blue Ligh Filter (USE HYPRSHADER) shortcut + button in brightness menu maybe
 - Video has Background
+- ClipBoard history Widget - check QUickshell base class
+- settings for monitor managment (brightness, orientation, etc...)

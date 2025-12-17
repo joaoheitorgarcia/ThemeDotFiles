@@ -6,6 +6,9 @@ import "../../Singletons/Managers" as Managers
 
 Item {
     id: volumeContent
+
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
     implicitWidth: 350
     implicitHeight: 160 +
                     (Managers.PipewireManager.outputs.length * 40) +
@@ -16,10 +19,10 @@ Item {
     Rectangle {
         id: contentRect
         anchors.fill: parent
-        radius: 10
-        color: Singletons.Theme.lightBackground
-        border.color: Singletons.Theme.darkBase
-        border.width: 2
+        radius: 12
+        color: Singletons.MatugenTheme.surfaceText
+        border.color: Singletons.MatugenTheme.outline
+        border.width: 1
 
         Column {
             anchors.fill: parent
@@ -33,7 +36,7 @@ Item {
                 text: "Audio"
                 font.bold: true
                 font.pixelSize: 16
-                color: Singletons.Theme.darkBase
+                color: Singletons.MatugenTheme.surfaceContainer
             }
 
             // ───────────────────────────
@@ -56,13 +59,13 @@ Item {
                             id: volIcon
                             anchors.fill: parent
                             size: 22
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                             source: {
                                 let vol = Managers.PipewireManager.volume
-                                if (vol === 0) return Singletons.Theme.iconVolumeMute
-                                if (vol < 0.33) return Singletons.Theme.iconVolumeLow
-                                if (vol < 0.66) return Singletons.Theme.iconVolumeMedium
-                                return Singletons.Theme.iconVolumeHigh
+                                if (vol === 0) return generalConfigs.icons.volume.mute
+                                if (vol < 0.33) return generalConfigs.icons.volume.low
+                                if (vol < 0.66) return generalConfigs.icons.volume.medium
+                                return generalConfigs.icons.volume.high
                             }
                         }
 
@@ -105,13 +108,13 @@ Item {
                             width: slider.availableWidth
                             height: 4
                             radius: 2
-                            color: Singletons.Theme.accentSoftYellow
+                            color: Singletons.MatugenTheme.surfaceVariantText
 
                             Rectangle {
                                 width: slider.visualPosition * parent.width
                                 height: parent.height
                                 radius: 2
-                                color: Singletons.Theme.darkBase
+                                color: Singletons.MatugenTheme.secondary
                             }
 
                             MouseArea {
@@ -159,15 +162,15 @@ Item {
                             width: 16
                             height: 16
                             radius: 8
-                            color: slider.pressed ? Singletons.Theme.accentSoftYellow : Singletons.Theme.darkBase
-                            border.color: Singletons.Theme.lightBackground
-                            border.width: 2
+                            color: slider.pressed ? Singletons.MatugenTheme.secondary : Singletons.MatugenTheme.surfaceContainer
+                            border.color: Singletons.MatugenTheme.outlineVariant
+                            border.width: 1
                         }
                     }
 
                     Text {
                         text: Math.round(Managers.PipewireManager.volume * 100) + "%"
-                        color: Singletons.Theme.darkBase
+                        color: Singletons.MatugenTheme.surfaceContainer
                         font.pixelSize: 14
                     }
                 }
@@ -180,7 +183,7 @@ Item {
                 text: "Output"
                 font.bold: true
                 font.pixelSize: 14
-                color: Singletons.Theme.darkBase
+                color: Singletons.MatugenTheme.surfaceContainer
             }
 
             ListView {
@@ -191,22 +194,31 @@ Item {
                 clip: true
                 interactive: false
 
-                delegate: Rectangle {
-                    width: outputList.width
-                    height: 30
-                    color: modelData.default ? Singletons.Theme.accentSoftYellow : "transparent"
+                    delegate: Rectangle {
+                        width: outputList.width
+                        height: 30
+                        color: modelData.default ? Singletons.MatugenTheme.secondaryContainer : hovered ? Singletons.MatugenTheme.surfaceVariantText : "transparent"
+                        border.color: modelData.default ? Singletons.MatugenTheme.secondary : Singletons.MatugenTheme.outlineVariant
+                        border.width: 1
+
+                    property bool hovered: false
 
                     Text {
                         text: modelData.name || ""
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 6
-                        color: Singletons.Theme.darkBase
+                        color: modelData.default
+                               ? Singletons.MatugenTheme.secondaryContainerText
+                               : Singletons.MatugenTheme.surfaceContainer
                     }
 
                     MouseArea {
                         cursorShape: Qt.PointingHandCursor
                         anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: parent.hovered = true
+                        onExited: parent.hovered = false
                         onClicked: Managers.PipewireManager.setOutput(modelData.sinkName)
                     }
                 }
@@ -219,7 +231,7 @@ Item {
                 text: "Input"
                 font.bold: true
                 font.pixelSize: 14
-                color: Singletons.Theme.darkBase
+                color: Singletons.MatugenTheme.surfaceContainer
             }
 
             ListView {
@@ -232,19 +244,28 @@ Item {
                 delegate: Rectangle {
                     width: inputList.width
                     height: 30
-                    color: modelData.default ? Singletons.Theme.accentSoftYellow : "transparent"
+                    color: modelData.default ? Singletons.MatugenTheme.secondaryContainer : hovered ? Singletons.MatugenTheme.surfaceVariantText : "transparent"
+                    border.color: modelData.default ? Singletons.MatugenTheme.secondary : Singletons.MatugenTheme.outlineVariant
+                    border.width: 1
+
+                    property bool hovered: false
 
                     Text {
                         text: modelData.name || ""
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 6
-                        color: Singletons.Theme.darkBase
+                        color: modelData.default
+                               ? Singletons.MatugenTheme.secondaryContainerText
+                               : Singletons.MatugenTheme.surfaceContainer
                     }
 
                     MouseArea {
                         cursorShape: Qt.PointingHandCursor
                         anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: parent.hovered = true
+                        onExited: parent.hovered = false
                         onClicked: Managers.PipewireManager.setInput(modelData.sourceName)
                     }
                 }

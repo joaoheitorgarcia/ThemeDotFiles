@@ -8,24 +8,10 @@ import "../Singletons" as Singletons
 Item {
     id: polkitRoot
 
-    //
-    // Backend: PolkitAgent
-    //
     PolkitAgent {
         id: agent
 
-        Component.onCompleted: {
-            console.debug("Polkit: initial isRegistered =", isRegistered)
-        }
-
-        onIsRegisteredChanged: {
-            console.debug("Polkit: isRegistered changed:", isRegistered)
-        }
-
         onAuthenticationRequestStarted: {
-            console.debug("Polkit: auth request started, action:",
-                          flow ? flow.actionId : "<none>")
-
             passwordField.text = ""
             errorLabel.visible = false
             polkitWindow.visible = true
@@ -33,9 +19,6 @@ Item {
         }
     }
 
-    //
-    // UI: modal popup
-    //
     PanelWindow {
         id: polkitWindow
 
@@ -48,20 +31,18 @@ Item {
         implicitWidth: Screen.width
         implicitHeight: Screen.height
 
-        // Dark scrim behind the dialog
         Rectangle {
             anchors.fill: parent
             color: "#80000000" // 50% black overlay
         }
 
-        // Centered dialog card
         Rectangle {
             id: dialogCard
             width: 380
             radius: 14
-            color: Singletons.Theme ? Singletons.Theme.lightBackground : "#1c1c1c"
-            border.color: Singletons.Theme ? Singletons.Theme.darkBase : "#3a3a3a"
-            border.width: 2
+            color: Singletons.MatugenTheme.surfaceText
+            border.color: Singletons.MatugenTheme.outlineVariant
+            border.width: 1
 
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
@@ -71,7 +52,6 @@ Item {
                 anchors.margins: 18
                 spacing: 12
 
-                // Title row with icon
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
@@ -80,13 +60,12 @@ Item {
                         width: 26
                         height: 26
                         radius: 6
-                        color: Singletons.Theme ? Singletons.Theme.darkBase : "#333333"
+                        color: Singletons.MatugenTheme.surfaceContainer
 
                         Text {
                             anchors.centerIn: parent
                             text: ""          // lock-ish icon if you use Material Symbols
                             font.pixelSize: 14
-                            color: Singletons.Theme ? Singletons.Theme.accent : "#ffffff"
                         }
                     }
 
@@ -95,56 +74,56 @@ Item {
                         spacing: 2
 
                         Text {
-                            text: "Authentication required"
-                            font.pixelSize: 18
-                            font.bold: true
-                            color: Singletons.Theme ? Singletons.Theme.darkBase : "#ffffff"
-                            elide: Text.ElideRight
-                        }
+                        text: "Authentication required"
+                        font.pixelSize: 18
+                        font.bold: true
+                        color: Singletons.MatugenTheme.surfaceContainer
+                        elide: Text.ElideRight
+                    }
 
-                        Text {
-                            Layout.fillWidth: true
-                            text: agent.flow ? agent.flow.actionId : ""
-                            font.pixelSize: 11
-                            color: Singletons.Theme ? Singletons.Theme.darkBase : "#aaaaaa"
-                            elide: Text.ElideRight
-                        }
+                    Text {
+                        Layout.fillWidth: true
+                        text: agent.flow ? agent.flow.actionId : ""
+                        font.pixelSize: 11
+                        color: Singletons.MatugenTheme.surfaceVariant
+                        elide: Text.ElideRight
                     }
                 }
+            }
 
-                // Main message from polkit
-                Text {
-                    Layout.fillWidth: true
+            // Main message from polkit
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: agent.flow ? agent.flow.message : ""
+                visible: agent.flow && agent.flow.message.length > 0
+                font.pixelSize: 12
+                color: Singletons.MatugenTheme.surfaceVariant
+            }
+
+            // Supplementary message (often "Password for user …")
+            Text {
+                Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                    text: agent.flow ? agent.flow.message : ""
-                    visible: agent.flow && agent.flow.message.length > 0
-                    font.pixelSize: 12
-                    color: Singletons.Theme ? Singletons.Theme.darkBase : "#dddddd"
-                }
+                text: agent.flow ? agent.flow.supplementaryMessage : ""
+                visible: agent.flow && agent.flow.supplementaryMessage.length > 0
+                font.pixelSize: 12
+                color: agent.flow && agent.flow.supplementaryIsError
+                       ? Singletons.MatugenTheme.errorColor
+                       : Singletons.MatugenTheme.surfaceVariant
+            }
 
-                // Supplementary message (often "Password for user …")
-                Text {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    text: agent.flow ? agent.flow.supplementaryMessage : ""
-                    visible: agent.flow && agent.flow.supplementaryMessage.length > 0
-                    font.pixelSize: 12
-                    color: agent.flow && agent.flow.supplementaryIsError
-                           ? (Singletons.Theme ? Singletons.Theme.highlightRed : "#ff6666")
-                           : (Singletons.Theme ? Singletons.Theme.darkBase : "#bbbbbb")
-                }
-
-                // Password field with proper background + focus border
-                Rectangle {
-                    id: passwordBg
-                    Layout.fillWidth: true
-                    height: 38
-                    radius: 8
-                    color: Singletons.Theme ? Singletons.Theme.lightBackground : "#222222"
-                    border.width: 2
-                    border.color: passwordField.activeFocus
-                                  ? (Singletons.Theme ? Singletons.Theme.accent : "#5aaaff")
-                                  : (Singletons.Theme ? Singletons.Theme.darkBase : "#444444")
+            // Password field with proper background + focus border
+            Rectangle {
+                id: passwordBg
+                Layout.fillWidth: true
+                height: 38
+                radius: 8
+                color: Singletons.MatugenTheme.surfaceText
+                border.width: 1
+                border.color: passwordField.activeFocus
+                              ? Singletons.MatugenTheme.secondary
+                              : Singletons.MatugenTheme.outlineVariant
 
                     TextField {
                         id: passwordField
@@ -160,30 +139,24 @@ Item {
                                   : TextInput.Normal
 
                         inputMethodHints: Qt.ImhSensitiveData
-                        color: Singletons.Theme ? Singletons.Theme.darkBase : "#ffffff"
-                        selectionColor: Singletons.Theme ? Singletons.Theme.accent : "#5aaaff"
                         cursorVisible: true
-
                         background: null   // we use passwordBg instead
 
                         enabled: agent.flow && agent.flow.isResponseRequired
-
                         onAccepted: submitResponse()
                     }
                 }
 
-                // Error label
                 Text {
                     id: errorLabel
                     Layout.fillWidth: true
                     visible: false
                     text: "Authentication failed, try again."
-                    color: Singletons.Theme ? Singletons.Theme.highlightRed : "#ff6666"
                     font.pixelSize: 12
                     wrapMode: Text.WordWrap
+                    color: Singletons.MatugenTheme.errorColor
                 }
 
-                // Buttons row
                 RowLayout {
                     Layout.alignment: Qt.AlignRight
                     Layout.fillWidth: true
@@ -194,18 +167,50 @@ Item {
                     Button {
                         text: "Cancel"
                         onClicked: cancelRequest()
+
+                    background: Rectangle {
+                        radius: 8
+                        color: Singletons.MatugenTheme.surfaceVariantText
+                        border.color: Singletons.MatugenTheme.outlineVariant
+                        border.width: 1
                     }
+
+                    contentItem: Text {
+                        text: parent.text
+                        color: Singletons.MatugenTheme.surfaceContainer
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
 
                     Button {
                         text: "OK"
                         enabled: passwordField.text.length > 0
                         onClicked: submitResponse()
+
+                    background: Rectangle {
+                        radius: 8
+                        color: enabled
+                               ? Singletons.MatugenTheme.secondary
+                               : Singletons.MatugenTheme.surfaceVariantText
+                        border.color: Singletons.MatugenTheme.outlineVariant
+                        border.width: 1
+                        opacity: enabled ? 1 : 0.6
+                        }
+
+                    contentItem: Text {
+                        text: parent.text
+                        color: enabled
+                               ? Singletons.MatugenTheme.secondaryText
+                               : Singletons.MatugenTheme.surfaceContainer
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
                     }
                 }
             }
         }
 
-        // ESC handling (must be on an Item)
         Item {
             anchors.fill: parent
             focus: polkitWindow.visible
@@ -213,9 +218,6 @@ Item {
         }
     }
 
-    //
-    // Helpers
-    //
     function resetDialog() {
         if (!passwordField || !errorLabel)
             return
@@ -241,25 +243,22 @@ Item {
         closeDialog()
     }
 
-    //
-    // React to AuthFlow property changes
-    //
     Connections {
         target: agent.flow
 
         function onIsSuccessfulChanged() {
             if (!agent.flow || !agent.flow.isSuccessful)
                 return
-            console.debug("Polkit: auth successful")
             closeDialog()
         }
 
         function onFailedChanged() {
             if (!agent.flow || !agent.flow.failed)
                 return
-            console.debug("Polkit: auth failed")
+
             if (!errorLabel || !passwordField)
                 return
+
             errorLabel.visible = true
             passwordField.text = ""
             passwordField.forceActiveFocus()
@@ -268,7 +267,7 @@ Item {
         function onIsCancelledChanged() {
             if (!agent.flow || !agent.flow.isCancelled)
                 return
-            console.debug("Polkit: auth cancelled")
+
             closeDialog()
         }
     }

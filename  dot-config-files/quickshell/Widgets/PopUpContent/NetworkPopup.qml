@@ -10,6 +10,8 @@ Item {
     implicitWidth: 320
     implicitHeight: 300
 
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
     property string selectedSsid: ""
     property string selectedSecurity: ""
     property var sortedNetworks: []
@@ -57,10 +59,10 @@ Item {
     Rectangle {
         id: contentRect
         anchors.fill: parent
-        radius: 10
-        color: Singletons.Theme.lightBackground
-        border.color: Singletons.Theme.darkBase
-        border.width: 2
+        radius: 12
+        color: Singletons.MatugenTheme.surfaceText
+        border.color: Singletons.MatugenTheme.outline
+        border.width: 1
 
         ColumnLayout {
             anchors.fill: parent
@@ -79,7 +81,7 @@ Item {
                     text: "Network"
                     font.bold: true
                     font.pixelSize: 16
-                    color: Singletons.Theme.darkBase
+                    color: Singletons.MatugenTheme.surfaceContainer
                     Layout.alignment: Qt.AlignVCenter
                 }
 
@@ -119,10 +121,10 @@ Item {
                             implicitHeight: 20
                             radius: height / 2
                             color: wifiSwitch.checked
-                                   ? Singletons.Theme.accentSoftYellow
-                                   : Singletons.Theme.accentSoft
-                            border.color: Singletons.Theme.darkBase
-                            border.width: 1.5
+                                   ? Singletons.MatugenTheme.secondary
+                                   : Singletons.MatugenTheme.surfaceVariantText
+                            border.color: Singletons.MatugenTheme.outline
+                            border.width: 1
 
                             Rectangle {
                                 width: 14
@@ -132,9 +134,9 @@ Item {
                                 x: wifiSwitch.checked
                                    ? parent.width - width - 3
                                    : 3
-                                color: Singletons.Theme.darkBase
-                                border.color: Singletons.Theme.lightBackground
-                                border.width: 2
+                                color: Singletons.MatugenTheme.surfaceContainer
+                                border.color: Singletons.MatugenTheme.outlineVariant
+                                border.width: 1
 
                                 Behavior on x { NumberAnimation { duration: 120; easing.type: Easing.InOutQuad } }
                             }
@@ -163,18 +165,18 @@ Item {
                     Layout.preferredWidth: 18
                     Layout.preferredHeight: 18
                     size: 18
-                    color: Singletons.Theme.darkBase
+                    color: Singletons.MatugenTheme.surfaceContainer
                     source: Managers.NetworkManager.wiredConnected
-                            ? Singletons.Theme.iconWired
+                            ? generalConfigs.icons.network.wired
                             : Managers.NetworkManager.wifiConnected
                               ? (Managers.NetworkManager.strength >= 60
-                                 ? Singletons.Theme.iconWifiStrength3
+                                 ? generalConfigs.icons.network.wifiStrength3
                                  : Managers.NetworkManager.strength >= 40
-                                   ? Singletons.Theme.iconWifiStrength2
+                                   ? generalConfigs.icons.network.wifiStrength2
                                    : Managers.NetworkManager.strength >= 20
-                                     ? Singletons.Theme.iconWifiStrength1
-                                     : Singletons.Theme.iconWifiStrength0)
-                              : Singletons.Theme.iconWifiStrengthSlash
+                                     ? generalConfigs.icons.network.wifiStrength1
+                                     : generalConfigs.icons.network.wifiStrength0)
+                              : generalConfigs.icons.network.wifiStrengthSlash
                 }
 
                 Text {
@@ -185,12 +187,12 @@ Item {
                              : "Talking to NetworkManager...")
                           : Managers.NetworkManager.wiredConnected
                             ? "Connected: " + (Managers.NetworkManager.wiredConnectionName || "Ethernet")
-                            : Managers.NetworkManager.wifiConnected && Managers.NetworkManager.ssid !== ""
-                              ? "Connected: " + Managers.NetworkManager.ssid
-                              : "Not connected"
-                    color: Singletons.Theme.darkBase
+                          : Managers.NetworkManager.wifiConnected && Managers.NetworkManager.ssid !== ""
+                            ? "Connected: " + Managers.NetworkManager.ssid
+                            : "Not connected"
+                    color: Singletons.MatugenTheme.surfaceVariantText
                     font.pixelSize: 13
-                    opacity: 0.8
+                    opacity: 0.9
                     elide: Text.ElideRight
                 }
             }
@@ -219,11 +221,15 @@ Item {
                     width: ListView.view.width
                     height: 40
                     radius: 6
-                    color: hovered || selected || modelData.inUse
-                           ? Singletons.Theme.accentSoftYellow
-                           : "transparent"
-                    border.color: selected ? Singletons.Theme.darkBase : modelData.inUse ? Singletons.Theme.darkBase : Singletons.Theme.accentSoft
-                    border.width: selected || modelData.inUse ? 2 : 1
+                    color: selected || modelData.inUse
+                           ? Singletons.MatugenTheme.secondaryContainer
+                           : hovered
+                             ? Singletons.MatugenTheme.surfaceVariantText
+                             : "transparent"
+                    border.color: selected || modelData.inUse
+                                  ? Singletons.MatugenTheme.secondary
+                                  : Singletons.MatugenTheme.surfaceVariantText
+                    border.width: 1
 
                     property bool hovered: false
 
@@ -236,13 +242,13 @@ Item {
                             Layout.preferredWidth: 18
                             Layout.preferredHeight: 18
                             size: 18
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                             source: {
                                 const sig = modelData.signal || 0
-                                if (sig >= 75) return Singletons.Theme.iconWifiStrength3
-                                if (sig >= 50) return Singletons.Theme.iconWifiStrength2
-                                if (sig >= 25) return Singletons.Theme.iconWifiStrength1
-                                return Singletons.Theme.iconWifiStrength0
+                                if (sig >= 75) return generalConfigs.icons.network.wifiStrength3
+                                if (sig >= 50) return generalConfigs.icons.network.wifiStrength2
+                                if (sig >= 25) return generalConfigs.icons.network.wifiStrength1
+                                return generalConfigs.icons.network.wifiStrength0
                             }
                         }
 
@@ -254,7 +260,9 @@ Item {
                                 text: modelData.ssid
                                 elide: Text.ElideRight
                                 Layout.fillWidth: true
-                                color: Singletons.Theme.darkBase
+                                color: selected || modelData.inUse
+                                       ? Singletons.MatugenTheme.secondaryContainerText
+                                       : Singletons.MatugenTheme.surfaceContainer
                                 font.pixelSize: 13
                                 font.bold: modelData.inUse
                             }
@@ -265,9 +273,11 @@ Item {
 
                                 Text {
                                     text: securityLabel
-                                    color: Singletons.Theme.darkBase
+                                    color: selected || modelData.inUse
+                                           ? Singletons.MatugenTheme.secondaryContainerText
+                                           : Singletons.MatugenTheme.surfaceVariantText
                                     font.pixelSize: 11
-                                    opacity: 0.7
+                                    opacity: 0.8
                                     horizontalAlignment: Text.AlignLeft
                                 }
 
@@ -280,7 +290,9 @@ Item {
 
                             Text {
                                 text: modelData.signal + "%"
-                                color: Singletons.Theme.darkBase
+                                color: selected || modelData.inUse
+                                       ? Singletons.MatugenTheme.secondaryContainerText
+                                       : Singletons.MatugenTheme.surfaceVariantText
                                 font.pixelSize: 10
                                 horizontalAlignment: Text.AlignRight
                                 Layout.alignment: Qt.AlignVCenter
@@ -329,7 +341,7 @@ Item {
                           ? "No networks found"
                           : "WiFi is disabled"
                     opacity: 0.6
-                    color: Singletons.Theme.darkBase
+                    color: Singletons.MatugenTheme.surfaceVariantText
                     font.pixelSize: 12
                 }
             }
@@ -349,9 +361,9 @@ Item {
         Rectangle {
             anchors.fill: parent
             radius: 8
-            color: Singletons.Theme.lightBackground
-            border.color: Singletons.Theme.darkBase
-            border.width: 2
+            color: Singletons.MatugenTheme.surfaceText
+            border.color: Singletons.MatugenTheme.outlineVariant
+            border.width: 1
 
             ColumnLayout {
                 anchors.fill: parent
@@ -360,7 +372,7 @@ Item {
 
                 Text {
                     text: "Enter password for " + wifiMenuContent.selectedSsid
-                    color: Singletons.Theme.darkBase
+                    color: Singletons.MatugenTheme.surfaceContainer
                     font.pixelSize: 14
                     wrapMode: Text.WordWrap
                     Layout.fillWidth: true
@@ -375,16 +387,16 @@ Item {
                         Layout.fillWidth: true
                         echoMode: showPasswordCheckbox.checked ? TextInput.Normal : TextInput.Password
                         placeholderText: "Password"
-                        color: Singletons.Theme.darkBase
-                        placeholderTextColor: Singletons.Theme.mediumGray
+                        color: Singletons.MatugenTheme.surfaceContainer
+                        placeholderTextColor: Singletons.MatugenTheme.surfaceVariantText
                         inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhSensitiveData
                         selectByMouse: true
                         onAccepted: wifiMenuContent.connectWithPassword()
 
                         background: Rectangle {
                             radius: 6
-                            color: Singletons.Theme.accentSoft
-                            border.color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surface
+                            border.color: Singletons.MatugenTheme.outline
                             border.width: 1
                         }
                     }
@@ -402,16 +414,16 @@ Item {
                             implicitWidth: 18
                             implicitHeight: 18
                             radius: 3
-                            border.color: Singletons.Theme.darkBase
+                            border.color: Singletons.MatugenTheme.outline
                             border.width: 1.5
                             color: showPasswordCheckbox.checked
-                                   ? Singletons.Theme.accentSoftYellow
-                                   : Singletons.Theme.accentSoft
+                                   ? Singletons.MatugenTheme.secondaryContainer
+                                   : Singletons.MatugenTheme.surfaceVariantText
 
                             Text {
                                 anchors.centerIn: parent
                                 text: "✓"
-                                color: Singletons.Theme.darkBase
+                                color: Singletons.MatugenTheme.surfaceContainer
                                 font.pixelSize: 12
                                 font.bold: true
                                 visible: showPasswordCheckbox.checked
@@ -420,7 +432,7 @@ Item {
 
                         contentItem: Text {
                             text: "Show password"
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                             font.pixelSize: 11
                             leftPadding: showPasswordCheckbox.indicator.width + 6
                             verticalAlignment: Text.AlignVCenter
@@ -441,14 +453,14 @@ Item {
 
                         background: Rectangle {
                             radius: 6
-                            color: Singletons.Theme.accentSoft
-                            border.color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceVariantText
+                            border.color: Singletons.MatugenTheme.outline
                             border.width: 1
                         }
 
                         contentItem: Text {
                             text: parent.text
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -463,16 +475,18 @@ Item {
                         background: Rectangle {
                             radius: 6
                             color: parent.enabled
-                                   ? Singletons.Theme.accentSoftYellow
-                                   : Singletons.Theme.accentSoft
-                            border.color: Singletons.Theme.darkBase
+                                   ? Singletons.MatugenTheme.secondaryContainer
+                                   : Singletons.MatugenTheme.surfaceVariantText
+                            border.color: Singletons.MatugenTheme.outline
                             border.width: 1
-                            opacity: parent.enabled ? 1 : 0.5
+                            opacity: parent.enabled ? 1 : 0.6
                         }
 
                         contentItem: Text {
                             text: parent.text
-                            color: Singletons.Theme.darkBase
+                            color: enabled
+                                   ? Singletons.MatugenTheme.secondaryContainerText
+                                   : Singletons.MatugenTheme.surfaceContainer
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }

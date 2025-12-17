@@ -9,13 +9,15 @@ Item {
     implicitWidth: 200
     implicitHeight: 15 + (35 * actionList.model.length)
 
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
     Rectangle {
         id: contentRect
         anchors.fill: parent
-        radius: 10
-        color: Singletons.Theme.lightBackground
-        border.color: Singletons.Theme.darkBase
-        border.width: 2
+        radius: 12
+        color: Singletons.MatugenTheme.surfaceText
+        border.color: Singletons.MatugenTheme.outline
+        border.width: 1
 
         ColumnLayout {
             id: powerMenuLayout
@@ -40,8 +42,8 @@ Item {
                 delegate: Rectangle {
                     width: actionList.width
                     height: 32
-                    color: hovered ? Singletons.Theme.accentSoftYellow : "transparent"
-                    radius: 4
+                    color: hovered ? Singletons.MatugenTheme.surfaceVariantText : "transparent"
+                    radius: 6
 
                     property bool hovered: false
 
@@ -54,30 +56,30 @@ Item {
                             source: {
                                 switch (modelData.id) {
                                 case "suspend":
-                                    return Singletons.Theme.iconPowerSuspend
+                                    return generalConfigs.icons.powerMenu.suspend
                                 case "hibernate":
-                                    return Singletons.Theme.iconPowerHibernate
+                                    return generalConfigs.icons.powerMenu.hibernate
                                 case "lock":
-                                    return Singletons.Theme.iconPowerLock
+                                    return generalConfigs.icons.powerMenu.lock
                                 case "reboot":
-                                    return Singletons.Theme.iconPowerReboot
+                                    return generalConfigs.icons.powerMenu.reboot
                                 case "shutdown":
-                                    return Singletons.Theme.iconPowerShutdow
+                                    return generalConfigs.icons.powerMenu.shutdown
                                 default:
-                                    return Singletons.Theme.iconPowerShutdow
+                                    return generalConfigs.icons.powerMenu.shutdown
                                 }
                             }
                             size: 16
                             color: modelData.destructive
-                                   ? Singletons.Theme.lowEnergy
-                                   : Singletons.Theme.darkBase
+                                   ? Singletons.MatugenTheme.errorColor
+                                   : Singletons.MatugenTheme.surfaceContainer
                         }
 
                         Text {
                             text: modelData.label
                             Layout.fillWidth: true
                             verticalAlignment: Text.AlignVCenter
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                             font.pixelSize: 13
                         }
                     }

@@ -2,29 +2,29 @@ import QtQuick
 import Quickshell
 import "../Singletons" as Singletons
 import "../Singletons/Managers" as Managers
-import "../FontLoaders" as FontLoaders
 import "PopUpContent" as PopUpContent
 
-Rectangle{
+Rectangle {
     id: notificationListBtn
+
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
 
     border.color:
         hovered ?
-            Singletons.Theme.accentSoft :
-            Singletons.Theme.darkBase
+            Singletons.MatugenTheme.surfaceVariant :
+            Singletons.MatugenTheme.surfaceVariantText
     border.width: 2
 
     color:
         hovered ?
-            Singletons.Theme.darkBase :
-            Singletons.Theme.lightBackground
-    radius: 6
+            Singletons.MatugenTheme.surfaceVariantText :
+            Singletons.MatugenTheme.surfaceText
+    radius: 8
 
-    implicitHeight: Singletons.Theme.topBarItemHeight
+    implicitHeight: generalConfigs.topBar.itemHeight
     implicitWidth: (
         iconItem.implicitWidth +
-        Singletons.Theme.topBarItemHorizontalPadding *
-        2
+        generalConfigs.topBar.itemHorizontalPadding * 2
     )
 
     property bool hovered: false
@@ -32,15 +32,18 @@ Rectangle{
 
     Singletons.Icon {
         id: iconItem
-        source: Singletons.Theme.iconNotificationList
-        size: Singletons.Theme.iconDefaultSize
+        source: generalConfigs.icons.notifications.list
+        size: generalConfigs.icons.defaultSize
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         color:
             hovered ?
-                Singletons.Theme.accentSoft :
-                Singletons.Theme.darkBase
+                Singletons.MatugenTheme.surfaceVariant :
+                Singletons.MatugenTheme.surfaceContainer
     }
+
+    Behavior on color { ColorAnimation { duration: 120 } }
+    Behavior on border.color { ColorAnimation { duration: 120 } }
 
     PopupWindow {
         id: notificationListPopup
@@ -50,9 +53,9 @@ Rectangle{
         implicitWidth: notificationListContent.width
         implicitHeight: notificationListContent.height
         visible: false
-        color:"transparent"
+        color: "transparent"
 
-        PopUpContent.NotificationListPopup{
+        PopUpContent.NotificationListPopup {
             id: notificationListContent
         }
 

@@ -9,6 +9,8 @@ PanelWindow {
     required property var modelData
     screen: modelData
 
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
     id: topBar
 
     anchors {
@@ -17,7 +19,7 @@ PanelWindow {
         top: true
     }
 
-    implicitHeight: Singletons.Theme.topBarHeight
+    implicitHeight: generalConfigs.topBar.height
     color: "transparent"
 
     aboveWindows: false

@@ -9,6 +9,8 @@ Item {
     implicitWidth: 320
     implicitHeight: 300
 
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
     property alias unTrackedNotifications: unTrackedNotifications
 
     ListModel{
@@ -27,10 +29,10 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        radius: 10
-        color: Singletons.Theme.lightBackground
-        border.color: Singletons.Theme.darkBase
-        border.width: 2
+        radius: 12
+        color: Singletons.MatugenTheme.surfaceText
+        border.color: Singletons.MatugenTheme.outline
+        border.width: 1
 
         ColumnLayout {
             anchors.fill: parent
@@ -43,7 +45,7 @@ Item {
                 text: "Notification History"
                 font.bold: true
                 font.pixelSize: 16
-                color: Singletons.Theme.darkBase
+                color: Singletons.MatugenTheme.surfaceContainer
             }
 
             ListView {
@@ -64,8 +66,10 @@ Item {
                     id: listOption
                     width: notificationhistoryList.width
                     height: 50
-                    radius: 4
-                    color: hovered ? Singletons.Theme.accentSoftYellow : "transparent"
+                    radius: 6
+                    color: hovered ? Singletons.MatugenTheme.surfaceVariantText : "transparent"
+                    border.color: hovered ? Singletons.MatugenTheme.outline : Singletons.MatugenTheme.outlineVariant
+                    border.width: 1
 
                     property bool hovered: false
 
@@ -76,7 +80,7 @@ Item {
                         Singletons.Icon {
                             visible: !!model.appIcon || !!model.image
                             source: model.appIcon || model.image
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                             width: 32
                             height: 32
                             anchors.verticalCenter: parent.verticalCenter
@@ -91,7 +95,7 @@ Item {
                                 width: parent.width
                                 font.bold: true
                                 font.pixelSize: 14
-                                color: Singletons.Theme.darkBase
+                                color: Singletons.MatugenTheme.surfaceContainer
                                 elide: Text.ElideRight
                             }
 
@@ -99,7 +103,7 @@ Item {
                                 text: model.appName || ""
                                 width: parent.width
                                 font.pixelSize: 11
-                                color: Singletons.Theme.darkBase
+                                color: Singletons.MatugenTheme.surfaceVariantText
                                 elide: Text.ElideRight
                                 visible: text !== ""
                             }
@@ -108,8 +112,8 @@ Item {
 
                     Singletons.Icon {
                         visible: listOption.hovered
-                        source: Singletons.Theme.iconClose
-                        color: Singletons.Theme.darkBase
+                        source: generalConfigs.icons.general.close
+                        color: Singletons.MatugenTheme.surfaceContainer
                         width: 20
                         height: 20
                         anchors.verticalCenter: parent.verticalCenter
@@ -136,7 +140,7 @@ Item {
                     text: 'No new notification'
                     width: parent.width
                     font.pixelSize: 11
-                    color: Singletons.Theme.darkBase
+                    color: Singletons.MatugenTheme.surfaceVariantText
                     visible: unTrackedNotifications.count === 0
                 }
             }

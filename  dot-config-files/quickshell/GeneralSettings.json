@@ -1,0 +1,70 @@
+{
+    "font": {
+        "captionSize": 11,
+        "filePath": "../Fonts/Roboto.ttf",
+        "normalSize": 14,
+        "titleSize": 18
+    },
+    "icons": {
+        "battery": {
+            "charging": "../Icons/regular/bx-bolt-circle.svg",
+            "empty": "../Icons/regular/bx-battery.svg",
+            "full": "../Icons/regular/bx-battery-full.svg",
+            "low": "../Icons/regular/bx-battery-1.svg",
+            "medium": "../Icons/regular/bx-battery-low.svg"
+        },
+        "bluetooth": {
+            "bluetooth": "../Icons/regular/bx-bluetooth.svg",
+            "bonded": "../Icons/regular/bx-save.svg",
+            "paired": "../Icons/regular/bx-check.svg",
+            "pairing": "../Icons/regular/bx-loader.svg"
+        },
+        "defaultSize": 18,
+        "general": {
+            "arrowDown": "../Icons/regular/bx-down-arrow-alt.svg",
+            "arrowLeft": "../Icons/regular/bx-left-arrow-alt.svg",
+            "arrowRight": "../Icons/regular/bx-right-arrow-alt.svg",
+            "arrowTop": "../Icons/regular/bx-top-arrow-alt.svg",
+            "close": "../Icons/regular/bx-x.svg"
+        },
+        "network": {
+            "signalStrength1": "../Icons/regular/bx-signal-1.svg",
+            "signalStrength2": "../Icons/regular/bx-signal-2.svg",
+            "signalStrength3": "../Icons/regular/bx-signal-3.svg",
+            "signalStrength4": "../Icons/regular/bx-signal-4.svg",
+            "signalStrength5": "../Icons/regular/bx-signal-5.svg",
+            "signalStrengthNoSignal": "../Icons/regular/bx-no-signal.svg",
+            "wifiStrength0": "../Icons/regular/bx-wifi-0.svg",
+            "wifiStrength1": "../Icons/regular/bx-wifi-1.svg",
+            "wifiStrength2": "../Icons/regular/bx-wifi-2.svg",
+            "wifiStrength3": "../Icons/regular/bx-wifi.svg",
+            "wifiStrengthSlash": "../Icons/regular/bx-wifi-off.svg",
+            "wired": "../Icons/regular/bx-network-chart.svg"
+        },
+        "notifications": {
+            "list": "../Icons/regular/bx-message-notification.svg"
+        },
+        "powerMenu": {
+            "hibernate": "../Icons/regular/bx-moon.svg",
+            "lock": "../Icons/regular/bx-lock.svg",
+            "reboot": "../Icons/regular/bx-reset.svg",
+            "shutdown": "../Icons/regular/bx-power-off.svg",
+            "suspend": "../Icons/regular/bx-leaf.svg"
+        },
+        "volume": {
+            "high": "../Icons/regular/bx-volume-full.svg",
+            "low": "../Icons/regular/bx-volume.svg",
+            "medium": "../Icons/regular/bx-volume-low.svg",
+            "mute": "../Icons/regular/bx-volume-mute.svg"
+        }
+    },
+    "notifications": {
+        "maxVisible": 3
+    },
+    "topBar": {
+        "height": 40,
+        "itemHeight": 30,
+        "itemHorizontalPadding": 7.5
+    },
+    "wallpaperFile": "ghost_in_the_shell.png"
+}

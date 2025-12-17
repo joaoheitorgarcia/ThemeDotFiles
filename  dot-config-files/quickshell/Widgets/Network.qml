@@ -2,29 +2,32 @@ import QtQuick
 import Quickshell
 import "../Singletons" as Singletons
 import "../Singletons/Managers" as Managers
-import "../FontLoaders" as FontLoaders
 import "PopUpContent" as PopUpContent
 
-Rectangle{
+Rectangle {
     id: wifiBtn
+
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
 
     border.color:
         hovered ?
-            Singletons.Theme.accentSoft :
-            Singletons.Theme.darkBase
+            Singletons.MatugenTheme.surfaceVariant :
+            Singletons.MatugenTheme.surfaceVariantText
     border.width: 2
 
     color:
         hovered ?
-            Singletons.Theme.darkBase :
-            Singletons.Theme.lightBackground
-    radius: 6
+            Singletons.MatugenTheme.surfaceVariantText :
+            Singletons.MatugenTheme.surfaceText
+    radius: 8
 
-    implicitHeight: Singletons.Theme.topBarItemHeight
+    Behavior on color { ColorAnimation { duration: 120 } }
+    Behavior on border.color { ColorAnimation { duration: 120 } }
+
+    implicitHeight: generalConfigs.topBar.itemHeight
     implicitWidth: (
         iconItem.implicitWidth +
-        Singletons.Theme.topBarItemHorizontalPadding *
-        2
+        generalConfigs.topBar.itemHorizontalPadding * 2
     )
 
     property bool hovered: false
@@ -33,24 +36,24 @@ Rectangle{
     Singletons.Icon {
         id: iconItem
         source: Managers.NetworkManager.wiredConnected
-                ? Singletons.Theme.iconWired
+                ? generalConfigs.icons.network.wired
                 : Managers.NetworkManager.wifiConnected
                   ? (Managers.NetworkManager.strength >= 60
-                     ? Singletons.Theme.iconWifiStrength3
+                     ? generalConfigs.icons.network.wifiStrength3
                      : Managers.NetworkManager.strength >= 40
-                       ? Singletons.Theme.iconWifiStrength2
+                       ? generalConfigs.icons.network.wifiStrength2
                        : Managers.NetworkManager.strength >= 20
-                         ? Singletons.Theme.iconWifiStrength1
-                         : Singletons.Theme.iconWifiStrength0)
-                  : Singletons.Theme.iconWifiStrengthSlash
+                         ? generalConfigs.icons.network.wifiStrength1
+                         : generalConfigs.icons.network.wifiStrength0)
+                  : generalConfigs.icons.network.wifiStrengthSlash
 
-        size: Singletons.Theme.iconDefaultSize
+        size: generalConfigs.icons.defaultSize
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         color:
             hovered ?
-                Singletons.Theme.accentSoft :
-                Singletons.Theme.darkBase
+                Singletons.MatugenTheme.surfaceVariant :
+                Singletons.MatugenTheme.surfaceContainer
     }
 
     PopupWindow {
@@ -61,9 +64,9 @@ Rectangle{
         implicitWidth: networkContent.width
         implicitHeight: networkContent.height
         visible: false
-        color:"transparent"
+        color: "transparent"
 
-        PopUpContent.NetworkPopup{
+        PopUpContent.NetworkPopup {
             id: networkContent
         }
 

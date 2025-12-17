@@ -22,7 +22,7 @@ PanelWindow {
     Image {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        source: Singletons.Theme.wallpaperPath
+        source: Singletons.ConfigLoader.createWallpaperPath()
     }
 
 //    Video {

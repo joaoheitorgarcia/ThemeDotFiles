@@ -41,15 +41,23 @@ Scope {
         WlrLayershell.layer: WlrLayer.Overlay
     }
 
+    //WALLPAPER PICKER
+
+    Layers.WallpaperPicker{
+        id:wallpaperPicker
+        WlrLayershell.layer: WlrLayer.Overlay
+    }
+
+
     //LOCK SCREEN
     Layers.LockScreen {
         id: lockScreen
         Component.onCompleted: Managers.SessionManager.lockScreen = lockScreen
     }
 
-    Layers.PolkitAgent {
-        WlrLayershell.layer: WlrLayer.Overlay
-    }
+    //LAYER POKITAGENT
+    Layers.PolkitAgent {}
+
 
     //----------- GLOBAL SHORTCUTS --------------//
     GlobalShortcut {
@@ -68,5 +76,24 @@ Scope {
         onPressed: {
             lockScreen.lock()
         }
+    }
+
+    GlobalShortcut {
+        name: "toggle-wallpaper-picker"
+        description: "Open wallpaper Picker"
+
+        onPressed: {
+            wallpaperPicker.toggle()
+        }
+    }
+    //--------------------------------------------//
+
+    //Surpress Reload Configs
+    Connections {
+        target: Quickshell
+
+        // function onReloadCompleted() {
+        //     Quickshell.inhibitReloadPopup()
+        // }
     }
 }

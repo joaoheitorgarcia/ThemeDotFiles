@@ -9,14 +9,16 @@ Item {
     implicitWidth: 320
     implicitHeight: 300
 
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
     property QtObject adapter: Bluetooth.defaultAdapter
 
     Rectangle {
         anchors.fill: parent
-        radius: 10
-        color: Singletons.Theme.lightBackground
-        border.color: Singletons.Theme.darkBase
-        border.width: 2
+        radius: 12
+        color: Singletons.MatugenTheme.surfaceText
+        border.color: Singletons.MatugenTheme.outline
+        border.width: 1
 
         ColumnLayout {
             anchors.fill: parent
@@ -34,7 +36,7 @@ Item {
                     text: "Bluetooth"
                     font.bold: true
                     font.pixelSize: 16
-                    color: Singletons.Theme.darkBase
+                    color: Singletons.MatugenTheme.surfaceContainer
                 }
 
                 Item { Layout.fillWidth: true }
@@ -55,10 +57,10 @@ Item {
                         implicitHeight: 20
                         radius: height / 2
                         color: bluetoothSwitch.checked
-                               ? Singletons.Theme.accentSoftYellow
-                               : Singletons.Theme.accentSoft
-                        border.color: Singletons.Theme.darkBase
-                        border.width: 1.5
+                               ? Singletons.MatugenTheme.secondary
+                               : Singletons.MatugenTheme.surfaceVariantText
+                        border.color: Singletons.MatugenTheme.outlineVariant
+                        border.width: 1
 
                         Rectangle {
                             width: 14
@@ -68,9 +70,9 @@ Item {
                             x: bluetoothSwitch.checked
                                ? parent.width - width - 3
                                : 3
-                            color: Singletons.Theme.darkBase
-                            border.color: Singletons.Theme.lightBackground
-                            border.width: 2
+                            color: Singletons.MatugenTheme.surfaceContainer
+                            border.color: Singletons.MatugenTheme.outlineVariant
+                            border.width: 1
                             Behavior on x { NumberAnimation { duration: 120; easing.type: Easing.InOutQuad } }
                         }
                     }
@@ -89,8 +91,10 @@ Item {
                 delegate: Rectangle {
                     width: actionList.width
                     height: 32
-                    radius: 4
-                    color: hovered ? Singletons.Theme.accentSoftYellow : "transparent"
+                    radius: 6
+                    color: hovered ? Singletons.MatugenTheme.surfaceVariantText : "transparent"
+                    border.color: hovered ? Singletons.MatugenTheme.outline : Singletons.MatugenTheme.outlineVariant
+                    border.width: 1
 
                     property bool hovered: false
 
@@ -100,33 +104,33 @@ Item {
                         spacing: 8
 
                         Singletons.Icon {
-                            source: Singletons.Theme.iconBluetooth
+                            source: generalConfigs.icons.bluetooth.bluetooth
                             size: 16
                             color: modelData.destructive
-                                   ? Singletons.Theme.lowEnergy
-                                   : Singletons.Theme.darkBase
+                                   ? Singletons.MatugenTheme.errorColor
+                                   : Singletons.MatugenTheme.surfaceContainer
                         }
 
                         Text {
                             text: modelData.name
                             Layout.fillWidth: true
                             verticalAlignment: Text.AlignVCenter
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                             font.pixelSize: 13
                         }
 
                         Singletons.Icon {
                             visible: modelData.pairing
-                            source: Singletons.Theme.iconBluetoothPairing
+                            source: generalConfigs.icons.bluetooth.pairing
                             size: 16
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                         }
 
                         Singletons.Icon {
                             visible: modelData.paired
-                            source: Singletons.Theme.iconBluetoothPaired
+                            source: generalConfigs.icons.bluetooth.paired
                             size: 16
-                            color: Singletons.Theme.darkBase
+                            color: Singletons.MatugenTheme.surfaceContainer
                         }
                     }
 

@@ -3,24 +3,25 @@ import Quickshell
 import QtQuick.Layouts
 import "../Singletons" as Singletons
 import "../Singletons/Managers" as Managers
-import "../FontLoaders" as FontLoaders
 import "PopUpContent" as PopUpContent
 
 Rectangle {
     id: energyBtn
 
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
     property bool hovered: false
 
-    border.color: hovered ? Singletons.Theme.accentSoft : Singletons.Theme.darkBase
+    border.color: hovered ? Singletons.MatugenTheme.surfaceVariant : Singletons.MatugenTheme.surfaceVariantText
     border.width: 2
 
-    color: hovered ? Singletons.Theme.darkBase : Singletons.Theme.lightBackground
-    radius: 6
+    color: hovered ? Singletons.MatugenTheme.surfaceVariantText : Singletons.MatugenTheme.surfaceText
+    radius: 8
 
-    implicitHeight: Singletons.Theme.topBarItemHeight
+    implicitHeight: generalConfigs.topBar.itemHeight
     implicitWidth: batteryIcon.implicitWidth +
                    chargingIcon.implicitWidth +
-                   Singletons.Theme.topBarItemHorizontalPadding * 2
+                   generalConfigs.topBar.itemHorizontalPadding * 2
 
     anchors.verticalCenter: parent.verticalCenter
 
@@ -37,20 +38,20 @@ Rectangle {
         Singletons.Icon {
             id: batteryIcon
             source: {
-                if (batteryPercentage < 5)  return Singletons.Theme.iconBatteryEmpty
-                if (batteryPercentage < 15) return Singletons.Theme.iconBatteryLow
-                if (batteryPercentage < 50) return Singletons.Theme.iconBatteryMedium
-                return Singletons.Theme.iconBatteryFull
+                if (batteryPercentage < 5)  return generalConfigs.icons.battery.empty
+                if (batteryPercentage < 15) return generalConfigs.icons.battery.low
+                if (batteryPercentage < 50) return generalConfigs.icons.battery.medium
+                return generalConfigs.icons.battery.full
             }
-            size: Singletons.Theme.iconDefaultSize
+            size: generalConfigs.icons.defaultSize
             antialiasing: true
-            color:{
-                if(hovered){
-                    return Singletons.Theme.accentSoft
-                }else{
-                    if (batteryPercentage <= 15 && batteryState != batteryState === "Charging")
-                        return Singletons.Theme.lowEnergy
-                    return Singletons.Theme.darkBase
+            color: {
+                if (hovered) {
+                    return Singletons.MatugenTheme.surfaceVariant
+                } else {
+                    if (batteryPercentage <= 15 && batteryState !== "Charging")
+                        return Singletons.MatugenTheme.errorColor
+                    return Singletons.MatugenTheme.surfaceContainer
                 }
             }
         }
@@ -58,14 +59,13 @@ Rectangle {
         Singletons.Icon {
             id: chargingIcon
             visible: charging
-            source: Singletons.Theme.iconBatteryCharging
-            size: charging ? Singletons.Theme.iconDefaultSize : 0
+            source: generalConfigs.icons.battery.charging
+            size: charging ? generalConfigs.icons.defaultSize : 0
             color:
                 hovered ?
-                    Singletons.Theme.accentSoft :
-                    Singletons.Theme.darkBase
+                    Singletons.MatugenTheme.surfaceVariant :
+                    Singletons.MatugenTheme.surfaceContainer
         }
-
     }
 
     PopupWindow {
@@ -103,4 +103,7 @@ Rectangle {
             Managers.PopupManager.toggle(energyPopup)
         }
     }
+
+    Behavior on color { ColorAnimation { duration: 120 } }
+    Behavior on border.color { ColorAnimation { duration: 120 } }
 }

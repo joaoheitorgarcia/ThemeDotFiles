@@ -1,30 +1,30 @@
 import QtQuick
 import Quickshell
 import "../Singletons" as Singletons
-import "../FontLoaders" as FontLoaders
 import "PopUpContent" as PopUpContent
 import "../Singletons/Managers" as Managers
 
-Rectangle{
+Rectangle {
     id: clockBtn
+
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
 
     border.color:
         hovered ?
-            Singletons.Theme.accentSoft :
-            Singletons.Theme.darkBase
+            Singletons.MatugenTheme.surfaceVariant :
+            Singletons.MatugenTheme.surfaceVariantText
     border.width: 2
 
-    radius: 6
+    radius: 8
     color:
         hovered ?
-            Singletons.Theme.darkBase :
-            Singletons.Theme.lightBackground
+            Singletons.MatugenTheme.surfaceVariantText :
+            Singletons.MatugenTheme.surfaceText
 
-    implicitHeight: Singletons.Theme.topBarItemHeight
+    implicitHeight: generalConfigs.topBar.itemHeight
     implicitWidth: (
         textItem.implicitWidth +
-        Singletons.Theme.topBarItemHorizontalPadding *
-        2
+        generalConfigs.topBar.itemHorizontalPadding * 2
     )
 
     property bool hovered: false
@@ -36,12 +36,15 @@ Rectangle{
 
         color:
             hovered ?
-                Singletons.Theme.accentSoft :
-                Singletons.Theme.darkBase
-        font.pixelSize: Singletons.Theme.defaultFontSize
-        font.family: Singletons.Theme.font
+                Singletons.MatugenTheme.surfaceVariant :
+                Singletons.MatugenTheme.surfaceContainer
+        font.pixelSize: generalConfigs.font.titleSize
+        font.family: Singletons.FontLoader.font
         text: Singletons.Time.time
     }
+
+    Behavior on color { ColorAnimation { duration: 120 } }
+    Behavior on border.color { ColorAnimation { duration: 120 } }
 
     PopupWindow {
         id: calendarPopup
@@ -51,9 +54,9 @@ Rectangle{
         implicitWidth: calendarContent.width
         implicitHeight: calendarContent.height
         visible: false
-        color:"transparent"
+        color: "transparent"
 
-        PopUpContent.CalendarPopup{
+        PopUpContent.CalendarPopup {
             id: calendarContent
         }
 
@@ -76,7 +79,3 @@ Rectangle{
         onClicked: Managers.PopupManager.toggle(calendarPopup)
     }
 }
-
-
-
-

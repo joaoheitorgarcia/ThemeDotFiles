@@ -2,29 +2,29 @@ import QtQuick
 import Quickshell
 import "../Singletons" as Singletons
 import "../Singletons/Managers" as Managers
-import "../FontLoaders" as FontLoaders
 import "PopUpContent" as PopUpContent
 
-Rectangle{
+Rectangle {
     id: soundBtn
+
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
 
     border.color:
         hovered ?
-            Singletons.Theme.accentSoft :
-            Singletons.Theme.darkBase
+            Singletons.MatugenTheme.surfaceVariant :
+            Singletons.MatugenTheme.surfaceVariantText
     border.width: 2
 
     color:
         hovered ?
-            Singletons.Theme.darkBase :
-            Singletons.Theme.lightBackground
-    radius: 6
+            Singletons.MatugenTheme.surfaceVariantText :
+            Singletons.MatugenTheme.surfaceText
+    radius: 8
 
-    implicitHeight: Singletons.Theme.topBarItemHeight
+    implicitHeight: generalConfigs.topBar.itemHeight
     implicitWidth: (
         iconItem.implicitWidth +
-        Singletons.Theme.topBarItemHorizontalPadding *
-        2
+        generalConfigs.topBar.itemHorizontalPadding * 2
     )
 
     property bool hovered: false
@@ -34,19 +34,22 @@ Rectangle{
         id: iconItem
         source: {
             let vol = Managers.PipewireManager.volume
-            if (vol === 0) return Singletons.Theme.iconVolumeMute
-            if (vol < 0.33) return Singletons.Theme.iconVolumeLow
-            if (vol < 0.66) return Singletons.Theme.iconVolumeMedium
-            return Singletons.Theme.iconVolumeHigh
+            if (vol === 0) return generalConfigs.icons.volume.mute
+            if (vol < 0.33) return generalConfigs.icons.volume.low
+            if (vol < 0.66) return generalConfigs.icons.volume.medium
+            return generalConfigs.icons.volume.high
         }
-        size: Singletons.Theme.iconDefaultSize
+        size: generalConfigs.icons.defaultSize
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         color:
             hovered ?
-                Singletons.Theme.accentSoft :
-                Singletons.Theme.darkBase
+                Singletons.MatugenTheme.surfaceVariant :
+                Singletons.MatugenTheme.surfaceContainer
     }
+
+    Behavior on color { ColorAnimation { duration: 120 } }
+    Behavior on border.color { ColorAnimation { duration: 120 } }
 
     PopupWindow {
         id: volPopup
@@ -56,9 +59,9 @@ Rectangle{
         implicitWidth: volumeContent.width
         implicitHeight: volumeContent.height
         visible: false
-        color:"transparent"
+        color: "transparent"
 
-        PopUpContent.VolumePopup{
+        PopUpContent.VolumePopup {
             id: volumeContent
         }
 

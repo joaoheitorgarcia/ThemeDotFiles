@@ -11,18 +11,20 @@ import "../Singletons" as Singletons
 
 Rectangle {
     id: trayBar
-    radius: 6
 
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
+    radius: 6
     color: "transparent"
-    implicitHeight: Singletons.Theme.topBarItemHeight
+    implicitHeight: generalConfigs.topBar.itemHeight
     implicitWidth: trayLayout.implicitWidth
 
     property var window
 
     property int iconSize: 24
     property int itemSize: 28
-    property color hoverColor: Singletons.Theme.darkBase
-    property color pressColor: Singletons.Theme.darkBase
+    property color hoverColor: Singletons.MatugenTheme.surfaceVariantText
+    property color pressColor: Singletons.MatugenTheme.surfaceText
     property int cornerRadius: 6
 
     RowLayout {
@@ -49,7 +51,7 @@ Rectangle {
                     width: iconSize
                     height: iconSize
                     source: Quickshell.iconPath(modelData.icon, true) !== "" ?
-                                Quickshell.iconPath(modelData.icon, true):
+                                Quickshell.iconPath(modelData.icon, true) :
                                 modelData.icon
                     smooth: true
                     antialiasing: true
@@ -66,7 +68,6 @@ Rectangle {
                         if (mouse.button === Qt.LeftButton) {
                             modelData.activate()
                         } else if (mouse.button === Qt.RightButton) {
-
                             var pos = trayIcon.mapToItem(
                                 trayBar.window.contentItem,
                                 trayIcon.width / 2,
@@ -75,7 +76,6 @@ Rectangle {
                             modelData.display(trayBar.window, pos.x, pos.y)
                         }
                     }
-
 
                     onPressedChanged: {
                         trayItemWrapper.scale = pressed ? 0.92 : 1.0

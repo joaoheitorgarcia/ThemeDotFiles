@@ -54,13 +54,13 @@ Scope {
         WlSessionLockSurface {
             Rectangle {
                 anchors.fill: parent
-                color: Singletons.Theme.lightBackground
+                color: Singletons.MatugenTheme.surfaceText
 
                 //Blur Source
                 Image {
                     id: wallpaper
                     anchors.fill: parent
-                    source: Singletons.Theme.wallpaperPath
+                    source: Singletons.ConfigLoader.createWallpaperPath()
                     fillMode: Image.PreserveAspectCrop
                     visible: false
                 }
@@ -78,7 +78,7 @@ Scope {
 
                 Rectangle {
                     anchors.fill: parent
-                    color: Singletons.Theme.darkBase
+                    color: Singletons.MatugenTheme.surfaceText
                     opacity: 0.45
                 }
 
@@ -92,7 +92,7 @@ Scope {
                         font.pixelSize: 72
                         horizontalAlignment: Text.AlignHCenter
                         Layout.fillWidth: true
-                        color: Singletons.Theme.accentSoft
+                        color: Singletons.MatugenTheme.surfaceVariant
                     }
 
                     Text {
@@ -100,7 +100,7 @@ Scope {
                         font.pixelSize: 16
                         horizontalAlignment: Text.AlignHCenter
                         Layout.fillWidth: true
-                        color: Singletons.Theme.accentSoft
+                        color: Singletons.MatugenTheme.surfaceVariant
                     }
 
                     TextField {
@@ -138,7 +138,7 @@ Scope {
                     Text {
                         visible: lockScreen.showError
                         text: "Wrong password"
-                        color: Singletons.Theme.hightlightRed
+                        color: Singletons.MatugenTheme.errorColor
                         font.pixelSize: 14
                         horizontalAlignment: Text.AlignHCenter
                         Layout.fillWidth: true
