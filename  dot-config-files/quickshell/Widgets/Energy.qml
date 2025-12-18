@@ -12,10 +12,16 @@ Rectangle {
 
     property bool hovered: false
 
-    border.color: hovered ? Singletons.MatugenTheme.surfaceVariant : Singletons.MatugenTheme.surfaceVariantText
+    border.color:
+        hovered ?
+            Singletons.MatugenTheme.surfaceVariantText :
+            Singletons.MatugenTheme.surfaceText
     border.width: 2
 
-    color: hovered ? Singletons.MatugenTheme.surfaceVariantText : Singletons.MatugenTheme.surfaceText
+    color:
+        hovered ?
+            Singletons.MatugenTheme.surfaceContainerHighest :
+            Singletons.MatugenTheme.surfaceContainer
     radius: 8
 
     implicitHeight: generalConfigs.topBar.itemHeight
@@ -47,11 +53,11 @@ Rectangle {
             antialiasing: true
             color: {
                 if (hovered) {
-                    return Singletons.MatugenTheme.surfaceVariant
+                    return Singletons.MatugenTheme.surfaceVariantText
                 } else {
                     if (batteryPercentage <= 15 && batteryState !== "Charging")
                         return Singletons.MatugenTheme.errorColor
-                    return Singletons.MatugenTheme.surfaceContainer
+                    return Singletons.MatugenTheme.surfaceText
                 }
             }
         }
@@ -63,8 +69,8 @@ Rectangle {
             size: charging ? generalConfigs.icons.defaultSize : 0
             color:
                 hovered ?
-                    Singletons.MatugenTheme.surfaceVariant :
-                    Singletons.MatugenTheme.surfaceContainer
+                    Singletons.MatugenTheme.surfaceVariantText :
+                    Singletons.MatugenTheme.surfaceText
         }
     }
 

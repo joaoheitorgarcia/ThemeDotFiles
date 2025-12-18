@@ -11,14 +11,14 @@ Rectangle {
 
     border.color:
         hovered ?
-            Singletons.MatugenTheme.surfaceVariant :
-            Singletons.MatugenTheme.surfaceVariantText
+            Singletons.MatugenTheme.surfaceVariantText :
+            Singletons.MatugenTheme.surfaceText
     border.width: 2
 
     color:
         hovered ?
-            Singletons.MatugenTheme.surfaceVariantText :
-            Singletons.MatugenTheme.surfaceText
+            Singletons.MatugenTheme.surfaceContainerHighest :
+            Singletons.MatugenTheme.surfaceContainer
     radius: 8
 
     implicitHeight: generalConfigs.topBar.itemHeight
@@ -38,8 +38,8 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         color:
             hovered ?
-                Singletons.MatugenTheme.surfaceVariant :
-                Singletons.MatugenTheme.surfaceContainer
+                Singletons.MatugenTheme.surfaceVariantText :
+                Singletons.MatugenTheme.surfaceText
     }
 
     Behavior on color { ColorAnimation { duration: 120 } }

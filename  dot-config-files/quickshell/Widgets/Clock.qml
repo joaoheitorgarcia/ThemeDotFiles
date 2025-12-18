@@ -11,15 +11,15 @@ Rectangle {
 
     border.color:
         hovered ?
-            Singletons.MatugenTheme.surfaceVariant :
-            Singletons.MatugenTheme.surfaceVariantText
+            Singletons.MatugenTheme.surfaceVariantText :
+            Singletons.MatugenTheme.surfaceText
     border.width: 2
 
     radius: 8
     color:
         hovered ?
-            Singletons.MatugenTheme.surfaceVariantText :
-            Singletons.MatugenTheme.surfaceText
+            Singletons.MatugenTheme.surfaceContainerHighest :
+            Singletons.MatugenTheme.surfaceContainer
 
     implicitHeight: generalConfigs.topBar.itemHeight
     implicitWidth: (
@@ -36,8 +36,8 @@ Rectangle {
 
         color:
             hovered ?
-                Singletons.MatugenTheme.surfaceVariant :
-                Singletons.MatugenTheme.surfaceContainer
+                Singletons.MatugenTheme.surfaceVariantText :
+                Singletons.MatugenTheme.surfaceText
         font.pixelSize: generalConfigs.font.titleSize
         font.family: Singletons.FontLoader.font
         text: Singletons.Time.time

@@ -7,68 +7,68 @@ QtObject {
     // ──────────────
     // Primary
     // ──────────────
-    readonly property color primary:                 "#a4c9fe"
-    readonly property color primaryText:             "#00315c"
-    readonly property color primaryContainer:        "#1f4876"
-    readonly property color primaryContainerText:    "#d3e3ff"
+    readonly property color primary:                 "#3a608f"
+    readonly property color primaryText:             "#ffffff"
+    readonly property color primaryContainer:        "#d3e3ff"
+    readonly property color primaryContainerText:    "#001c39"
 
     // ──────────────
     // Secondary
     // ──────────────
-    readonly property color secondary:               "#bcc7db"
-    readonly property color secondaryText:           "#263141"
-    readonly property color secondaryContainer:      "#3c4758"
-    readonly property color secondaryContainerText:  "#d8e3f8"
+    readonly property color secondary:               "#545f70"
+    readonly property color secondaryText:           "#ffffff"
+    readonly property color secondaryContainer:      "#d8e3f8"
+    readonly property color secondaryContainerText:  "#111c2b"
 
     // ──────────────
     // Tertiary
     // ──────────────
-    readonly property color tertiary:                "#d9bde3"
-    readonly property color tertiaryText:            "#3c2946"
-    readonly property color tertiaryContainer:       "#543f5e"
-    readonly property color tertiaryContainerText:   "#f5d9ff"
+    readonly property color tertiary:                "#6d5677"
+    readonly property color tertiaryText:            "#ffffff"
+    readonly property color tertiaryContainer:       "#f5d9ff"
+    readonly property color tertiaryContainerText:   "#261430"
 
     // ──────────────
     // Error
     // ──────────────
-    readonly property color errorColor:              "#ffb4ab"
-    readonly property color errorText:               "#690005"
-    readonly property color errorContainer:          "#93000a"
-    readonly property color errorContainerText:      "#ffdad6"
+    readonly property color errorColor:              "#ba1a1a"
+    readonly property color errorText:               "#ffffff"
+    readonly property color errorContainer:          "#ffdad6"
+    readonly property color errorContainerText:      "#410002"
 
     // ──────────────
     // Background
     // ──────────────
-    readonly property color background:              "#111318"
-    readonly property color backgroundText:          "#e1e2e9"
+    readonly property color background:              "#f8f9ff"
+    readonly property color backgroundText:          "#191c20"
 
     // ──────────────
     // Surface
     // ──────────────
-    readonly property color surface:                 "#111318"
-    readonly property color surfaceText:             "#e1e2e9"
+    readonly property color surface:                 "#f8f9ff"
+    readonly property color surfaceText:             "#191c20"
 
-    readonly property color surfaceVariant:          "#43474e"
-    readonly property color surfaceVariantText:      "#c3c6cf"
+    readonly property color surfaceVariant:          "#dfe2eb"
+    readonly property color surfaceVariantText:      "#43474e"
 
-    readonly property color surfaceDim:              "#111318"
-    readonly property color surfaceBright:           "#37393e"
+    readonly property color surfaceDim:              "#d9dae0"
+    readonly property color surfaceBright:           "#f8f9ff"
 
     // Container ladder (great for hover/pressed/focus depth)
-    readonly property color surfaceContainerLowest:  "#0c0e13"
-    readonly property color surfaceContainerLow:     "#191c20"
-    readonly property color surfaceContainer:        "#1d2024"
-    readonly property color surfaceContainerHigh:    "#272a2f"
-    readonly property color surfaceContainerHighest: "#32353a"
+    readonly property color surfaceContainerLowest:  "#ffffff"
+    readonly property color surfaceContainerLow:     "#f2f3fa"
+    readonly property color surfaceContainer:        "#ededf4"
+    readonly property color surfaceContainerHigh:    "#e7e8ee"
+    readonly property color surfaceContainerHighest: "#e1e2e9"
 
     // Tint (often used for overlays/elevation in M3)
-    readonly property color surfaceTint:             "#a4c9fe"
+    readonly property color surfaceTint:             "#3a608f"
 
     // ──────────────
     // Outline
     // ──────────────
-    readonly property color outline:                 "#8d9199"
-    readonly property color outlineVariant:          "#43474e"
+    readonly property color outline:                 "#73777f"
+    readonly property color outlineVariant:          "#c3c6cf"
 
     // ──────────────
     // Shadow / Scrim
@@ -79,9 +79,9 @@ QtObject {
     // ──────────────
     // Inverse
     // ──────────────
-    readonly property color inverseSurface:          "#e1e2e9"
-    readonly property color inverseSurfaceText:      "#2e3035"
-    readonly property color inversePrimary:          "#3a608f"
+    readonly property color inverseSurface:          "#2e3035"
+    readonly property color inverseSurfaceText:      "#eff0f7"
+    readonly property color inversePrimary:          "#a4c9fe"
 
     // ──────────────
     // Fixed colors (useful for “brand stays stable” areas)
