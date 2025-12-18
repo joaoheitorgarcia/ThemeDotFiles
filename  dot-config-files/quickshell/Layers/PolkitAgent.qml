@@ -8,6 +8,8 @@ import "../Singletons" as Singletons
 Item {
     id: polkitRoot
 
+    readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
+
     PolkitAgent {
         id: agent
 
@@ -32,14 +34,14 @@ Item {
         implicitHeight: Screen.height
 
         Rectangle {
-            anchors.fill: parent
-            color: "#80000000" // 50% black overlay
-        }
-
-        Rectangle {
             id: dialogCard
-            width: 380
-            radius: 14
+            readonly property int sidePadding: 14
+            readonly property int topPadding: 18
+            readonly property int bottomPadding: 14
+
+            width: Math.min(380, polkitWindow.width - 40)
+            implicitHeight: contentLayout.implicitHeight + topPadding + bottomPadding
+            radius: 12
             color: Singletons.MatugenTheme.surface
             border.color: Singletons.MatugenTheme.outline
             border.width: 1
@@ -48,102 +50,93 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
 
             ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: 18
+                id: contentLayout
+                x: dialogCard.sidePadding
+                y: dialogCard.topPadding
+                width: dialogCard.width - dialogCard.sidePadding * 2
                 spacing: 12
 
                 RowLayout {
                     Layout.fillWidth: true
-                    spacing: 8
+                    spacing: 10
 
-                    Rectangle {
-                        width: 26
-                        height: 26
-                        radius: 6
-                        color: Singletons.MatugenTheme.surfaceContainer
-
-                        Text {
-                            anchors.centerIn: parent
-                            text: ""          // lock-ish icon if you use Material Symbols
-                            font.pixelSize: 14
-                        }
+                    Singletons.Icon {
+                        source: polkitRoot.generalConfigs.icons.powerMenu.lock
+                        size: 18
+                        color: Singletons.MatugenTheme.surfaceText
                     }
 
-                    ColumnLayout {
+                    Text {
                         Layout.fillWidth: true
-                        spacing: 2
-
-                        Text {
-	                        text: "Authentication required"
-	                        font.pixelSize: 18
-	                        font.bold: true
-	                        color: Singletons.MatugenTheme.surfaceText
-	                        elide: Text.ElideRight
-	                    }
-
-	                    Text {
-	                        Layout.fillWidth: true
-	                        text: agent.flow ? agent.flow.actionId : ""
-	                        font.pixelSize: 11
-	                        color: Singletons.MatugenTheme.surfaceVariantText
-	                        elide: Text.ElideRight
-	                    }
+                        text: "Authentication required"
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: Singletons.MatugenTheme.surfaceText
+                        elide: Text.ElideRight
+                        Layout.alignment: Qt.AlignVCenter
+                    }
                 }
-            }
 
-            // Main message from polkit
-            Text {
-                Layout.fillWidth: true
-                wrapMode: Text.WordWrap
-	                text: agent.flow ? agent.flow.message : ""
-	                visible: agent.flow && agent.flow.message.length > 0
-	                font.pixelSize: 12
-	                color: Singletons.MatugenTheme.surfaceVariantText
-	            }
+                Text {
+                    Layout.fillWidth: true
+                    text: agent.flow ? agent.flow.actionId : ""
+                    visible: text !== ""
+                    font.pixelSize: 11
+                    color: Singletons.MatugenTheme.surfaceVariantText
+                    elide: Text.ElideRight
+                }
 
-            // Supplementary message (often "Password for user …")
-            Text {
-                Layout.fillWidth: true
+                Text {
+                    Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                text: agent.flow ? agent.flow.supplementaryMessage : ""
-                visible: agent.flow && agent.flow.supplementaryMessage.length > 0
-	                font.pixelSize: 12
-	                color: agent.flow && agent.flow.supplementaryIsError
-	                       ? Singletons.MatugenTheme.errorColor
-	                       : Singletons.MatugenTheme.surfaceVariantText
-	            }
+                    text: agent.flow ? agent.flow.message : ""
+                    visible: agent.flow && agent.flow.message.length > 0
+                    font.pixelSize: 13
+                    color: Singletons.MatugenTheme.surfaceVariantText
+                }
 
-            // Password field with proper background + focus border
-            Rectangle {
-                id: passwordBg
-                Layout.fillWidth: true
-                height: 38
-                radius: 8
-                color: Singletons.MatugenTheme.surface
-                border.width: 1
-                border.color: passwordField.activeFocus
-                              ? Singletons.MatugenTheme.secondary
-                              : Singletons.MatugenTheme.outlineVariant
+                Text {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    text: agent.flow ? agent.flow.supplementaryMessage : ""
+                    visible: agent.flow && agent.flow.supplementaryMessage.length > 0
+                    font.pixelSize: 12
+                    color: agent.flow && agent.flow.supplementaryIsError
+                           ? Singletons.MatugenTheme.errorColor
+                           : Singletons.MatugenTheme.surfaceVariantText
+                }
 
-                    TextField {
-                        id: passwordField
-                        anchors.fill: parent
-                        anchors.margins: 6
+                TextField {
+                    id: passwordField
+                    Layout.fillWidth: true
+                    implicitHeight: 38
+                    leftPadding: 12
+                    rightPadding: 12
 
-                        placeholderText: agent.flow
-                                         ? agent.flow.inputPrompt
-                                         : "Password"
+                    placeholderText: agent.flow
+                                     ? agent.flow.inputPrompt
+                                     : "Password"
+                    placeholderTextColor: Singletons.MatugenTheme.surfaceVariantText
 
-                        echoMode: agent.flow && !agent.flow.responseVisible
-                                  ? TextInput.Password
-                                  : TextInput.Normal
+                    echoMode: agent.flow && !agent.flow.responseVisible
+                              ? TextInput.Password
+                              : TextInput.Normal
 
-                        inputMethodHints: Qt.ImhSensitiveData
-                        cursorVisible: true
-                        background: null   // we use passwordBg instead
+                    inputMethodHints: Qt.ImhSensitiveData
+                    enabled: agent.flow && agent.flow.isResponseRequired
+                    color: Singletons.MatugenTheme.surfaceText
+                    selectionColor: Singletons.MatugenTheme.secondaryContainer
+                    selectedTextColor: Singletons.MatugenTheme.secondaryContainerText
 
-                        enabled: agent.flow && agent.flow.isResponseRequired
-                        onAccepted: submitResponse()
+                    onAccepted: submitResponse()
+
+                    background: Rectangle {
+                        radius: 6
+                        color: Singletons.MatugenTheme.surface
+                        border.width: 1
+                        border.color: passwordField.activeFocus
+                                      ? red
+                                      : Singletons.MatugenTheme.outlineVariant
                     }
                 }
 
@@ -162,52 +155,52 @@ Item {
                     Layout.fillWidth: true
                     spacing: 8
 
-                    Item { Layout.fillWidth: true } // spacer
-
                     Button {
                         text: "Cancel"
+                        Layout.fillWidth: true
                         onClicked: cancelRequest()
 
-	                    background: Rectangle {
-	                        radius: 8
-	                        color: Singletons.MatugenTheme.surfaceVariant
-	                        border.color: Singletons.MatugenTheme.outlineVariant
-	                        border.width: 1
-	                    }
+                        background: Rectangle {
+                            radius: 6
+                            color: Singletons.MatugenTheme.surfaceVariant
+                            border.color: Singletons.MatugenTheme.outline
+                            border.width: 1
+                        }
 
-	                    contentItem: Text {
-	                        text: parent.text
-	                        color: Singletons.MatugenTheme.surfaceText
-	                        horizontalAlignment: Text.AlignHCenter
-	                        verticalAlignment: Text.AlignVCenter
-	                    }
-	                }
+                        contentItem: Text {
+                            text: parent.text
+                            color: Singletons.MatugenTheme.surfaceText
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
 
                     Button {
                         text: "OK"
+                        Layout.fillWidth: true
                         enabled: passwordField.text.length > 0
                         onClicked: submitResponse()
 
-	                    background: Rectangle {
-	                        radius: 8
-	                        color: enabled
-	                               ? Singletons.MatugenTheme.secondary
-	                               : Singletons.MatugenTheme.surfaceVariant
-	                        border.color: Singletons.MatugenTheme.outlineVariant
-	                        border.width: 1
-	                        opacity: enabled ? 1 : 0.6
-	                        }
+                        background: Rectangle {
+                            radius: 6
+                            color: enabled
+                                   ? Singletons.MatugenTheme.secondaryContainer
+                                   : Singletons.MatugenTheme.surfaceVariant
+                            border.color: Singletons.MatugenTheme.outline
+                            border.width: 1
+                            opacity: enabled ? 1 : 0.6
+                        }
 
-	                    contentItem: Text {
-	                        text: parent.text
-	                        color: enabled
-	                               ? Singletons.MatugenTheme.secondaryText
-	                               : Singletons.MatugenTheme.surfaceVariantText
-	                        horizontalAlignment: Text.AlignHCenter
-	                        verticalAlignment: Text.AlignVCenter
-	                    }
-	                    }
-	                }
+                        contentItem: Text {
+                            text: parent.text
+                            color: enabled
+                                   ? Singletons.MatugenTheme.secondaryContainerText
+                                   : Singletons.MatugenTheme.surfaceVariantText
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+                }
             }
         }
 
