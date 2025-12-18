@@ -80,8 +80,8 @@ Item {
                     width: parent.width
                     height: 30
                     radius: 12
-                    color: Singletons.MatugenTheme.surfaceText
-                    border.color: Singletons.MatugenTheme.outlineVariant
+                    color: Singletons.MatugenTheme.surface
+                    border.color: Singletons.MatugenTheme.outline
                     border.width: 1
 
                     property int hiddenCount: Math.max(
@@ -102,7 +102,7 @@ Item {
                                   (parent.parent.hiddenCount > 1 ? "s" : "")
                             font.pixelSize: 14
                             font.bold: false
-                            color: Singletons.MatugenTheme.surfaceContainer
+                            color: Singletons.MatugenTheme.surfaceText
                             anchors.verticalCenter: parent.verticalCenter
                         }
                     }
@@ -146,8 +146,8 @@ Item {
                             width: parent.width
                             height: notifContent.implicitHeight + 28
                             radius: 12
-                            color: Singletons.MatugenTheme.surfaceText
-                            border.color: Singletons.MatugenTheme.outlineVariant
+                            color: Singletons.MatugenTheme.surface
+                            border.color: Singletons.MatugenTheme.outline
                             border.width: 1
 
                             Column {
@@ -163,7 +163,7 @@ Item {
                                     Singletons.Icon {
                                         visible: !!model.icon
                                         source: model.icon || ""
-                                        color: Singletons.MatugenTheme.surfaceContainer
+                                        color: Singletons.MatugenTheme.surfaceText
                                         width: 32
                                         height: 32
                                         anchors.verticalCenter: parent.verticalCenter
@@ -178,7 +178,7 @@ Item {
                                             width: parent.width
                                             font.bold: true
                                             font.pixelSize: 14
-                                            color: Singletons.MatugenTheme.surfaceContainer
+                                            color: Singletons.MatugenTheme.surfaceText
                                             elide: Text.ElideRight
                                         }
 

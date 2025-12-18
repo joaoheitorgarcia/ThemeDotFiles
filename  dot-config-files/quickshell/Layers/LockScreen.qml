@@ -54,7 +54,7 @@ Scope {
         WlSessionLockSurface {
             Rectangle {
                 anchors.fill: parent
-                color: Singletons.MatugenTheme.surfaceText
+                color: Singletons.MatugenTheme.surface
 
                 //Blur Source
                 Image {
@@ -78,7 +78,7 @@ Scope {
 
                 Rectangle {
                     anchors.fill: parent
-                    color: Singletons.MatugenTheme.surfaceText
+                    color: Singletons.MatugenTheme.surface
                     opacity: 0.45
                 }
 
@@ -92,7 +92,7 @@ Scope {
                         font.pixelSize: 72
                         horizontalAlignment: Text.AlignHCenter
                         Layout.fillWidth: true
-                        color: Singletons.MatugenTheme.surfaceVariant
+                        color: Singletons.MatugenTheme.surfaceText
                     }
 
                     Text {
@@ -100,7 +100,7 @@ Scope {
                         font.pixelSize: 16
                         horizontalAlignment: Text.AlignHCenter
                         Layout.fillWidth: true
-                        color: Singletons.MatugenTheme.surfaceVariant
+                        color: Singletons.MatugenTheme.surfaceVariantText
                     }
 
                     TextField {

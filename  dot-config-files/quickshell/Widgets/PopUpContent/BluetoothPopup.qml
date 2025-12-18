@@ -16,7 +16,7 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: 12
-        color: Singletons.MatugenTheme.surfaceText
+        color: Singletons.MatugenTheme.surfaceContainer
         border.color: Singletons.MatugenTheme.outline
         border.width: 1
 
@@ -36,7 +36,7 @@ Item {
                     text: "Bluetooth"
                     font.bold: true
                     font.pixelSize: 16
-                    color: Singletons.MatugenTheme.surfaceContainer
+                    color: Singletons.MatugenTheme.surfaceText
                 }
 
                 Item { Layout.fillWidth: true }
@@ -58,8 +58,8 @@ Item {
                         radius: height / 2
                         color: bluetoothSwitch.checked
                                ? Singletons.MatugenTheme.secondary
-                               : Singletons.MatugenTheme.surfaceVariantText
-                        border.color: Singletons.MatugenTheme.outlineVariant
+                               : Singletons.MatugenTheme.surfaceText
+                        border.color: Singletons.MatugenTheme.outline
                         border.width: 1
 
                         Rectangle {
@@ -92,9 +92,11 @@ Item {
                     width: actionList.width
                     height: 32
                     radius: 6
-                    color: hovered ? Singletons.MatugenTheme.surfaceVariantText : "transparent"
-                    border.color: hovered ? Singletons.MatugenTheme.outline : Singletons.MatugenTheme.outlineVariant
-                    border.width: 1
+                    color: modelData.paired || modelData.pairing
+                           ? Singletons.MatugenTheme.secondaryContainer
+                           : hovered
+                             ? Singletons.MatugenTheme.surfaceVariant
+                             : "transparent"
 
                     property bool hovered: false
 
@@ -108,14 +110,14 @@ Item {
                             size: 16
                             color: modelData.destructive
                                    ? Singletons.MatugenTheme.errorColor
-                                   : Singletons.MatugenTheme.surfaceContainer
+                                   : Singletons.MatugenTheme.surfaceText
                         }
 
                         Text {
                             text: modelData.name
                             Layout.fillWidth: true
                             verticalAlignment: Text.AlignVCenter
-                            color: Singletons.MatugenTheme.surfaceContainer
+                            color: Singletons.MatugenTheme.surfaceText
                             font.pixelSize: 13
                         }
 
@@ -123,14 +125,14 @@ Item {
                             visible: modelData.pairing
                             source: generalConfigs.icons.bluetooth.pairing
                             size: 16
-                            color: Singletons.MatugenTheme.surfaceContainer
+                            color: Singletons.MatugenTheme.surfaceText
                         }
 
                         Singletons.Icon {
                             visible: modelData.paired
                             source: generalConfigs.icons.bluetooth.paired
                             size: 16
-                            color: Singletons.MatugenTheme.surfaceContainer
+                            color: Singletons.MatugenTheme.surfaceText
                         }
                     }
 

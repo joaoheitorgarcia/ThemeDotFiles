@@ -60,7 +60,7 @@ Item {
         id: contentRect
         anchors.fill: parent
         radius: 12
-        color: Singletons.MatugenTheme.surfaceText
+        color: Singletons.MatugenTheme.surfaceContainer
         border.color: Singletons.MatugenTheme.outline
         border.width: 1
 
@@ -81,7 +81,7 @@ Item {
                     text: "Network"
                     font.bold: true
                     font.pixelSize: 16
-                    color: Singletons.MatugenTheme.surfaceContainer
+                    color: Singletons.MatugenTheme.surfaceText
                     Layout.alignment: Qt.AlignVCenter
                 }
 
@@ -122,7 +122,7 @@ Item {
                             radius: height / 2
                             color: wifiSwitch.checked
                                    ? Singletons.MatugenTheme.secondary
-                                   : Singletons.MatugenTheme.surfaceVariantText
+                                   : Singletons.MatugenTheme.surfaceText
                             border.color: Singletons.MatugenTheme.outline
                             border.width: 1
 
@@ -165,7 +165,7 @@ Item {
                     Layout.preferredWidth: 18
                     Layout.preferredHeight: 18
                     size: 18
-                    color: Singletons.MatugenTheme.surfaceContainer
+                    color: Singletons.MatugenTheme.surfaceText
                     source: Managers.NetworkManager.wiredConnected
                             ? generalConfigs.icons.network.wired
                             : Managers.NetworkManager.wifiConnected
@@ -224,12 +224,8 @@ Item {
                     color: selected || modelData.inUse
                            ? Singletons.MatugenTheme.secondaryContainer
                            : hovered
-                             ? Singletons.MatugenTheme.surfaceVariantText
+                             ? Singletons.MatugenTheme.surfaceVariant
                              : "transparent"
-                    border.color: selected || modelData.inUse
-                                  ? Singletons.MatugenTheme.secondary
-                                  : Singletons.MatugenTheme.surfaceVariantText
-                    border.width: 1
 
                     property bool hovered: false
 
@@ -242,7 +238,7 @@ Item {
                             Layout.preferredWidth: 18
                             Layout.preferredHeight: 18
                             size: 18
-                            color: Singletons.MatugenTheme.surfaceContainer
+                            color: Singletons.MatugenTheme.surfaceText
                             source: {
                                 const sig = modelData.signal || 0
                                 if (sig >= 75) return generalConfigs.icons.network.wifiStrength3
@@ -262,7 +258,7 @@ Item {
                                 Layout.fillWidth: true
                                 color: selected || modelData.inUse
                                        ? Singletons.MatugenTheme.secondaryContainerText
-                                       : Singletons.MatugenTheme.surfaceContainer
+                                       : Singletons.MatugenTheme.surfaceText
                                 font.pixelSize: 13
                                 font.bold: modelData.inUse
                             }
@@ -361,7 +357,7 @@ Item {
         Rectangle {
             anchors.fill: parent
             radius: 8
-            color: Singletons.MatugenTheme.surfaceText
+            color: Singletons.MatugenTheme.surface
             border.color: Singletons.MatugenTheme.outlineVariant
             border.width: 1
 
@@ -372,7 +368,7 @@ Item {
 
                 Text {
                     text: "Enter password for " + wifiMenuContent.selectedSsid
-                    color: Singletons.MatugenTheme.surfaceContainer
+                    color: Singletons.MatugenTheme.surfaceText
                     font.pixelSize: 14
                     wrapMode: Text.WordWrap
                     Layout.fillWidth: true
@@ -387,7 +383,7 @@ Item {
                         Layout.fillWidth: true
                         echoMode: showPasswordCheckbox.checked ? TextInput.Normal : TextInput.Password
                         placeholderText: "Password"
-                        color: Singletons.MatugenTheme.surfaceContainer
+                        color: Singletons.MatugenTheme.surfaceText
                         placeholderTextColor: Singletons.MatugenTheme.surfaceVariantText
                         inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhSensitiveData
                         selectByMouse: true
@@ -418,12 +414,12 @@ Item {
                             border.width: 1.5
                             color: showPasswordCheckbox.checked
                                    ? Singletons.MatugenTheme.secondaryContainer
-                                   : Singletons.MatugenTheme.surfaceVariantText
+                                   : Singletons.MatugenTheme.surfaceVariant
 
                             Text {
                                 anchors.centerIn: parent
                                 text: "✓"
-                                color: Singletons.MatugenTheme.surfaceContainer
+                                color: Singletons.MatugenTheme.secondaryContainerText
                                 font.pixelSize: 12
                                 font.bold: true
                                 visible: showPasswordCheckbox.checked
@@ -432,7 +428,7 @@ Item {
 
                         contentItem: Text {
                             text: "Show password"
-                            color: Singletons.MatugenTheme.surfaceContainer
+                            color: Singletons.MatugenTheme.surfaceText
                             font.pixelSize: 11
                             leftPadding: showPasswordCheckbox.indicator.width + 6
                             verticalAlignment: Text.AlignVCenter
@@ -453,14 +449,14 @@ Item {
 
                         background: Rectangle {
                             radius: 6
-                            color: Singletons.MatugenTheme.surfaceVariantText
+                            color: Singletons.MatugenTheme.surfaceVariant
                             border.color: Singletons.MatugenTheme.outline
                             border.width: 1
                         }
 
                         contentItem: Text {
                             text: parent.text
-                            color: Singletons.MatugenTheme.surfaceContainer
+                            color: Singletons.MatugenTheme.surfaceText
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -476,7 +472,7 @@ Item {
                             radius: 6
                             color: parent.enabled
                                    ? Singletons.MatugenTheme.secondaryContainer
-                                   : Singletons.MatugenTheme.surfaceVariantText
+                                   : Singletons.MatugenTheme.surfaceVariant
                             border.color: Singletons.MatugenTheme.outline
                             border.width: 1
                             opacity: parent.enabled ? 1 : 0.6
@@ -486,7 +482,7 @@ Item {
                             text: parent.text
                             color: enabled
                                    ? Singletons.MatugenTheme.secondaryContainerText
-                                   : Singletons.MatugenTheme.surfaceContainer
+                                   : Singletons.MatugenTheme.surfaceVariantText
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }

@@ -41,7 +41,7 @@ QtObject {
                 ])
             }
 
-            if(percentageInt == 5){
+            if(percentageInt <= 5){
                 Singletons.CommandRunner.run([
                     'notify-send',
                     '-a', 'Energy Manager',

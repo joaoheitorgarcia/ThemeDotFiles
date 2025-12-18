@@ -11,26 +11,11 @@ Item {
 
     readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
 
-    property color batteryFillColor: {
-        const pct = Managers.EnergyManager.percentageInt
-        const state = Managers.EnergyManager.stateString
-
-        if (state === "Charging")
-            return Singletons.MatugenTheme.secondary
-
-        if (pct <= 15)
-            return Singletons.MatugenTheme.errorColor
-        if (pct <= 50)
-            return Singletons.MatugenTheme.primary
-
-        return Singletons.MatugenTheme.secondary
-    }
-
     Rectangle {
         id: contentRect
         anchors.fill: parent
         radius: 12
-        color: Singletons.MatugenTheme.surfaceText
+        color: Singletons.MatugenTheme.surfaceContainer
         border.color: Singletons.MatugenTheme.outline
         border.width: 1
 
@@ -46,7 +31,7 @@ Item {
                 text: "Energy"
                 font.bold: true
                 font.pixelSize: 16
-                color: Singletons.MatugenTheme.surfaceContainer
+                color: Singletons.MatugenTheme.surfaceText
                 Layout.alignment: Qt.AlignLeft
             }
 
@@ -70,7 +55,7 @@ Item {
                             id: batteryIcon
                             anchors.fill: parent
                             size: 24
-                            color: Singletons.MatugenTheme.surfaceContainer
+                            color: Singletons.MatugenTheme.surfaceText
                             source: {
                                 let pct = Managers.EnergyManager.percentageInt
                                 if (pct < 5)  return generalConfigs.icons.battery.empty
@@ -90,7 +75,7 @@ Item {
 
                         Text {
                             text: Managers.EnergyManager.percentageInt + "%"
-                            color: Singletons.MatugenTheme.surfaceContainer
+                            color: Singletons.MatugenTheme.surfaceText
                             font.pixelSize: 18
                             font.bold: true
                         }
@@ -123,8 +108,8 @@ Item {
                             anchors.right: parent.right
                             height: 8
                             radius: 4
-                            color: Singletons.MatugenTheme.surfaceVariantText
-                            border.color: Singletons.MatugenTheme.outlineVariant
+                            color: Singletons.MatugenTheme.surfaceVariant
+                            border.color: Singletons.MatugenTheme.outline
                             border.width: 1
 
                             Rectangle {
@@ -134,7 +119,7 @@ Item {
                                        ) * parent.width
                                 height: parent.height
                                 radius: 4
-                                color: energyContent.batteryFillColor
+                                color: Singletons.MatugenTheme.secondary
                             }
                         }
                     }
@@ -174,7 +159,7 @@ Item {
 
                 Text {
                     text: "Power Mode:"
-                    color: Singletons.MatugenTheme.surfaceContainer
+                    color: Singletons.MatugenTheme.surfaceText
                     font.pixelSize: 12
                 }
 
@@ -186,7 +171,7 @@ Item {
                         text: "Saver"
                         font.pixelSize: 11
                         color: Managers.EnergyManager.powerProfileLabel === "Power Saver"
-                               ? Singletons.MatugenTheme.secondary
+                               ? Singletons.MatugenTheme.surfaceText
                                : Singletons.MatugenTheme.surfaceVariantText
                         opacity: Managers.EnergyManager.powerProfileLabel === "Power Saver" ? 1.0 : 0.8
 
@@ -202,7 +187,7 @@ Item {
                         text: "Balanced"
                         font.pixelSize: 11
                         color: Managers.EnergyManager.powerProfileLabel === "Balanced"
-                               ? Singletons.MatugenTheme.secondary
+                               ? Singletons.MatugenTheme.surfaceText
                                : Singletons.MatugenTheme.surfaceVariantText
                         opacity: Managers.EnergyManager.powerProfileLabel === "Balanced" ? 1.0 : 0.8
 
@@ -218,7 +203,7 @@ Item {
                         text: "Performance"
                         font.pixelSize: 11
                         color: Managers.EnergyManager.powerProfileLabel === "Performance"
-                               ? Singletons.MatugenTheme.secondary
+                               ? Singletons.MatugenTheme.surfaceText
                                : Singletons.MatugenTheme.surfaceVariantText
                         visible: Managers.EnergyManager.hasPerformanceProfile
                         opacity: Managers.EnergyManager.powerProfileLabel === "Performance" ? 1.0 : 0.8

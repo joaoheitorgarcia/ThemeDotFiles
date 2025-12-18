@@ -30,7 +30,7 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: 12
-        color: Singletons.MatugenTheme.surfaceText
+        color: Singletons.MatugenTheme.surfaceContainer
         border.color: Singletons.MatugenTheme.outline
         border.width: 1
 
@@ -45,7 +45,7 @@ Item {
                 text: "Notification History"
                 font.bold: true
                 font.pixelSize: 16
-                color: Singletons.MatugenTheme.surfaceContainer
+                color: Singletons.MatugenTheme.surfaceText
             }
 
             ListView {
@@ -67,20 +67,19 @@ Item {
                     width: notificationhistoryList.width
                     height: 50
                     radius: 6
-                    color: hovered ? Singletons.MatugenTheme.surfaceVariantText : "transparent"
-                    border.color: hovered ? Singletons.MatugenTheme.outline : Singletons.MatugenTheme.outlineVariant
-                    border.width: 1
+                    color: hovered ? Singletons.MatugenTheme.surfaceVariant : "transparent"
 
                     property bool hovered: false
 
                     Row {
-                        width: parent.width
+                        anchors.fill: parent
+                        anchors.margins: 6
                         spacing: 12
 
                         Singletons.Icon {
                             visible: !!model.appIcon || !!model.image
                             source: model.appIcon || model.image
-                            color: Singletons.MatugenTheme.surfaceContainer
+                            color: Singletons.MatugenTheme.surfaceText
                             width: 32
                             height: 32
                             anchors.verticalCenter: parent.verticalCenter
@@ -95,7 +94,7 @@ Item {
                                 width: parent.width
                                 font.bold: true
                                 font.pixelSize: 14
-                                color: Singletons.MatugenTheme.surfaceContainer
+                                color: Singletons.MatugenTheme.surfaceText
                                 elide: Text.ElideRight
                             }
 
@@ -113,7 +112,7 @@ Item {
                     Singletons.Icon {
                         visible: listOption.hovered
                         source: generalConfigs.icons.general.close
-                        color: Singletons.MatugenTheme.surfaceContainer
+                        color: Singletons.MatugenTheme.surfaceText
                         width: 20
                         height: 20
                         anchors.verticalCenter: parent.verticalCenter

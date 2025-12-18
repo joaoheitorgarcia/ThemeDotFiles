@@ -4,6 +4,8 @@ import QtQuick
 QtObject {
     id: matugenTheme
 
+    readonly property string mode:                   "light"
+
     // ──────────────
     // Primary
     // ──────────────

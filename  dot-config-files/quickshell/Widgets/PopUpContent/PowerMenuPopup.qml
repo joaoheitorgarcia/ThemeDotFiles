@@ -15,7 +15,7 @@ Item {
         id: contentRect
         anchors.fill: parent
         radius: 12
-        color: Singletons.MatugenTheme.surfaceText
+        color: Singletons.MatugenTheme.surfaceContainer
         border.color: Singletons.MatugenTheme.outline
         border.width: 1
 
@@ -42,7 +42,7 @@ Item {
                 delegate: Rectangle {
                     width: actionList.width
                     height: 32
-                    color: hovered ? Singletons.MatugenTheme.surfaceVariantText : "transparent"
+                    color: hovered ? Singletons.MatugenTheme.surfaceVariant : "transparent"
                     radius: 6
 
                     property bool hovered: false
@@ -72,14 +72,14 @@ Item {
                             size: 16
                             color: modelData.destructive
                                    ? Singletons.MatugenTheme.errorColor
-                                   : Singletons.MatugenTheme.surfaceContainer
+                                   : Singletons.MatugenTheme.surfaceText
                         }
 
                         Text {
                             text: modelData.label
                             Layout.fillWidth: true
                             verticalAlignment: Text.AlignVCenter
-                            color: Singletons.MatugenTheme.surfaceContainer
+                            color: Singletons.MatugenTheme.surfaceText
                             font.pixelSize: 13
                         }
                     }

@@ -33,8 +33,8 @@ PanelWindow {
     Rectangle {
         anchors.fill: parent
         radius: 16
-        color: Singletons.MatugenTheme.surfaceText
-        border.color: Singletons.MatugenTheme.surfaceContainer
+        color: Singletons.MatugenTheme.surface
+        border.color: Singletons.MatugenTheme.outline
         border.width: 2
 
         ColumnLayout {
@@ -45,12 +45,12 @@ PanelWindow {
             TextField {
                 id: searchField
                 placeholderText: "Search apps…"
-                placeholderTextColor: Singletons.MatugenTheme.surfaceVariant
+                placeholderTextColor: Singletons.MatugenTheme.surfaceVariantText
                 Layout.fillWidth: true
                 font.pixelSize: 16
-                color: Singletons.MatugenTheme.surfaceContainer
+                color: Singletons.MatugenTheme.surfaceText
                 selectionColor: Singletons.MatugenTheme.secondaryContainer
-                selectedTextColor: Singletons.MatugenTheme.surfaceContainer
+                selectedTextColor: Singletons.MatugenTheme.secondaryContainerText
 
                 background: Item {
                     implicitHeight: 30
@@ -64,8 +64,8 @@ PanelWindow {
                         height: 2
                         radius: 1
                         color: searchField.activeFocus
-                               ? Singletons.MatugenTheme.surfaceVariant
-                               : Singletons.MatugenTheme.surfaceVariant
+                               ? Singletons.MatugenTheme.secondary
+                               : Singletons.MatugenTheme.outlineVariant
                     }
                 }
 
@@ -112,8 +112,8 @@ PanelWindow {
                     radius: 8
 
                     color: ListView.isCurrentItem
-                           ? Qt.rgba(1, 1, 1, 0.12)
-                           : hovered ? Qt.rgba(1, 1, 1, 0.08)
+                           ? Singletons.MatugenTheme.secondaryContainer
+                           : hovered ? Singletons.MatugenTheme.surfaceVariant
                                      : "transparent"
 
                     RowLayout {
@@ -144,7 +144,9 @@ PanelWindow {
                             Text {
                                 text: modelData ? modelData.name : "Unknown App"
                                 font.pixelSize: 14
-                                color: Singletons.MatugenTheme.surfaceContainer
+                                color: ListView.isCurrentItem
+                                       ? Singletons.MatugenTheme.secondaryContainerText
+                                       : Singletons.MatugenTheme.surfaceText
                                 Layout.fillWidth: true
                                 elide: Text.ElideRight
                             }
@@ -152,7 +154,9 @@ PanelWindow {
                             Text {
                                 text: modelData.genericName !== "" ? modelData.genericName : modelData.comment
                                 font.pixelSize: 10
-                                color: Singletons.MatugenTheme.surfaceContainer
+                                color: ListView.isCurrentItem
+                                       ? Singletons.MatugenTheme.secondaryContainerText
+                                       : Singletons.MatugenTheme.surfaceVariantText
                                 Layout.fillWidth: true
                                 elide: Text.ElideRight
                             }

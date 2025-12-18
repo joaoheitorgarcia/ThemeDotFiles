@@ -53,9 +53,11 @@ Rectangle {
             antialiasing: true
             color: {
                 if (hovered) {
+                    if (batteryPercentage <= 15)
+                        return Singletons.MatugenTheme.errorColor
                     return Singletons.MatugenTheme.surfaceVariantText
                 } else {
-                    if (batteryPercentage <= 15 && batteryState !== "Charging")
+                    if (batteryPercentage <= 15)
                         return Singletons.MatugenTheme.errorColor
                     return Singletons.MatugenTheme.surfaceText
                 }

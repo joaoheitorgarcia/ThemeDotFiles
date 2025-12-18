@@ -28,7 +28,7 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: 12
-        color: Singletons.MatugenTheme.surfaceText
+        color: Singletons.MatugenTheme.surfaceContainer
         border.color: Singletons.MatugenTheme.outline
         border.width: 1
 
@@ -52,8 +52,8 @@ Item {
                     height: 28
                     radius: height / 2
                     color: hovered ?
-                            Singletons.MatugenTheme.surfaceVariantText :
-                            Singletons.MatugenTheme.surfaceText
+                            Singletons.MatugenTheme.secondaryContainer :
+                            Singletons.MatugenTheme.surfaceContainer
                     border.color: Singletons.MatugenTheme.outlineVariant
                     border.width: 1
 
@@ -65,7 +65,7 @@ Item {
                         size: generalConfigs.icons.defaultSize
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
-                        color: Singletons.MatugenTheme.surfaceContainer
+                        color: Singletons.MatugenTheme.surfaceText
                     }
 
                     MouseArea {
@@ -89,7 +89,7 @@ Item {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
                     font.pixelSize: 16
-                    color: Singletons.MatugenTheme.surfaceContainer
+                    color: Singletons.MatugenTheme.surfaceText
                     font.bold: true
                     text: Qt.formatDate(new Date(currentYear, currentMonth, 1), "MMMM yyyy")
                 }
@@ -100,8 +100,8 @@ Item {
                     height: 28
                     radius: height / 2
                     color: hovered ?
-                            Singletons.MatugenTheme.surfaceVariantText :
-                            Singletons.MatugenTheme.surfaceText
+                            Singletons.MatugenTheme.secondaryContainer :
+                            Singletons.MatugenTheme.surfaceContainer
                     border.color: Singletons.MatugenTheme.outlineVariant
                     border.width: 1
 
@@ -113,7 +113,7 @@ Item {
                         size: generalConfigs.icons.defaultSize
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
-                        color: Singletons.MatugenTheme.surfaceContainer
+                        color: Singletons.MatugenTheme.surfaceText
                     }
 
                     MouseArea {
@@ -150,7 +150,7 @@ Item {
                         Layout.alignment: Qt.AlignHCenter
                         font.pixelSize: 12
                         font.bold: true
-                        color: Singletons.MatugenTheme.surfaceContainer
+                        color: Singletons.MatugenTheme.surfaceVariantText
                         text: modelData
                     }
                 }
@@ -188,7 +188,7 @@ Item {
                             font.pixelSize: 13
                             color: isToday
                                    ? Singletons.MatugenTheme.secondaryContainerText
-                                   : Singletons.MatugenTheme.surfaceContainer
+                                   : Singletons.MatugenTheme.surfaceText
                         }
                     }
                 }
