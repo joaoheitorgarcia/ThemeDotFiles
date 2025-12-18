@@ -40,8 +40,8 @@ Item {
             id: dialogCard
             width: 380
             radius: 14
-            color: Singletons.MatugenTheme.surfaceText
-            border.color: Singletons.MatugenTheme.outlineVariant
+            color: Singletons.MatugenTheme.surface
+            border.color: Singletons.MatugenTheme.outline
             border.width: 1
 
             anchors.horizontalCenter: parent.horizontalCenter
@@ -74,20 +74,20 @@ Item {
                         spacing: 2
 
                         Text {
-                        text: "Authentication required"
-                        font.pixelSize: 18
-                        font.bold: true
-                        color: Singletons.MatugenTheme.surfaceContainer
-                        elide: Text.ElideRight
-                    }
+	                        text: "Authentication required"
+	                        font.pixelSize: 18
+	                        font.bold: true
+	                        color: Singletons.MatugenTheme.surfaceText
+	                        elide: Text.ElideRight
+	                    }
 
-                    Text {
-                        Layout.fillWidth: true
-                        text: agent.flow ? agent.flow.actionId : ""
-                        font.pixelSize: 11
-                        color: Singletons.MatugenTheme.surfaceVariant
-                        elide: Text.ElideRight
-                    }
+	                    Text {
+	                        Layout.fillWidth: true
+	                        text: agent.flow ? agent.flow.actionId : ""
+	                        font.pixelSize: 11
+	                        color: Singletons.MatugenTheme.surfaceVariantText
+	                        elide: Text.ElideRight
+	                    }
                 }
             }
 
@@ -95,11 +95,11 @@ Item {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: agent.flow ? agent.flow.message : ""
-                visible: agent.flow && agent.flow.message.length > 0
-                font.pixelSize: 12
-                color: Singletons.MatugenTheme.surfaceVariant
-            }
+	                text: agent.flow ? agent.flow.message : ""
+	                visible: agent.flow && agent.flow.message.length > 0
+	                font.pixelSize: 12
+	                color: Singletons.MatugenTheme.surfaceVariantText
+	            }
 
             // Supplementary message (often "Password for user …")
             Text {
@@ -107,11 +107,11 @@ Item {
                     wrapMode: Text.WordWrap
                 text: agent.flow ? agent.flow.supplementaryMessage : ""
                 visible: agent.flow && agent.flow.supplementaryMessage.length > 0
-                font.pixelSize: 12
-                color: agent.flow && agent.flow.supplementaryIsError
-                       ? Singletons.MatugenTheme.errorColor
-                       : Singletons.MatugenTheme.surfaceVariant
-            }
+	                font.pixelSize: 12
+	                color: agent.flow && agent.flow.supplementaryIsError
+	                       ? Singletons.MatugenTheme.errorColor
+	                       : Singletons.MatugenTheme.surfaceVariantText
+	            }
 
             // Password field with proper background + focus border
             Rectangle {
@@ -119,7 +119,7 @@ Item {
                 Layout.fillWidth: true
                 height: 38
                 radius: 8
-                color: Singletons.MatugenTheme.surfaceText
+                color: Singletons.MatugenTheme.surface
                 border.width: 1
                 border.color: passwordField.activeFocus
                               ? Singletons.MatugenTheme.secondary
@@ -168,46 +168,46 @@ Item {
                         text: "Cancel"
                         onClicked: cancelRequest()
 
-                    background: Rectangle {
-                        radius: 8
-                        color: Singletons.MatugenTheme.surfaceVariantText
-                        border.color: Singletons.MatugenTheme.outlineVariant
-                        border.width: 1
-                    }
+	                    background: Rectangle {
+	                        radius: 8
+	                        color: Singletons.MatugenTheme.surfaceVariant
+	                        border.color: Singletons.MatugenTheme.outlineVariant
+	                        border.width: 1
+	                    }
 
-                    contentItem: Text {
-                        text: parent.text
-                        color: Singletons.MatugenTheme.surfaceContainer
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                }
+	                    contentItem: Text {
+	                        text: parent.text
+	                        color: Singletons.MatugenTheme.surfaceText
+	                        horizontalAlignment: Text.AlignHCenter
+	                        verticalAlignment: Text.AlignVCenter
+	                    }
+	                }
 
                     Button {
                         text: "OK"
                         enabled: passwordField.text.length > 0
                         onClicked: submitResponse()
 
-                    background: Rectangle {
-                        radius: 8
-                        color: enabled
-                               ? Singletons.MatugenTheme.secondary
-                               : Singletons.MatugenTheme.surfaceVariantText
-                        border.color: Singletons.MatugenTheme.outlineVariant
-                        border.width: 1
-                        opacity: enabled ? 1 : 0.6
-                        }
+	                    background: Rectangle {
+	                        radius: 8
+	                        color: enabled
+	                               ? Singletons.MatugenTheme.secondary
+	                               : Singletons.MatugenTheme.surfaceVariant
+	                        border.color: Singletons.MatugenTheme.outlineVariant
+	                        border.width: 1
+	                        opacity: enabled ? 1 : 0.6
+	                        }
 
-                    contentItem: Text {
-                        text: parent.text
-                        color: enabled
-                               ? Singletons.MatugenTheme.secondaryText
-                               : Singletons.MatugenTheme.surfaceContainer
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    }
-                }
+	                    contentItem: Text {
+	                        text: parent.text
+	                        color: enabled
+	                               ? Singletons.MatugenTheme.secondaryText
+	                               : Singletons.MatugenTheme.surfaceVariantText
+	                        horizontalAlignment: Text.AlignHCenter
+	                        verticalAlignment: Text.AlignVCenter
+	                    }
+	                    }
+	                }
             }
         }
 
