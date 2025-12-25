@@ -28,7 +28,14 @@ PanelWindow {
     RowLayout {
         anchors.fill: parent
         spacing: 10
+        anchors.leftMargin: 5
         anchors.rightMargin: 5
+
+        Widgets.WorkspaceCounter {
+            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+        }
+
+        Item { Layout.fillWidth: true }
 
         Row{
             spacing: 5

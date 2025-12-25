@@ -29,6 +29,10 @@
             "collapseDown": "../Icons/regular/bx-chevron-down.svg",
             "collapseUp": "../Icons/regular/bx-chevron-up.svg"
         },
+        "microphone": {
+            "mute": "../Icons/regular/bx-microphone-off.svg",
+            "on": "../Icons/regular/bx-microphone.svg"
+        },
         "network": {
             "signalStrength1": "../Icons/regular/bx-signal-1.svg",
             "signalStrength2": "../Icons/regular/bx-signal-2.svg",
@@ -58,10 +62,6 @@
             "low": "../Icons/regular/bx-volume.svg",
             "medium": "../Icons/regular/bx-volume-low.svg",
             "mute": "../Icons/regular/bx-volume-mute.svg"
-        },
-        "microphone": {
-            "on": "../Icons/regular/bx-microphone.svg",
-            "mute": "../Icons/regular/bx-microphone-off.svg"
         }
     },
     "notifications": {

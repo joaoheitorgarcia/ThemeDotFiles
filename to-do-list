@@ -9,7 +9,8 @@ Medium Prio:
 - Replace hyprpollkitagent or theme it ( see Quickshell.Services.Polkit.PolkitAgent) ✓
 - Theme by json and theme picker ( try ColorQuantization for automatic theming) ✓
 - improve/add animations like wallpaper Change
-- Some way to list workspace
+- Some way to list workspace ✓
+- Overview of Workspaces
 - command/shortcut cheat sheet
 - Volume per app controll and mic volume control ✓
 
