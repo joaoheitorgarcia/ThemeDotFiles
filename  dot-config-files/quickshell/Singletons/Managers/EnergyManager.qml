@@ -41,7 +41,7 @@ QtObject {
                 ])
             }
 
-            if(percentageInt <= 5){
+            if(percentageInt <= 5 && percentageInt > 0){ // > 0 so it doesnt notify on startup
                 Singletons.CommandRunner.run([
                     'notify-send',
                     '-a', 'Energy Manager',

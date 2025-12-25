@@ -67,12 +67,14 @@ Rectangle {
 
         Component.onCompleted: {
             Managers.PopupManager.register(this)
-            Managers.PipewireManager.refreshVolume()
+            Managers.PipewireManager.refresh()
         }
 
         Component.onDestruction: {
             Managers.PopupManager.unregister(this)
         }
+
+        onVisibleChanged: if (visible) Managers.PipewireManager.refresh()
     }
 
     MouseArea {
@@ -84,7 +86,7 @@ Rectangle {
         onExited: hovered = false
         onClicked: {
             Managers.PopupManager.toggle(volPopup)
-            Managers.PipewireManager.refreshVolume()
+            Managers.PipewireManager.refresh()
         }
     }
 }

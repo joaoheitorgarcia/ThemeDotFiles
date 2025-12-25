@@ -6,7 +6,7 @@ import "../../Singletons/Managers" as Managers
 
 Item {
     id: energyContent
-    implicitWidth: 350
+    implicitWidth: 320
     implicitHeight: 150
 
     readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
