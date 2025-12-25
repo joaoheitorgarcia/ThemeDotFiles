@@ -15,7 +15,7 @@ Rectangle {
     readonly property var generalConfigs: Singletons.ConfigLoader.getGeneralConfigs()
 
     radius: 6
-    color: "transparent"
+    color: "#80000000"
     implicitHeight: generalConfigs.topBar.itemHeight
     implicitWidth: trayLayout.implicitWidth
 
@@ -40,8 +40,8 @@ Rectangle {
                 Layout.preferredHeight: itemSize
                 radius: cornerRadius
                 color: {
-                    if (trayMouseArea.pressed) return pressColor
-                    if (trayMouseArea.containsMouse) return hoverColor
+                    if (trayMouseArea.pressed || trayMouseArea.containsMouse)
+                        return "#363636"
                     return "transparent"
                 }
 
@@ -75,6 +75,8 @@ Rectangle {
                             )
                             modelData.display(trayBar.window, pos.x, pos.y)
                         }
+
+                        console.log(modelData.icon)
                     }
 
                     onPressedChanged: {

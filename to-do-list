@@ -10,11 +10,12 @@ Medium Prio:
 - Theme by json and theme picker ( try ColorQuantization for automatic theming) ✓
 - improve/add animations like wallpaper Change
 - Some way to list workspace ✓
-- Overview of Workspaces
+- Overview of Workspaces ✓ (using hyprexpo)
 - command/shortcut cheat sheet
 - Volume per app controll and mic volume control ✓
 
 Low Prio:
+- Notification Actions on click
 - maybe add hyprshot shortcut button ( maybe make utility menu with this type of thing together)
 - Grub Loader
 - Volume sinks not refreshing when new output is connected ( see jbl 2 on bluettoth)
