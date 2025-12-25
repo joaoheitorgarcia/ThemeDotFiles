@@ -6,7 +6,6 @@ export $VISUAL=nano
 
 
 - Dependencies:
-
 notification-daemon
 extra/pipewire
 extra/pipewire-alsa
@@ -25,3 +24,10 @@ gnome-keyring-daemon
 gnome-keyring ???
 polkit
 matugen-bin
+cmake
+meson
+cpio
+pkg-config
+git
+g++
+gcc
