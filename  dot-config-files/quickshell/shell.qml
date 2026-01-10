@@ -92,8 +92,8 @@ Scope {
     Connections {
         target: Quickshell
 
-        // function onReloadCompleted() {
-        //     Quickshell.inhibitReloadPopup()
-        // }
+        function onReloadCompleted() {
+            Quickshell.inhibitReloadPopup()
+        }
     }
 }
