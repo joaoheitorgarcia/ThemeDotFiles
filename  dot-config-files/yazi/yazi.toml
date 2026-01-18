@@ -5,18 +5,39 @@
 
 # IMAGES
 image = [
-  { run = 'imv "$@"', block = false, desc = "imv" }
+  { run = 'imv "$@"', orphan = true, desc = "imv" }
 ]
 
 # VIDEOS
 video = [
-  { run = 'mpv --no-terminal "$@"', block = false, desc = "mpv" }
+  { run = 'mpv --no-terminal "$@"', orphan = true, desc = "mpv" }
 ]
 
 # AUDIO
 audio = [
-  { run = 'mpv --no-terminal "$@"', block = false, desc = "mpv-audio" }
+  { run = 'mpv --no-terminal "$@"', orphan = true, desc = "mpv-audio" }
 ]
+
+# TEXT (nano)
+edit = [
+  { run = 'nano "$@"', block = true, desc = "nano" }
+]
+
+# OFFICE (OpenOffice)
+office = [
+  { run = 'soffice "$@"', orphan = true, desc = "OpenOffice" }
+]
+
+# PDFs (optional but useful)
+pdf = [
+  { run = 'xdg-open "$@"', orphan = true, desc = "PDF (system)" }
+]
+
+# FALLBACK
+system = [
+  { run = 'xdg-open "$@"', orphan = true, desc = "System default" }
+]
+
 
 ##############
 # EXTENSION GROUPS
@@ -31,6 +52,13 @@ video = ["mp4", "mkv", "webm", "avi", "mov"]
 
 # Audio formats
 audio = ["mp3", "wav", "flac", "ogg"]
+
+# Text/code formats (add/remove as you like)
+text = ["txt", "md", "log", "json", "yaml", "yml", "toml", "ini", "conf", "cfg", "csv", "tsv", "xml", "html", "css", "js", "ts", "jsx", "tsx", "py", "go", "rs", "c", "h", "cpp", "hpp", "java", "php", "sh", "zsh", "bash", "sql"]
+
+# Office formats (OpenOffice/soffice)
+office = ["odt", "ods", "odp", "odg", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "rtf"]
+
 
 ##############
 # RULES (new Yazi syntax!)
@@ -51,3 +79,65 @@ use  = "video"
 mime = "audio/*"
 use  = "audio"
 
+# --- TEXT / CODE (prefer nano) ---
+[[open.rules]]
+mime = "text/*"
+use  = "edit"
+
+# Some “text-like” mimes aren’t always under text/*
+[[open.rules]]
+mime = "application/json"
+use  = "edit"
+
+[[open.rules]]
+mime = "application/xml"
+use  = "edit"
+
+[[open.rules]]
+mime = "application/x-yaml"
+use  = "edit"
+
+# --- OFFICE DOCS ---
+[[open.rules]]
+url = "*.odt"
+use = "office"
+[[open.rules]]
+url = "*.ods"
+use = "office"
+[[open.rules]]
+url = "*.odp"
+use = "office"
+[[open.rules]]
+url = "*.odg"
+use = "office"
+[[open.rules]]
+url = "*.doc"
+use = "office"
+[[open.rules]]
+url = "*.docx"
+use = "office"
+[[open.rules]]
+url = "*.xls"
+use = "office"
+[[open.rules]]
+url = "*.xlsx"
+use = "office"
+[[open.rules]]
+url = "*.ppt"
+use = "office"
+[[open.rules]]
+url = "*.pptx"
+use = "office"
+[[open.rules]]
+url = "*.rtf"
+use = "office"
+
+# --- PDFs ---
+[[open.rules]]
+mime = "application/pdf"
+use  = "pdf"
+
+# --- FALLBACK (everything else) ---
+[[open.rules]]
+url = "*"
+use  = "system"
