@@ -31,3 +31,11 @@ pkg-config
 git
 g++
 gcc
+
+  - Core Hyprland: hyprland, hypridle, hyprshot, hyprshade (or hyprshader), hyprpm + hyprexpo (hyprland-plugins).
+  - Shell/UI & theming: quickshell-git, qt6-base, qt6-declarative, qt6-quickcontrols2, qt6-svg, qt6-wayland, qt5ct, qt6ct, kitty, matugen-bin.
+  - Audio/notifications: pipewire, pipewire-alsa, pipewire-audio, pipewire-jack, pipewire-pulse, wireplumber (wpctl/pactl), libnotify + a notification daemon (Quickshell or notification-daemon/mako).
+  - System services (auth/network/power/bluetooth): polkit + polkit-kde-agent (or Quickshell agent), gnome-keyring, pam, dbus, systemd, NetworkManager (nmcli/nmtui), bluez + bluez-utils + rfkill, upower,
+    power-profiles-daemon.
+  - Apps used by keybinds/openers: yazi, imv, mpv, nano, libreoffice/soffice, xdg-utils, firefox, brightnessctl, playerctl.
+  - Build-only (AUR/source): cmake, meson, cpio, pkg-config, git, gcc, g++.
