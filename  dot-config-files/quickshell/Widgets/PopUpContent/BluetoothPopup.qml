@@ -129,7 +129,7 @@ Item {
                         }
 
                         Singletons.Icon {
-                            visible: modelData.paired
+                            visible: modelData.connected
                             source: generalConfigs.icons.bluetooth.paired
                             size: 16
                             color: Singletons.MatugenTheme.surfaceText
