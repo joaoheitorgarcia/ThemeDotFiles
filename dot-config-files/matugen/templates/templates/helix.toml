@@ -1,0 +1,128 @@
+# Helix Theme Template using Material You with improved contrast
+
+# --- Syntax Elements ---
+
+"attribute" = "{{ colors.primary.dark.hex }}"
+"type" = "{{ colors.secondary.dark.hex }}"
+"type.enum.variant" = "{{ colors.secondary.dark.hex }}"
+"constructor" = "{{ colors.primary_fixed.dark.hex }}"
+
+"constant" = "{{ colors.tertiary.dark.hex }}"
+"constant.character" = "{{ colors.tertiary.dark.hex }}"
+"constant.character.escape" = "{{ colors.tertiary_container.dark.hex }}"
+
+"string" = "{{ colors.primary.dark.hex }}"
+"string.regexp" = "{{ colors.tertiary_container.dark.hex }}"
+"string.special" = "{{ colors.primary_fixed.dark.hex }}"
+"string.special.symbol" = "{{ colors.error.dark.hex }}"
+
+"comment" = { fg = "{{ colors.on_surface_variant.dark.hex }}", modifiers = ["italic"] }
+
+"variable" = "{{ colors.on_background.dark.hex }}"
+"variable.parameter" = { fg = "{{ colors.error_container.dark.hex }}", modifiers = ["italic"] }
+"variable.builtin" = "{{ colors.error.dark.hex }}"
+"variable.other.member" = "{{ colors.primary.dark.hex }}"
+
+"label" = "{{ colors.primary_fixed.dark.hex }}"
+
+"punctuation" = "{{ colors.on_surface_variant.dark.hex }}"
+"punctuation.special" = "{{ colors.secondary.dark.hex }}"
+
+"keyword" = "{{ colors.primary.dark.hex }}"
+"keyword.control.conditional" = { fg = "{{ colors.primary.dark.hex }}", modifiers = ["italic"] }
+
+"operator" = "{{ colors.secondary.dark.hex }}"
+
+"function" = "{{ colors.primary.dark.hex }}"
+"function.macro" = "{{ colors.primary_container.dark.hex }}"
+
+"tag" = "{{ colors.primary.dark.hex }}"
+"namespace" = { fg = "{{ colors.secondary.dark.hex }}", modifiers = ["italic"] }
+
+"special" = "{{ colors.primary.dark.hex }}"
+
+# --- Markup ---
+
+"markup.heading.1" = "{{ colors.error.dark.hex }}"
+"markup.heading.2" = "{{ colors.primary.dark.hex }}"
+"markup.heading.3" = "{{ colors.secondary.dark.hex }}"
+"markup.heading.4" = "{{ colors.tertiary.dark.hex }}"
+"markup.heading.5" = "{{ colors.primary_fixed.dark.hex }}"
+"markup.heading.6" = "{{ colors.on_primary_fixed_variant.dark.hex }}"
+
+"markup.list" = "{{ colors.secondary.dark.hex }}"
+"markup.list.unchecked" = "{{ colors.on_surface_variant.dark.hex }}"
+"markup.list.checked" = "{{ colors.primary_fixed.dark.hex }}"
+
+"markup.bold" = { fg = "{{ colors.primary.dark.hex }}", modifiers = ["bold"] }
+"markup.italic" = { fg = "{{ colors.secondary.dark.hex }}", modifiers = ["italic"] }
+
+"markup.link.url" = { fg = "{{ colors.primary.dark.hex }}", modifiers = ["italic", "underlined"] }
+"markup.link.text" = "{{ colors.primary_fixed.dark.hex }}"
+"markup.link.label" = "{{ colors.tertiary.dark.hex }}"
+"markup.raw" = "{{ colors.on_tertiary_container.dark.hex }}"
+"markup.quote" = "{{ colors.tertiary_container.dark.hex }}"
+
+# --- Diff ---
+
+"diff.plus" = "{{ colors.tertiary.dark.hex }}"
+"diff.minus" = "{{ colors.error.dark.hex }}"
+"diff.delta" = "{{ colors.primary.dark.hex }}"
+
+# --- UI Elements ---
+
+"ui.background" = { fg = "{{ colors.on_background.dark.hex }}", bg = "none" }
+
+"ui.linenr" = { fg = "{{ colors.on_surface_variant.dark.hex }}" }
+"ui.linenr.selected" = { fg = "{{ colors.primary_fixed.dark.hex }}" }
+
+"ui.statusline" = { fg = "{{ colors.on_primary_container.dark.hex }}", bg = "none" }
+"ui.statusline.inactive" = { fg = "{{ colors.on_surface_variant.dark.hex }}", bg = "none" }
+"ui.statusline.normal" = { fg = "{{ colors.background.dark.hex }}", bg = "none", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "{{ colors.background.dark.hex }}", bg = "none", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "{{ colors.background.dark.hex }}", bg = "none", modifiers = ["bold"] }
+
+"ui.popup" = { fg = "{{ colors.on_surface.dark.hex }}", bg = "none" }
+"ui.window" = { fg = "{{ colors.on_surface_variant.dark.hex }}" }
+"ui.help" = { fg = "{{ colors.on_surface_variant.dark.hex }}", bg = "none" }
+
+"ui.bufferline" = { fg = "{{ colors.on_surface_variant.dark.hex }}", bg = "none" }
+"ui.bufferline.active" = { fg = "{{ colors.on_primary.dark.hex }}", bg = "{{ colors.primary.dark.hex }}", underline = { color = "{{ colors.primary.dark.hex }}", style = "line" } }
+"ui.bufferline.background" = { bg = "none" }
+
+"ui.text" = "{{ colors.on_background.dark.hex }}"
+"ui.text.focus" = { fg = "{{ colors.primary.dark.hex }}", bg = "none", modifiers = ["bold"] }
+"ui.text.inactive" = { fg = "{{ colors.on_surface_variant.dark.hex }}" }
+"ui.text.directory" = { fg = "{{ colors.primary.dark.hex }}" }
+
+"ui.virtual" = "{{ colors.on_surface_variant.dark.hex }}"
+"ui.virtual.ruler" = { bg = "none" }
+"ui.virtual.indent-guide" = "{{ colors.surface_container_low.dark.hex }}"
+"ui.virtual.inlay-hint" = { fg = "{{ colors.on_surface_variant.dark.hex }}", bg = "none" }
+"ui.virtual.jump-label" = { fg = "{{ colors.primary_container.dark.hex }}", modifiers = ["bold"] }
+
+"ui.selection" = { bg = "none" }
+
+"ui.cursor" = { fg = "{{ colors.background.dark.hex }}", bg = "{{ colors.on_primary_container.dark.hex }}" }
+"ui.cursor.primary" = { fg = "{{ colors.background.dark.hex }}", bg = "{{ colors.primary_fixed.dark.hex }}" }
+"ui.cursor.match" = { fg = "{{ colors.on_primary_container.dark.hex }}", modifiers = ["bold"] }
+
+"ui.highlight" = { bg = "{{ colors.secondary_container.dark.hex }}", modifiers = ["bold"] }
+
+"ui.menu" = { fg = "{{ colors.on_surface.dark.hex }}", bg = "none" }
+"ui.menu.selected" = { fg = "{{ colors.primary.dark.hex }}", bg = "none", modifiers = ["bold"] }
+
+# --- Diagnostics ---
+
+"diagnostic.error" = { fg = "{{ colors.error.dark.hex }}", underline = { color = "{{ colors.error.dark.hex }}", style = "curl" } }
+"diagnostic.warning" = { fg = "{{ colors.secondary.dark.hex }}", underline = { color = "{{ colors.secondary.dark.hex }}", style = "curl" } }
+"diagnostic.info" = { fg = "{{ colors.tertiary.dark.hex }}", underline = { color = "{{ colors.tertiary.dark.hex }}", style = "curl" } }
+"diagnostic.hint" = { fg = "{{ colors.tertiary_container.dark.hex }}", underline = { color = "{{ colors.tertiary_container.dark.hex }}", style = "curl" } }
+"diagnostic.unnecessary" = { modifiers = ["dim"] }
+
+# --- Fallbacks (non-template usage) ---
+
+error = "{{ colors.error.dark.hex }}"
+warning = "{{ colors.yellow.dark.hex }}"
+info = "{{ colors.primary.dark.hex }}"
+hint = "{{ colors.secondary.dark.hex }}"

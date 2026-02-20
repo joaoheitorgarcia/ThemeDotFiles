@@ -1,0 +1,6 @@
+background = {{colors.background.dark.hex}}
+foreground = {{colors.on_surface.dark.hex}}
+cursor-color = {{colors.on_surface.dark.hex}}
+cursor-text = {{colors.on_surface_variant.dark.hex}}
+selection-background = {{colors.secondary_fixed_dim.dark.hex}}
+selection-foreground = {{colors.on_secondary.dark.hex}}

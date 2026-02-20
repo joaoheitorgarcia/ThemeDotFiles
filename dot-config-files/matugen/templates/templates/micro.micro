@@ -1,0 +1,45 @@
+color-link default "{{ colors.on_surface.dark.hex }}"
+color-link comment "{{ colors.outline.dark.hex }}"
+color-link selection "{{ colors.on_primary.dark.hex }},{{ colors.primary_container.dark.hex }}"
+color-link hlsearch "{{ colors.secondary.dark.hex }}"
+
+color-link identifier "{{ colors.primary.dark.hex }}"
+color-link identifier.class "{{ colors.primary.dark.hex }}"
+color-link identifier.var "{{ colors.primary.dark.hex }}"
+
+color-link constant "{{ colors.tertiary.dark.hex }}"
+color-link constant.number "{{ colors.tertiary.dark.hex }}"
+color-link constant.string "{{ colors.secondary.dark.hex }}"
+
+color-link symbol "{{ colors.tertiary_container.dark.hex }}"
+color-link symbol.brackets "{{ colors.on_surface_variant.dark.hex }}"
+color-link symbol.tag "{{ colors.primary.dark.hex }}"
+
+color-link type "{{ colors.primary.dark.hex }}"
+color-link type.keyword "{{ colors.secondary.dark.hex }}"
+
+color-link special "{{ colors.tertiary_container.dark.hex }}"
+color-link statement "{{ colors.primary_container.dark.hex }}"
+color-link preproc "{{ colors.tertiary_container.dark.hex }}"
+
+color-link underlined "{{ colors.secondary.dark.hex }}"
+color-link error "bold {{ colors.error.dark.hex }}"
+color-link todo "bold {{ colors.tertiary.dark.hex }}"
+
+color-link diff-added "{{ colors.secondary.dark.hex }}"
+color-link diff-modified "{{ colors.tertiary.dark.hex }}"
+color-link diff-deleted "{{ colors.error.dark.hex }}"
+
+color-link gutter-error "{{ colors.error.dark.hex }}"
+color-link gutter-warning "{{ colors.tertiary.dark.hex }}"
+
+color-link scrollbar "{{ colors.on_surface_variant.dark.hex }}"
+color-link statusline "{{ colors.on_surface.dark.hex }},{{ colors.surface.dark.hex }}"
+color-link tabbar "{{ colors.on_surface.dark.hex }},{{ colors.surface.dark.hex }}"
+color-link indent-char "{{ colors.surface_variant.dark.hex }}"
+color-link line-number "{{ colors.outline_variant.dark.hex }}"
+color-link current-line-number "{{ colors.primary.dark.hex }}"
+
+color-link cursor-line "{{ colors.surface_variant.dark.hex }},{{ colors.on_surface.dark.hex }}"
+color-link color-column "{{ colors.surface_variant.dark.hex }}"
+color-link type.extended "default"

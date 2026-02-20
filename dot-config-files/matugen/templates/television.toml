@@ -1,0 +1,19 @@
+# Television Colors
+# Generated with Matugen
+
+background = '{{colors.surface.dark.hex}}'
+border_fg = '{{colors.outline.dark.hex}}'
+text_fg = '{{colors.on_surface.dark.hex}}'
+dimmed_text_fg = '{{colors.on_surface_variant.dark.hex}}'
+input_text_fg = '{{colors.secondary.dark.hex}}'
+result_count_fg = '{{colors.secondary.dark.hex}}'
+result_name_fg = '{{colors.on_surface.dark.hex}}'
+result_line_number_fg = '{{colors.secondary.dark.hex}}'
+result_value_fg = '{{colors.secondary.dark.hex}}'
+selection_bg = '{{colors.primary.dark.hex}}'
+selection_fg = '{{colors.on_primary.dark.hex}}'
+match_fg = '{{colors.inverse_primary.dark.hex}}'
+preview_title_fg = '{{colors.tertiary.dark.hex}}'
+channel_mode_fg = '{{colors.tertiary.dark.hex}}'
+remote_control_mode_fg = '{{colors.secondary.dark.hex}}'
+send_to_channel_mode_fg = '{{colors.tertiary.dark.hex}}'
