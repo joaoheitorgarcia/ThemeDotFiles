@@ -29,6 +29,10 @@
             "collapseDown": "../Icons/regular/bx-chevron-down.svg",
             "collapseUp": "../Icons/regular/bx-chevron-up.svg"
         },
+        "idleControl": {
+            "disabled": "../Icons/regular/bx-lock-open.svg",
+            "enabled": "../Icons/regular/bx-lock.svg"
+        },
         "microphone": {
             "mute": "../Icons/regular/bx-microphone-off.svg",
             "on": "../Icons/regular/bx-microphone.svg"
