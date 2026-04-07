@@ -28,9 +28,14 @@ office = [
   { run = 'soffice "$@"', orphan = true, desc = "OpenOffice" }
 ]
 
-# PDFs (optional but useful)
+# PDFs (zathura)
 pdf = [
-  { run = 'xdg-open "$@"', orphan = true, desc = "PDF (system)" }
+  { run = 'zathura "$@"', orphan = true, desc = "zathura" }
+]
+
+# Fonts
+font = [
+  { run = 'xdg-open "$@"', orphan = true, desc = "Font (system)" }
 ]
 
 # FALLBACK
@@ -45,19 +50,34 @@ system = [
 [open]
 
 # Image formats
-image = ["png", "jpg", "jpeg", "webp", "gif", "bmp", "svg"]
+image = ["png", "jpg", "jpeg", "webp", "gif", "bmp", "svg", "avif", "heic", "heif", "tif", "tiff", "jxl"]
 
 # Video formats
-video = ["mp4", "mkv", "webm", "avi", "mov"]
+video = ["mp4", "mkv", "webm", "avi", "mov", "m4v", "mpeg", "mpg", "wmv", "flv"]
 
 # Audio formats
-audio = ["mp3", "wav", "flac", "ogg"]
+audio = ["mp3", "wav", "flac", "ogg", "m4a", "aac", "opus"]
 
 # Text/code formats (add/remove as you like)
-text = ["txt", "md", "log", "json", "yaml", "yml", "toml", "ini", "conf", "cfg", "csv", "tsv", "xml", "html", "css", "js", "ts", "jsx", "tsx", "py", "go", "rs", "c", "h", "cpp", "hpp", "java", "php", "sh", "zsh", "bash", "sql"]
+text = ["txt", "md", "log", "json", "yaml", "yml", "toml", "ini", "conf", "cfg", "csv", "tsv", "xml", "css", "js", "ts", "jsx", "tsx", "py", "go", "rs", "c", "h", "cpp", "hpp", "java", "php", "sh", "zsh", "bash", "sql", "qml", "lua", "rasi", "glsl", "tmpl", "theme", "micro", "colors", "bak"]
+
+# Web formats (open in browser)
+web = ["html", "htm", "xhtml", "mhtml"]
 
 # Office formats (OpenOffice/soffice)
 office = ["odt", "ods", "odp", "odg", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "rtf"]
+
+# PDF-like formats (zathura)
+pdf = ["pdf", "djvu", "ps", "eps", "xps"]
+
+# Font formats
+font = ["ttf", "otf", "woff", "woff2"]
+
+# Archive formats
+archive = ["zip", "7z", "rar", "tar", "gz", "bz2", "xz", "zst", "tgz", "tbz2", "txz", "tzst"]
+
+# Subtitle formats
+subtitle = ["srt", "vtt", "ass"]
 
 
 ##############
@@ -78,6 +98,42 @@ use  = "video"
 [[open.rules]]
 mime = "audio/*"
 use  = "audio"
+
+# --- WEB / HTML (open in browser) ---
+[[open.rules]]
+mime = "text/html"
+use  = "system"
+
+[[open.rules]]
+mime = "application/xhtml+xml"
+use  = "system"
+
+[[open.rules]]
+url = "*.html"
+use = "system"
+[[open.rules]]
+url = "*.htm"
+use = "system"
+[[open.rules]]
+url = "*.xhtml"
+use = "system"
+[[open.rules]]
+url = "*.mhtml"
+use = "system"
+
+# --- COMMON NO-EXT CONFIG FILES ---
+[[open.rules]]
+url = "mako"
+use = "edit"
+[[open.rules]]
+url = "ghostty"
+use = "edit"
+[[open.rules]]
+url = "environment"
+use = "edit"
+[[open.rules]]
+url = "LICENSE"
+use = "edit"
 
 # --- TEXT / CODE (prefer nano) ---
 [[open.rules]]
@@ -136,6 +192,48 @@ use = "office"
 [[open.rules]]
 mime = "application/pdf"
 use  = "pdf"
+
+[[open.rules]]
+url = "*.pdf"
+use = "pdf"
+[[open.rules]]
+url = "*.djvu"
+use = "pdf"
+[[open.rules]]
+url = "*.ps"
+use = "pdf"
+[[open.rules]]
+url = "*.eps"
+use = "pdf"
+[[open.rules]]
+url = "*.xps"
+use = "pdf"
+
+# --- FONTS ---
+[[open.rules]]
+mime = "font/*"
+use  = "font"
+
+[[open.rules]]
+mime = "application/font-woff"
+use  = "font"
+
+[[open.rules]]
+mime = "application/vnd.ms-fontobject"
+use  = "font"
+
+[[open.rules]]
+url = "*.ttf"
+use = "font"
+[[open.rules]]
+url = "*.otf"
+use = "font"
+[[open.rules]]
+url = "*.woff"
+use = "font"
+[[open.rules]]
+url = "*.woff2"
+use = "font"
 
 # --- FALLBACK (everything else) ---
 [[open.rules]]
