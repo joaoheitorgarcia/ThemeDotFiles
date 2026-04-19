@@ -1,0 +1,137 @@
+@font-face {
+  font-family: "Bruno";
+  src: url("./assets/fonts/BrunoAceSC-Regular.ttf");
+}
+
+$accent-color: #{"@accent_color"};
+$accent-fg-color: #{"@accent_fg_color"};
+$accent-bg-color: #{"@accent_bg_color"};
+$window-bg-color: #{"@window_bg_color"};
+$window-fg-color: #{"@window_fg_color"};
+$headerbar-bg-color: #{"@headerbar_bg_color"};
+$headerbar-fg-color: #{"@headerbar_fg_color"};
+$popover-bg-color: #{"@popover_bg_color"};
+$popover-fg-color: #{"@popover_fg_color"};
+$view-bg-color: #{"@view_bg_color"};
+$view-fg-color: #{"@view_fg_color"};
+$card-bg-color: #{"@card_bg_color"};
+$card-fg-color: #{"@card_fg_color"};
+$sidebar-bg-color: #{"@sidebar_bg_color"};
+$sidebar-fg-color: #{"@sidebar_fg_color"};
+$sidebar-border-color: #{"@sidebar_border_color"};
+$sidebar-backdrop-color: #{"@sidebar_backdrop_color"};
+
+
+window.Topbar {
+  background: transparent;
+  color: $window-fg-color;
+  margin-top: 3px;
+  font-family: "Bruno";
+
+  .icon {
+    color: $window-fg-color;
+  }
+
+  button {
+    background: $window-bg-color;
+    padding: 2px 6px;
+  }
+
+  button:hover {
+    background: $accent-color;
+    color: $accent_fg_color;
+
+    .icon {
+      color: $accent_fg_color;
+    }
+  }
+
+  .topbarStart {
+    .workspaceBtn {
+      margin-left: 5px;
+    }
+  }
+
+  .topbarEnd {
+    background: $window-bg-color;
+    border-radius: 8px;
+    margin-right: 5px;
+
+    >menubutton {
+      border-radius: 0px;
+    }
+  }
+
+  popover {
+    border-radius: 0;
+  }
+
+  .popoverContent {
+    padding: 8px;
+    min-width: 180px;
+    border-radius: 0
+  }
+
+  .popoverMenuAction {
+    background: transparent;
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: $window-fg-color;
+  }
+
+  .popoverMenuAction:hover {
+    background: $accent-color;
+  }
+
+}
+
+window.LockScreen {
+  background: transparent;
+  font-family: "Bruno";
+
+  .lockScreenDim {
+    background: #{'alpha('}#{$window-bg-color}#{', 0.58)'};
+  }
+
+  .lockScreenCard {
+    padding: 18px 14px 14px;
+    border-radius: 12px;
+    background: #{'alpha('}#{$window-bg-color}#{', 0.9)'};
+    border: 1px solid #{'alpha('}#{$accent-color}#{', 0.28)'};
+    box-shadow: 0 12px 36px rgba(black, 0.28);
+  }
+
+  .lockScreenTitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: $window-fg-color;
+  }
+
+  .lockScreenTime {
+    font-size: 64px;
+    font-weight: 700;
+    color: $window-fg-color;
+  }
+
+  .lockScreenDate {
+    font-size: 13px;
+    color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+  }
+
+  .lockScreenEntry {
+    min-height: 38px;
+  }
+
+  .lockScreenButton {
+    min-height: 38px;
+  }
+
+  .lockScreenMessage {
+    font-size: 12px;
+    color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+  }
+
+  .lockScreenMessage.error {
+    color: #ff7a7a;
+  }
+}

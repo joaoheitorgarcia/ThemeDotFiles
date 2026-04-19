@@ -34,7 +34,9 @@ fi
 if [[ "$has_fullscreen" -eq 0 && "$media_playing" -eq 0 ]]; then
   case "$action" in
     lock)
-      hyprctl dispatch global quickshell:lock-screen
+      if ! ags request lock >/dev/null 2>&1; then
+        hyprlock
+      fi
       ;;
     suspend)
       systemctl suspend

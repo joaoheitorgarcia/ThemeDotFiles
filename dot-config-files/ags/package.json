@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@boxicons/core": "^1.0.6",
+    "@boxicons/react": "^1.0.3",
+    "ags": "*",
+    "gnim": "*"
+  },
+  "prettier": {
+    "semi": false,
+    "tabWidth": 2
+  }
+}

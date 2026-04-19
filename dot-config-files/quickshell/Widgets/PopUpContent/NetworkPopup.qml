@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Window
 import "../../Singletons" as Singletons
 import "../../Singletons/Managers" as Managers
+import Quickshell.Networking
 
 Item {
     id: wifiMenuContent
@@ -14,31 +15,7 @@ Item {
 
     property string selectedSsid: ""
     property string selectedSecurity: ""
-    property var sortedNetworks: []
     property bool connecting: Managers.NetworkManager.connecting
-
-    function selectCurrentNetwork() {
-        var rawList = Managers.NetworkManager.networks || []
-        var visibleList = []
-
-        for (var i = 0; i < rawList.length; ++i) {
-            var entry = rawList[i]
-
-            if (entry.ssid && entry.ssid.trim() !== "") {
-                visibleList.push(entry)
-            }
-        }
-
-        var sorted = visibleList.slice(0)
-        sorted.sort(function(a, b) {
-            if (a.inUse && !b.inUse) return -1
-            if (!a.inUse && b.inUse) return 1
-            return (b.signal || 0) - (a.signal || 0)
-        })
-        sortedNetworks = sorted
-    }
-
-    Component.onCompleted: selectCurrentNetwork()
 
     Connections {
         target: Managers.NetworkManager
@@ -208,7 +185,7 @@ Item {
                 opacity: enabled ? 1 : 0.5
                 spacing: 4
 
-                model: wifiMenuContent.sortedNetworks
+                model:
 
                 delegate: Rectangle {
                     required property var modelData

@@ -30,7 +30,7 @@ office = [
 
 # PDFs (zathura)
 pdf = [
-  { run = 'zathura "$@"', orphan = true, desc = "zathura" }
+  { run = 'mupdf "$@"', orphan = true, desc = "mupdf" }
 ]
 
 # Fonts
