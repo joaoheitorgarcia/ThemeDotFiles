@@ -2,6 +2,8 @@ import { Gtk } from "ags/gtk4"
 import app from "ags/gtk4/app"
 import { Astal, Gdk } from "ags/gtk4"
 import DateTime from "./Topbar/DateTime"
+import LockToggle from "./Topbar/LockToggle"
+import NotificationList from "./Topbar/NotificationList"
 import Workspaces from "./Topbar/Workspaces"
 import PowerActions from "./Topbar/PowerActions"
 
@@ -44,6 +46,8 @@ export default function Topbar(gdkmonitor: Gdk.Monitor) {
           $type="end"
           class="topbarEnd"
         >
+          <NotificationList />
+          <LockToggle />
           <DateTime />
           <PowerActions /> 
         </box>

@@ -1,5 +1,6 @@
 import Gio from "gi://Gio"
 import Rsvg from "gi://Rsvg?version=2.0"
+import { Gtk } from "ags/gtk4"
 
 type BoxIconVariant = "basic" | "brands" | "filled"
 
@@ -10,6 +11,7 @@ type BoxIconProps = {
     color?: string
     class?: string
     css?: string
+    $?: (area: Gtk.DrawingArea) => void
 }
 
 const svgCache = new Map<string, string>()
@@ -74,6 +76,7 @@ export default function BoxIcon({
     variant = "basic",
     size = 18,
     color,
+    $,
     ...props
 }: BoxIconProps) {
     const path = getIconPath(name, variant)
@@ -104,6 +107,8 @@ export default function BoxIcon({
                         }),
                     )
                 })
+
+                $?.(area)
             }}
         />
     )

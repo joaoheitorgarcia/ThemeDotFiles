@@ -42,7 +42,9 @@ export default function PowerActions() {
                 size={18}
                 class="icon"
             />
-            <popover>
+            <popover
+                hasArrow={false}
+            >
                 <box
                     orientation={Gtk.Orientation.VERTICAL}
                     class="popoverContent"

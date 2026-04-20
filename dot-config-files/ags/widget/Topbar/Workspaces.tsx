@@ -9,7 +9,9 @@ export default function Workspaces() {
     }
 
     const workspaces = createBinding(hyprland, "workspaces").as((workspaces) =>
-        Array.from(workspaces ?? []).sort((a: any, b: any) => a.id - b.id),
+        Array.from(workspaces ?? [])
+            .filter((workspace: any) => workspace.id === -98 || workspace.id > 0)
+            .sort((a: any, b: any) => a.id - b.id),
     )
 
     return (
@@ -20,7 +22,7 @@ export default function Workspaces() {
                         class="workspaceBtn"
                         $={(button) => button.set_cursor_from_name("pointer")}
                         onClicked={() => workspace.focus()}>
-                        <label label={workspace.id != '-98' ? String(workspace.id) : "S"} />
+                        <label label={workspace.id !== -98 ? String(workspace.id) : "S"} />
                     </button>
                 )}
             </For>

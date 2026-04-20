@@ -18,7 +18,7 @@ type SurfaceState = {
   window: Gtk.Window
   timeLabel: Gtk.Label
   dateLabel: Gtk.Label
-  entry: Gtk.Entry
+  entry: Gtk.PasswordEntry
   button: Gtk.Button
   messageLabel: Gtk.Label
   isPrimary: boolean
@@ -30,7 +30,7 @@ type SurfaceRefs = Partial<Omit<SurfaceState, "isPrimary">> & {
 
 type LockSurfaceProps = {
   refs: SurfaceRefs
-  onPasswordChanged: (entry: Gtk.Entry) => void
+  onPasswordChanged: (entry: Gtk.PasswordEntry) => void
   onUnlock: () => void
 }
 
@@ -134,12 +134,11 @@ function LockSurface({ refs, onPasswordChanged, onUnlock }: LockSurfaceProps) {
           marginBottom={4}
         />
 
-        <entry
+        <Gtk.PasswordEntry
           class="lockScreenEntry"
           placeholderText="Password"
-          visibility={false}
           activatesDefault
-          inputPurpose={Gtk.InputPurpose.PASSWORD}
+          showPeekIcon={false}
           $={(entry) => {
             refs.entry = entry
             entry.connect("changed", () => onPasswordChanged(entry))
@@ -238,7 +237,7 @@ function stopClock() {
   clockSourceId = 0
 }
 
-function syncEntries(source?: Gtk.Entry) {
+function syncEntries(source?: Gtk.PasswordEntry) {
   for (const surface of surfaces) {
     if (surface.entry !== source && surface.entry.text !== password) {
       surface.entry.text = password
@@ -292,7 +291,7 @@ function resetState() {
   updateAuthUi()
 }
 
-function handlePasswordChanged(entry: Gtk.Entry) {
+function handlePasswordChanged(entry: Gtk.PasswordEntry) {
   const next = entry.text
 
   if (next === password) {

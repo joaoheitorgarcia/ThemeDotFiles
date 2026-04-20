@@ -2,6 +2,7 @@ import app from "ags/gtk4/app"
 import style from "./style.scss"
 import Topbar from "./widget/Topbar"
 import Background from "./widget/Background"
+import Notifications from "./widget/Notification/Notifications"
 import { lock } from "./widget/LockScreen"
 
 app.start({
@@ -18,7 +19,15 @@ app.start({
   },
   
   main() {
-    app.get_monitors().map(Background)
-    app.get_monitors().map(Topbar)
+    const monitors = app.get_monitors()
+
+    monitors.map(Background)
+    monitors.map(Topbar)
+
+    const primaryMonitor = monitors[0]
+
+    if (primaryMonitor) {
+      Notifications(primaryMonitor)
+    }
   },
 })

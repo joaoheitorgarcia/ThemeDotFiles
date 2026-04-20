@@ -21,7 +21,9 @@ export default function DateTime() {
             $={(button) => button.set_cursor_from_name("pointer")}
         >
             <label label={time} />
-            <popover>
+            <popover
+                hasArrow={false}
+            >
                 <Gtk.Calendar />
             </popover>
         </menubutton>
