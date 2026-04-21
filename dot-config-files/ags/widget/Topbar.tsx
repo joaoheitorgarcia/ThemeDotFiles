@@ -9,6 +9,7 @@ import PowerActions from "./Topbar/PowerActions"
 import BatteryInfo from "./Topbar/BatteryInfo"
 import Bluetooth from "./Topbar/Bluetooth"
 import Sound from "./Topbar/Sound"
+import Network from "./Topbar/Network"
 
 export default function Topbar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -54,6 +55,7 @@ export default function Topbar(gdkmonitor: Gdk.Monitor) {
           <DateTime />
           <Bluetooth />
           <Sound />
+          <Network />
           <BatteryInfo/>
           <PowerActions /> 
         </box>

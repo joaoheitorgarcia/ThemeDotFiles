@@ -85,6 +85,135 @@ window.Topbar {
     color: $accent-fg-color;
   }
 
+  // Network
+  .networkPopoverContent {
+    min-width: 280px;
+    max-width: 300px;
+    padding: 12px 10px 8px;
+    border-radius: 12px;
+    background: $window-bg-color;
+    border: 1px solid #{'alpha('}#{$window-fg-color}#{', 0.12)'};
+    color: $window-fg-color;
+
+    .networkHeader {
+      min-height: 28px;
+    }
+
+    .networkPopoverTitle {
+      font-size: 16px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
+
+    .networkSwitch {
+      margin-top: 1px;
+    }
+
+    .networkStatus {
+      min-height: 24px;
+    }
+
+    .networkStatusText {
+      font-size: 13px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.78)'};
+    }
+
+    .networkPasswordRow {
+      padding: 7px;
+      border-radius: 8px;
+      background: #{'alpha('}#{$window-fg-color}#{', 0.06)'};
+    }
+
+    .networkPasswordLabel {
+      font-size: 11px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+    }
+
+    .networkError,
+    .networkPasswordError {
+      font-size: 11px;
+      color: #ff7a7a;
+    }
+
+    .networkPasswordEntry {
+      min-height: 28px;
+      border-radius: 8px;
+      padding: 4px 8px;
+      background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+      color: $window-fg-color;
+    }
+
+    .networkPasswordButton,
+    .networkPasswordToggle,
+    .networkPasswordClose {
+      min-width: 28px;
+      min-height: 28px;
+      border-radius: 8px;
+      padding: 4px 7px;
+      background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+      color: $window-fg-color;
+    }
+
+    .networkPasswordButton:hover,
+    .networkPasswordToggle:hover,
+    .networkPasswordClose:hover {
+      background: $accent-color;
+      color: $accent-fg-color;
+
+      .icon {
+        color: $accent-fg-color;
+      }
+    }
+
+    .networkAccessPointScroller {
+      min-height: 120px;
+      max-height: 190px;
+    }
+
+    .networkAccessPointRows {
+      padding-bottom: 4px;
+    }
+
+    .networkAccessPointRow {
+      padding: 6px 8px;
+    }
+
+    .popoverMenuAction.networkAccessPointRow:hover,
+    .popoverMenuAction.networkAccessPointRow.btnHovered {
+      .networkAccessPointName,
+      .networkAccessPointMeta,
+      .networkAccessPointStrength,
+      .networkAccessPointStateIcon,
+      .networkAccessPointIcon,
+      .icon {
+        color: $accent-fg-color;
+      }
+    }
+
+    .networkAccessPointName {
+      font-size: 13px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
+
+    .networkAccessPointMeta,
+    .networkAccessPointStrength {
+      font-size: 11px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+    }
+
+    .networkAccessPointIcon,
+    .networkAccessPointStateIcon {
+      color: $window-fg-color;
+    }
+
+    .networkEmpty {
+      margin: 32px 0;
+      font-size: 11px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+    }
+  }
+
   // Bluetooth
   .bluetoothPopoverContent {
     min-width: 320px;
