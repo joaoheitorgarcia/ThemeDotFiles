@@ -32,7 +32,8 @@ window.Topbar {
     padding: 2px 6px;
   }
 
-  button:hover, .btnHovered {
+  button:hover,
+  .btnHovered {
     background: $accent-color;
     color: $accent_fg_color;
 
@@ -82,6 +83,95 @@ window.Topbar {
   .popoverMenuAction:hover {
     background: $accent-color;
     color: $accent-fg-color;
+  }
+
+  // Bluetooth
+  .bluetoothButton {
+    min-width: 34px;
+  }
+
+  .bluetoothPopoverContent {
+    min-width: 320px;
+    min-height: 300px;
+    padding: 18px 14px 8px;
+    border-radius: 12px;
+    background: $window-bg-color;
+    border: 1px solid #{'alpha('}#{$window-fg-color}#{', 0.12)'};
+    color: $window-fg-color;
+
+    .bluetoothHeader {
+      min-height: 28px;
+    }
+
+    .bluetoothPopoverTitle {
+      font-size: 16px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
+
+    .bluetoothSwitch {
+      margin-top: 1px;
+    }
+
+    .bluetoothDeviceScroller {
+      min-height: 240px;
+    }
+
+    .bluetoothDeviceRows {
+      padding-bottom: 4px;
+    }
+
+    .bluetoothDeviceRow {
+      padding: 7px 8px;
+    }
+
+    .bluetoothDeviceRowUnpaired {
+      background: transparent;
+      border-radius: 8px;
+    }
+
+    .bluetoothDeviceRowUnpaired:hover {
+      background: transparent;
+      color: $window-fg-color;
+
+      .icon {
+        color: $window-fg-color;
+      }
+    }
+
+    .popoverMenuAction.bluetoothDeviceRow:hover,
+    .popoverMenuAction.bluetoothDeviceRow.btnHovered {
+
+      .bluetoothDeviceName,
+      .bluetoothDeviceStatus,
+      .bluetoothDeviceBattery,
+      .bluetoothDeviceStateIcon,
+      .icon {
+        color: $accent-fg-color;
+      }
+    }
+
+    .bluetoothDeviceName {
+      font-size: 13px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
+
+    .bluetoothDeviceStatus,
+    .bluetoothDeviceBattery {
+      font-size: 11px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+    }
+
+    .bluetoothDeviceStateIcon {
+      color: $window-fg-color;
+    }
+
+    .bluetoothEmpty {
+      margin: 32px 0;
+      font-size: 11px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+    }
   }
 
   //Battery
