@@ -86,10 +86,6 @@ window.Topbar {
   }
 
   // Bluetooth
-  .bluetoothButton {
-    min-width: 34px;
-  }
-
   .bluetoothPopoverContent {
     min-width: 320px;
     min-height: 300px;
@@ -141,7 +137,6 @@ window.Topbar {
 
     .popoverMenuAction.bluetoothDeviceRow:hover,
     .popoverMenuAction.bluetoothDeviceRow.btnHovered {
-
       .bluetoothDeviceName,
       .bluetoothDeviceStatus,
       .bluetoothDeviceBattery,
@@ -169,6 +164,132 @@ window.Topbar {
 
     .bluetoothEmpty {
       margin: 32px 0;
+      font-size: 11px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+    }
+  }
+
+  // Sound
+  .soundPopoverContent {
+    min-width: 320px;
+    padding: 18px 14px 14px;
+    border-radius: 12px;
+    background: $window-bg-color;
+    border: 1px solid #{'alpha('}#{$window-fg-color}#{', 0.12)'};
+    color: $window-fg-color;
+
+    .soundPopoverTitle {
+      font-size: 16px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
+
+    .soundVolumeRow {
+      min-height: 30px;
+    }
+
+    .soundIconButton,
+    .soundSectionHeader {
+      background: transparent;
+      border-radius: 8px;
+      padding: 0;
+      color: $window-fg-color;
+    }
+
+    .soundIconButton {
+      min-width: 28px;
+      min-height: 28px;
+    }
+
+    .soundIconButton:hover,
+    .soundSectionHeader:hover {
+      background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+      color: $window-fg-color;
+
+      .icon {
+        color: $window-fg-color;
+      }
+    }
+
+    .soundSlider {
+      min-width: 190px;
+    }
+
+    .soundSlider trough {
+      min-height: 6px;
+      border-radius: 8px;
+      background: #{'alpha('}#{$window-fg-color}#{', 0.10)'};
+    }
+
+    .soundSlider highlight {
+      min-height: 6px;
+      border-radius: 8px;
+      background: $accent-color;
+    }
+
+    .soundSlider slider {
+      min-width: 14px;
+      min-height: 14px;
+      border-radius: 50%;
+      background: $window-bg-color;
+      border: 1px solid #{'alpha('}#{$window-fg-color}#{', 0.22)'};
+    }
+
+    .soundPercent {
+      font-size: 12px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
+
+    .soundSectionHeader {
+      min-height: 26px;
+      padding: 3px 6px;
+    }
+
+    .soundSectionTitle {
+      font-size: 14px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
+
+    .soundApplicationScroller {
+      min-height: 56px;
+    }
+
+    .soundApplicationRows {
+      padding-bottom: 4px;
+    }
+
+    .soundApplicationRow {
+      background: transparent;
+      padding: 7px 8px;
+      border-radius: 8px;
+    }
+
+    .soundApplicationRow:hover {
+      background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+    }
+
+    .soundApplicationName,
+    .soundDeviceName {
+      font-size: 13px;
+      color: $window-fg-color;
+    }
+
+    .soundDeviceRow {
+      padding: 7px 8px;
+    }
+
+    .popoverMenuAction.soundDeviceRow:hover,
+    .popoverMenuAction.soundDeviceRow.btnHovered {
+      .soundDeviceName,
+      .icon {
+        color: $accent-fg-color;
+      }
+    }
+
+    .soundEmpty {
+      margin: 12px 0;
       font-size: 11px;
       color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
     }
@@ -248,11 +369,9 @@ window.Topbar {
   }
 
   // Notifications
-  .notificationListButton {
-    min-width: 34px;
-
+  .notificationListPopover {
     .notificationListContent {
-      min-width: 320px;
+      min-width: 340px;
       min-height: 300px;
       padding: 18px 14px 8px;
       border-radius: 12px;

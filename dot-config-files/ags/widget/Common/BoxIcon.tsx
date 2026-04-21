@@ -1,11 +1,13 @@
 import Gio from "gi://Gio"
 import Rsvg from "gi://Rsvg?version=2.0"
 import { Gtk } from "ags/gtk4"
+import type { Accessor } from "gnim"
 
 type BoxIconVariant = "basic" | "brands" | "filled"
+type IconName = string | Accessor<string>
 
 type BoxIconProps = {
-    name: string
+    name: IconName
     variant?: BoxIconVariant
     size?: number
     color?: string
@@ -79,7 +81,9 @@ export default function BoxIcon({
     $,
     ...props
 }: BoxIconProps) {
-    const path = getIconPath(name, variant)
+    function getName() {
+        return typeof name === "function" ? name() : name
+    }
 
     return (
         <drawingarea
@@ -90,6 +94,7 @@ export default function BoxIcon({
             heightRequest={size}
             $={(area) => {
                 area.set_draw_func((_area, cr, width, height) => {
+                    const path = getIconPath(getName(), variant)
                     const resolvedColor = color == "default"  || color == undefined ? area.get_color().to_string() : color
                     const handle = getHandle(path, resolvedColor)
 
@@ -107,6 +112,10 @@ export default function BoxIcon({
                         }),
                     )
                 })
+
+                if (typeof name === "function") {
+                    name.subscribe(() => area.queue_draw())
+                }
 
                 $?.(area)
             }}

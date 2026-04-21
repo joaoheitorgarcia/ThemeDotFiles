@@ -12,16 +12,16 @@ function getDeviceName(device: BluetoothDevice): string {
 }
 
 function sortDevices(devices: BluetoothDevice[]): BluetoothDevice[] {
-  return [...devices].sort((a, b) => {
-    const aPriority = Number(Boolean(a.connected)) * 2 + Number(Boolean(a.paired))
-    const bPriority = Number(Boolean(b.connected)) * 2 + Number(Boolean(b.paired))
+    return [...devices].sort((a, b) => {
+        const aPriority = Number(Boolean(a.connected)) * 2 + Number(Boolean(a.paired))
+        const bPriority = Number(Boolean(b.connected)) * 2 + Number(Boolean(b.paired))
 
-    if (aPriority !== bPriority) {
-      return bPriority - aPriority
-    }
+        if (aPriority !== bPriority) {
+            return bPriority - aPriority
+        }
 
-    return getDeviceName(a).localeCompare(getDeviceName(b))
-  })
+        return getDeviceName(a).localeCompare(getDeviceName(b))
+    })
 }
 
 function finishAsyncDeviceAction(
@@ -107,15 +107,15 @@ function BluetoothDeviceRow({ device }: { device: BluetoothDevice }) {
         return "Available"
     })
     const buttonClass = createComputed(() => {
-      if (!paired()) {
-        return "bluetoothDeviceRow bluetoothDeviceRowUnpaired"
-      }
+        if (!paired()) {
+            return "bluetoothDeviceRow bluetoothDeviceRowUnpaired"
+        }
 
-      if (connected()) {
-        return "popoverMenuAction bluetoothDeviceRow btnHovered"
-      }
+        if (connected()) {
+            return "popoverMenuAction bluetoothDeviceRow btnHovered"
+        }
 
-      return "popoverMenuAction bluetoothDeviceRow"
+        return "popoverMenuAction bluetoothDeviceRow"
     })
     const isPairedOnly = createComputed(() => paired() && !connected())
     const batteryLabel = createComputed(() => {
@@ -214,7 +214,7 @@ export default function Bluetooth() {
 
     return (
         <menubutton
-          class="bluetoothButton"
+            class="bluetoothButton"
             $={(button) => {
                 button.set_cursor_from_name("pointer")
                 button.connect("notify::active", () => {
