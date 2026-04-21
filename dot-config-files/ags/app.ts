@@ -3,6 +3,7 @@ import style from "./style.scss"
 import Topbar from "./widget/Topbar"
 import Background from "./widget/Background"
 import Notifications from "./widget/Notification/Notifications"
+import AppMenu from "./widget/AppMenu"
 import { lock } from "./widget/LockScreen"
 
 app.start({
@@ -23,9 +24,9 @@ app.start({
 
     monitors.map(Background)
     monitors.map(Topbar)
+    monitors.map(AppMenu)
 
     const primaryMonitor = monitors[0]
-
     if (primaryMonitor) {
       Notifications(primaryMonitor)
     }

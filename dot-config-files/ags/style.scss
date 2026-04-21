@@ -659,6 +659,93 @@ window.Notifications {
   }
 }
 
+window.AppMenu {
+  background: none;
+  background-color: transparent;
+  font-family: "Bruno Ace SC", "Cantarell", sans-serif;
+
+  .appMenuOverlay {
+    background: none;
+    background-color: transparent;
+  }
+
+  .appMenuPanel {
+    padding: 16px;
+    border-radius: 12px;
+    background: #{'alpha('}#{$window-bg-color}#{', 0.94)'};
+    border: 1px solid #{'alpha('}#{$window-fg-color}#{', 0.12)'};
+    color: $window-fg-color;
+    box-shadow: 0 12px 36px rgba(black, 0.28);
+  }
+
+  .appMenuSearch {
+    min-height: 34px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+    color: $window-fg-color;
+  }
+
+  .appMenuSearch:focus {
+    outline-color: $accent-color;
+    border-color: $accent-color;
+  }
+
+  .appMenuScroller {
+    min-height: 160px;
+  }
+
+  .appMenuRows {
+    padding-bottom: 2px;
+  }
+
+  .appMenuRow {
+    min-height: 48px;
+    padding: 7px 8px;
+    border-radius: 8px;
+    background: transparent;
+    color: $window-fg-color;
+  }
+
+  .appMenuRow:hover {
+    background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+  }
+
+  .appMenuRowSelected,
+  .appMenuRowSelected:hover {
+    background: $accent-color;
+    color: $accent-fg-color;
+
+    .appMenuAppName,
+    .appMenuAppDescription,
+    .appMenuIcon {
+      color: $accent-fg-color;
+    }
+  }
+
+  .appMenuIcon {
+    min-width: 30px;
+    min-height: 30px;
+  }
+
+  .appMenuAppName {
+    font-size: 14px;
+    font-weight: 700;
+    color: $window-fg-color;
+  }
+
+  .appMenuAppDescription {
+    font-size: 10px;
+    color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+  }
+
+  .appMenuEmpty {
+    margin: 42px 0;
+    font-size: 12px;
+    color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+  }
+}
+
 window.LockScreen {
   background: transparent;
   font-family: "Bruno Ace SC", "Cantarell", sans-serif;
