@@ -1,5 +1,5 @@
 import AstalHyprland from "gi://AstalHyprland"
-import { createBinding, For } from "gnim"
+import { createBinding, createState, For } from "gnim"
 
 export default function Workspaces() {
     const hyprland = AstalHyprland.get_default()
@@ -14,17 +14,34 @@ export default function Workspaces() {
             .sort((a: any, b: any) => a.id - b.id),
     )
 
-    const workspaceId = createBinding(hyprland, "focused-workspace").as(
-        (workspace) => workspace?.id ?? 0,
-    )
+    const [activeWorkspaceId, setActiveWorkspaceId] = createState(0)
+
+    function refreshActiveWorkspaceId() {
+        const specialWorkspaceId = hyprland.focusedMonitor?.specialWorkspace?.id ?? 0
+        const workspaceId = hyprland.focusedWorkspace?.id ?? 0
+
+        setActiveWorkspaceId(specialWorkspaceId < 0 ? specialWorkspaceId : workspaceId)
+    }
+
+    refreshActiveWorkspaceId()
+
+    hyprland.connect("notify::focused-workspace", refreshActiveWorkspaceId)
+    hyprland.connect("notify::focused-monitor", refreshActiveWorkspaceId)
+    hyprland.connect("event", (_hyprland: any, event: string) => {
+        if (event === "activespecial" || event === "workspace" || event === "focusedmon") {
+            refreshActiveWorkspaceId()
+        }
+    })
 
     return (
         <box>
             <For each={workspaces}>
                 {(workspace: any) => (
                     <button
-                        class={workspaceId((id) =>
-                            workspace.id === id ? "workspaceBtn btnHovered" : "workspaceBtn"
+                        class={activeWorkspaceId((id) =>
+                            workspace.id === id
+                                ? "workspaceBtn btnHovered"
+                                : "workspaceBtn"
                         )}
                         $={(button) => button.set_cursor_from_name("pointer")}
                         onClicked={() => workspace.focus()}>
