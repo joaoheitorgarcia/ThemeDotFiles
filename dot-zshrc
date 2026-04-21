@@ -125,7 +125,10 @@ alias powermode-powersave='echo powersave | sudo tee /sys/devices/system/cpu/cpu
 alias powermode-conservative='echo conservative | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 alias powermode-ondemand='echo ondemand | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 alias powermode-default='echo schedutil | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
-alias nvidia='__NV_PRIME_RENDER_OFFLOAD=1 GLX_VENDOR_LIBRARY_NAME=nvidia'
+function nvrun() {
+  __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia __VK_LAYER_NV_optimus=NVIDIA_only "$@"
+}
+alias nvidia='nvrun'
 alias cd..=' cd ..'
 alias install='yay -S'
 alias remove='yay -R'
