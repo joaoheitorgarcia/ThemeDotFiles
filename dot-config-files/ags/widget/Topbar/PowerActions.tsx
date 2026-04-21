@@ -1,7 +1,7 @@
-import Gio from "gi://Gio"
 import { Gtk } from "ags/gtk4"
 import BoxIcon from "../Common/BoxIcon"
 import { lock } from "../LockScreen"
+import { runCommand } from "../Common/RunCommand"
 
 type PowerAction = {
     id: string
@@ -18,17 +18,6 @@ const actions: PowerAction[] = [
     { id: "shutdown", label: "Shut Down", icon: "power", command: ["shutdown", "now"] },
 ]
 
-function runCommand(command: string[]) {
-    try {
-        Gio.Subprocess.new(
-            command,
-            Gio.SubprocessFlags.STDOUT_SILENCE |
-            Gio.SubprocessFlags.STDERR_SILENCE,
-        )
-    } catch (error) {
-        console.error(`Failed to run power action: ${command.join(" ")}`, error)
-    }
-}
 
 export default function PowerActions() {
     let popover: Gtk.Popover | undefined

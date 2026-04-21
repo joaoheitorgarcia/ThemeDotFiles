@@ -1,5 +1,6 @@
 import GLib from "gi://GLib?version=2.0"
 import Gio from "gi://Gio?version=2.0"
+import GioUnix from "gi://GioUnix?version=2.0"
 import AstalNotifd from "gi://AstalNotifd"
 import { createComputed, createState } from "gnim"
 
@@ -72,7 +73,7 @@ function resolveDesktopEntryIcon(desktopEntry: string) {
     : `${desktopEntry}.desktop`
 
   try {
-    const appInfo = Gio.DesktopAppInfo?.new?.(desktopId)
+    const appInfo = GioUnix.DesktopAppInfo.new(desktopId)
     const icon = appInfo?.get_icon?.()
 
     if (icon instanceof Gio.ThemedIcon) {

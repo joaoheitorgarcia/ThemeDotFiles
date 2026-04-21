@@ -6,6 +6,7 @@ import LockToggle from "./Topbar/LockToggle"
 import NotificationList from "./Topbar/NotificationList"
 import Workspaces from "./Topbar/Workspaces"
 import PowerActions from "./Topbar/PowerActions"
+import BatteryInfo from "./Topbar/BatteryInfo"
 
 export default function Topbar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -46,9 +47,10 @@ export default function Topbar(gdkmonitor: Gdk.Monitor) {
           $type="end"
           class="topbarEnd"
         >
-          <NotificationList />
           <LockToggle />
+          <NotificationList />
           <DateTime />
+          <BatteryInfo/>
           <PowerActions /> 
         </box>
       </centerbox>

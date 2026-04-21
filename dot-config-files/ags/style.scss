@@ -1,8 +1,3 @@
-@font-face {
-  font-family: "Bruno";
-  src: url("./assets/fonts/BrunoAceSC-Regular.ttf");
-}
-
 $accent-color: #{"@accent_color"};
 $accent-fg-color: #{"@accent_fg_color"};
 $accent-bg-color: #{"@accent_bg_color"};
@@ -26,7 +21,7 @@ window.Topbar {
   background: transparent;
   color: $window-fg-color;
   margin-top: 3px;
-  font-family: "Bruno";
+  font-family: "Bruno Ace SC", "Cantarell", sans-serif;
 
   .icon {
     color: $window-fg-color;
@@ -37,7 +32,7 @@ window.Topbar {
     padding: 2px 6px;
   }
 
-  button:hover {
+  button:hover, .btnHovered {
     background: $accent-color;
     color: $accent_fg_color;
 
@@ -73,119 +68,194 @@ window.Topbar {
   }
 
   .popoverMenuAction {
-    background: transparent;
+    background: $window-bg-color;
     border-radius: 8px;
     padding: 8px 10px;
     color: $window-fg-color;
   }
 
+  .popoverMenuAction.btnHovered {
+    background: $accent-color;
+    color: $accent-fg-color;
+  }
+
   .popoverMenuAction:hover {
     background: $accent-color;
+    color: $accent-fg-color;
+  }
+
+  //Battery
+  .batteryPopoverContent {
+    min-width: 320px;
+    padding: 18px 14px 14px;
+    border-radius: 12px;
+    background: $window-bg-color;
+    border: 1px solid #{'alpha('}#{$window-fg-color}#{', 0.12)'};
+    color: $window-fg-color;
+
+    .batteryPopoverTitle {
+      font-size: 16px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
+
+    .batteryPercent {
+      font-size: 18px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
+
+    .batteryState,
+    .batteryTime,
+    .batteryModeValue,
+    .batteryStatLabel {
+      font-size: 11px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+    }
+
+    .batteryLevel {
+      min-height: 8px;
+      margin: 4px 0;
+    }
+
+    .batteryLevel trough {
+      min-height: 8px;
+      border-radius: 8px;
+      background: #{'alpha('}#{$window-fg-color}#{', 0.10)'};
+    }
+
+    .batteryLevel block.filled {
+      min-height: 8px;
+      border-radius: 8px;
+      background: $accent-color;
+    }
+
+    .batteryStats {
+      padding: 8px;
+      border-radius: 8px;
+      background: #{'alpha('}#{$window-fg-color}#{', 0.06)'};
+    }
+
+    .batteryStatValue,
+    .batteryModeLabel {
+      font-size: 12px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
+
+    .batteryProfileButton {
+      background: transparent;
+      border-radius: 8px;
+      padding: 7px 8px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.78)'};
+    }
+
+    .batteryProfileButton:hover,
+    .batteryProfileButton.btnHovered {
+      background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+      color: $window-fg-color;
+    }
   }
 
   // Notifications
   .notificationListButton {
     min-width: 34px;
-  }
 
-  .notificationListContent {
-    min-width: 320px;
-    min-height: 300px;
-    padding: 18px 14px 8px;
-    border-radius: 12px;
-    background: $window-bg-color;
-    border: 1px solid #{'alpha('}#{$window-fg-color}#{', 0.12)'};
-  }
+    .notificationListContent {
+      min-width: 320px;
+      min-height: 300px;
+      padding: 18px 14px 8px;
+      border-radius: 12px;
+      background: $window-bg-color;
+      border: 1px solid #{'alpha('}#{$window-fg-color}#{', 0.12)'};
+    }
 
-  .notificationListTitle {
-    font-size: 16px;
-    font-weight: 700;
-    color: $window-fg-color;
-  }
+    .notificationListTitle {
+      font-size: 16px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
 
-  .notificationListHeader {
-    min-height: 28px;
-  }
+    .notificationListHeader {
+      min-height: 28px;
+    }
 
-  .notificationHistoryClear {
-    background: transparent;
-    border-radius: 8px;
-    padding: 6px 10px;
-    color: #{'alpha('}#{$window-fg-color}#{', 0.78)'};
-  }
+    .notificationHistoryClear {
+      background: transparent;
+      border-radius: 8px;
+      padding: 6px 10px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.78)'};
+    }
 
-  .notificationHistoryClear:hover {
-    background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
-    color: $window-fg-color;
-  }
+    .notificationHistoryClear:hover {
+      background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+      color: $window-fg-color;
+    }
 
-  .notificationListScroller {
-    min-height: 240px;
-  }
+    .notificationListScroller {
+      min-height: 240px;
+    }
 
-  .notificationListRows {
-    padding-bottom: 4px;
-  }
+    .notificationListRows {
+      padding-bottom: 4px;
+    }
 
-  .notificationHistoryRow {
-    background: transparent;
-    border-radius: 8px;
-    padding: 8px;
-  }
+    .notificationHistoryRow {
+      background: transparent;
+      border-radius: 8px;
+      padding: 8px;
+    }
 
-  .notificationHistoryRow:hover {
-    background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
-  }
+    .notificationHistoryRow:hover {
+      background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+    }
 
-  .notificationHistoryIcon,
-  .notificationHistoryIconFallback {
-    min-width: 32px;
-    min-height: 32px;
-    background-position: center;
-  }
+    .notificationHistoryIcon,
+    .notificationHistoryIconFallback {
+      min-width: 32px;
+      min-height: 32px;
+      background-position: center;
+    }
 
-  .notificationHistoryIconFallback {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
-    color: $window-fg-color;
-    padding: 8px;
-  }
+    .notificationHistoryIconFallback {
+      border-radius: 8px;
+      background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+      color: $window-fg-color;
+      padding: 8px;
+    }
 
-  .notificationHistorySummary {
-    font-size: 14px;
-    font-weight: 700;
-    color: $window-fg-color;
-  }
+    .notificationHistorySummary {
+      font-size: 14px;
+      font-weight: 700;
+      color: $window-fg-color;
+    }
 
-  .notificationHistoryAppName {
-    font-size: 11px;
-    color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
-  }
+    .notificationHistoryAppName {
+      font-size: 11px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+    }
 
-  .notificationHistoryRemove {
-    min-width: 16px;
-    min-height: 16px;
-    color: transparent;
-  }
+    .notificationHistoryRemove {
+      min-width: 16px;
+      min-height: 16px;
+      color: transparent;
+    }
 
-  .notificationHistoryRow:hover .notificationHistoryRemove {
-    color: $window-fg-color;
-  }
+    .notificationHistoryRow:hover .notificationHistoryRemove {
+      color: $window-fg-color;
+    }
 
-  .notificationHistoryEmpty {
-    margin: 32px 0;
-    font-size: 11px;
-    color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+    .notificationHistoryEmpty {
+      margin: 32px 0;
+      font-size: 11px;
+      color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+    }
   }
-
 }
 
 window.Notifications {
   background: transparent;
-  font-family: "Bruno";
+  font-family: "Bruno Ace SC", "Cantarell", sans-serif;
 
   .notificationPopupWindow {
     margin-top: 0;
@@ -210,8 +280,7 @@ window.Notifications {
   }
 
   .notificationPopupCard {
-    min-width: 360px;
-    max-width: 400px;
+    min-width: 300px;
     padding: 16px;
     border-radius: 12px;
     background: $window-bg-color;
@@ -254,7 +323,7 @@ window.Notifications {
 
 window.LockScreen {
   background: transparent;
-  font-family: "Bruno";
+  font-family: "Bruno Ace SC", "Cantarell", sans-serif;
 
   .lockScreenDim {
     background: #{'alpha('}#{$window-bg-color}#{', 0.58)'};

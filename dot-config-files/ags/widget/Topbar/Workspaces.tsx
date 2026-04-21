@@ -14,12 +14,18 @@ export default function Workspaces() {
             .sort((a: any, b: any) => a.id - b.id),
     )
 
+    const workspaceId = createBinding(hyprland, "focused-workspace").as(
+        (workspace) => workspace?.id ?? 0,
+    )
+
     return (
         <box>
             <For each={workspaces}>
                 {(workspace: any) => (
                     <button
-                        class="workspaceBtn"
+                        class={workspaceId((id) =>
+                            workspace.id === id ? "workspaceBtn btnHovered" : "workspaceBtn"
+                        )}
                         $={(button) => button.set_cursor_from_name("pointer")}
                         onClicked={() => workspace.focus()}>
                         <label label={workspace.id !== -98 ? String(workspace.id) : "S"} />

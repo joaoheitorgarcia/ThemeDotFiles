@@ -4,6 +4,7 @@ import Pango from "gi://Pango?version=1.0"
 import { For } from "gnim"
 import BoxIcon from "../Common/BoxIcon"
 import {
+  clearAllNotificationPopups,
   clearNotificationHistory,
   type NotificationEntry,
   dismissNotificationHistoryItem,
@@ -115,7 +116,14 @@ export default function NotificationList() {
   return (
     <menubutton
       class="notificationListButton"
-      $={(button) => button.set_cursor_from_name("pointer")}
+      $={(button) => {
+        button.set_cursor_from_name("pointer")
+        button.connect("notify::active", () => {
+          if (button.active) {
+            clearAllNotificationPopups()
+          }
+        })
+      }}
     >
       <BoxIcon
         name="bell"

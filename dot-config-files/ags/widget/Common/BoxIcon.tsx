@@ -90,7 +90,7 @@ export default function BoxIcon({
             heightRequest={size}
             $={(area) => {
                 area.set_draw_func((_area, cr, width, height) => {
-                    const resolvedColor = color ?? area.get_color().to_string()
+                    const resolvedColor = color == "default"  || color == undefined ? area.get_color().to_string() : color
                     const handle = getHandle(path, resolvedColor)
 
                     if (!handle) {
