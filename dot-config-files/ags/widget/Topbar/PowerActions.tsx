@@ -24,6 +24,7 @@ export default function PowerActions() {
 
     return (
         <menubutton
+            class="powerMenu"
             $={(button) => button.set_cursor_from_name("pointer")}
         >
             <BoxIcon

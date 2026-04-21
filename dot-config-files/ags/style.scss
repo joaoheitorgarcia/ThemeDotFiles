@@ -49,9 +49,35 @@ window.Topbar {
   }
 
   .topbarEnd {
-    background: $window-bg-color;
-    border-radius: 8px;
+    background: transparent;
     margin-right: 5px;
+
+    .topbarUtilsSection {
+      background: $window-bg-color;
+      border-radius: 8px;
+    }
+
+    .topbarAppBar {
+      background: #{'alpha('}#{$window-bg-color}#{', 0.5)'};
+      border-radius: 8px;
+      margin-right: 2px;
+
+      button {
+        background: transparent;
+        padding: 2px 6px;
+      }
+
+      button:hover,
+      .btnHovered {
+        background: transparent;
+        color: $accent_fg_color;
+
+        .icon {
+          background: transparent;
+          color: $accent_fg_color;
+        }
+      }
+    }
 
     >menubutton {
       border-radius: 0px;
@@ -68,27 +94,29 @@ window.Topbar {
     border-radius: 0
   }
 
-  .popoverMenuAction {
-    background: $window-bg-color;
-    border-radius: 8px;
-    padding: 8px 10px;
-    color: $window-fg-color;
-  }
+  //power Menu
+  .powerMenu {
+    .popoverMenuAction {
+      background: $window-bg-color;
+      border-radius: 8px;
+      padding: 8px 10px;
+      color: $window-fg-color;
+    }
 
-  .popoverMenuAction.btnHovered {
-    background: $accent-color;
-    color: $accent-fg-color;
-  }
+    .popoverMenuAction.btnHovered {
+      background: $accent-color;
+      color: $accent-fg-color;
+    }
 
-  .popoverMenuAction:hover {
-    background: $accent-color;
-    color: $accent-fg-color;
+    .popoverMenuAction:hover {
+      background: $accent-color;
+      color: $accent-fg-color;
+    }
   }
 
   // Network
   .networkPopoverContent {
     min-width: 280px;
-    max-width: 300px;
     padding: 12px 10px 8px;
     border-radius: 12px;
     background: $window-bg-color;
@@ -167,7 +195,6 @@ window.Topbar {
 
     .networkAccessPointScroller {
       min-height: 120px;
-      max-height: 190px;
     }
 
     .networkAccessPointRows {
@@ -180,6 +207,7 @@ window.Topbar {
 
     .popoverMenuAction.networkAccessPointRow:hover,
     .popoverMenuAction.networkAccessPointRow.btnHovered {
+
       .networkAccessPointName,
       .networkAccessPointMeta,
       .networkAccessPointStrength,
@@ -266,6 +294,7 @@ window.Topbar {
 
     .popoverMenuAction.bluetoothDeviceRow:hover,
     .popoverMenuAction.bluetoothDeviceRow.btnHovered {
+
       .bluetoothDeviceName,
       .bluetoothDeviceStatus,
       .bluetoothDeviceBattery,
@@ -411,6 +440,7 @@ window.Topbar {
 
     .popoverMenuAction.soundDeviceRow:hover,
     .popoverMenuAction.soundDeviceRow.btnHovered {
+
       .soundDeviceName,
       .icon {
         color: $accent-fg-color;

@@ -10,6 +10,7 @@ import BatteryInfo from "./Topbar/BatteryInfo"
 import Bluetooth from "./Topbar/Bluetooth"
 import Sound from "./Topbar/Sound"
 import Network from "./Topbar/Network"
+import AppTray from "./Topbar/AppTray"
 
 export default function Topbar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -50,14 +51,23 @@ export default function Topbar(gdkmonitor: Gdk.Monitor) {
           $type="end"
           class="topbarEnd"
         >
-          <LockToggle />
-          <NotificationList />
-          <DateTime />
-          <Bluetooth />
-          <Sound />
-          <Network />
-          <BatteryInfo/>
-          <PowerActions /> 
+          <box
+            class="topbarAppBar"
+          >
+            <AppTray/>
+          </box>
+          <box
+            class="topbarUtilsSection"
+          >
+            <LockToggle />
+            <NotificationList />
+            <DateTime />
+            <Bluetooth />
+            <Sound />
+            <Network />
+            <BatteryInfo/>
+            <PowerActions /> 
+          </box>
         </box>
       </centerbox>
     </window>

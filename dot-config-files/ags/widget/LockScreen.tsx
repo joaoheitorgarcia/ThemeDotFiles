@@ -31,7 +31,7 @@ type SurfaceRefs = Partial<Omit<SurfaceState, "isPrimary">> & {
 type LockSurfaceProps = {
   refs: SurfaceRefs
   onPasswordChanged: (entry: Gtk.PasswordEntry) => void
-  onUnlock: () => void
+  onUnlock: (entry: Gtk.PasswordEntry) => void
 }
 
 const surfaces = new Set<SurfaceState>()
@@ -48,6 +48,16 @@ function requireRef<T>(value: T | undefined, name: string): T {
   }
 
   return value
+}
+
+function findSurfaceByEntry(entry: Gtk.PasswordEntry): SurfaceState | null {
+  for (const surface of surfaces) {
+    if (surface.entry === entry) {
+      return surface
+    }
+  }
+
+  return null
 }
 
 function LockSurface({ refs, onPasswordChanged, onUnlock }: LockSurfaceProps) {
@@ -142,7 +152,15 @@ function LockSurface({ refs, onPasswordChanged, onUnlock }: LockSurfaceProps) {
           $={(entry) => {
             refs.entry = entry
             entry.connect("changed", () => onPasswordChanged(entry))
-            entry.connect("activate", onUnlock)
+            entry.connect("activate", () => onUnlock(entry))
+            entry.connect("notify::has-focus", () => {
+              if (entry.has_focus()) {
+                const surface = findSurfaceByEntry(entry)
+                if (surface) {
+                  activeSurface = surface
+                }
+              }
+            })
           }}
         />
 
@@ -151,7 +169,11 @@ function LockSurface({ refs, onPasswordChanged, onUnlock }: LockSurfaceProps) {
           label="Unlock"
           halign={Gtk.Align.FILL}
           hexpand
-          onClicked={onUnlock}
+          onClicked={() => {
+            if (refs.entry) {
+              onUnlock(refs.entry)
+            }
+          }}
           $={(button) => {
             refs.button = button
             button.add_css_class("suggested-action")
@@ -237,10 +259,10 @@ function stopClock() {
   clockSourceId = 0
 }
 
-function syncEntries(source?: Gtk.PasswordEntry) {
+function clearEntries() {
   for (const surface of surfaces) {
-    if (surface.entry !== source && surface.entry.text !== password) {
-      surface.entry.text = password
+    if (surface.entry.text !== "") {
+      surface.entry.set_text("")
     }
   }
 }
@@ -278,7 +300,8 @@ function setMessage(message: string, isError = false) {
 function updateAuthUi() {
   for (const surface of surfaces) {
     surface.entry.sensitive = !authenticating
-    surface.button.sensitive = !authenticating && password.length > 0
+    surface.button.sensitive =
+      !authenticating && surface.entry.text.length > 0
     surface.button.label = authenticating ? "Unlocking..." : "Unlock"
   }
 }
@@ -286,29 +309,35 @@ function updateAuthUi() {
 function resetState() {
   password = ""
   authenticating = false
-  syncEntries()
+  clearEntries()
   setMessage("")
   updateAuthUi()
 }
 
 function handlePasswordChanged(entry: Gtk.PasswordEntry) {
-  const next = entry.text
-
-  if (next === password) {
-    return
+  const surface = findSurfaceByEntry(entry)
+  if (surface) {
+    activeSurface = surface
   }
 
-  password = next
+  password = entry.text
   setMessage("")
-  syncEntries(entry)
   updateAuthUi()
 }
 
-function tryUnlock() {
-  if (authenticating || password.length === 0) {
+function tryUnlock(entry: Gtk.PasswordEntry) {
+  const surface = findSurfaceByEntry(entry)
+  if (surface) {
+    activeSurface = surface
+  }
+
+  const pwd = entry.text
+
+  if (authenticating || pwd.length === 0) {
     return
   }
 
+  password = pwd
   authenticating = true
   setMessage("")
   updateAuthUi()
@@ -363,28 +392,26 @@ function ensureSetup() {
 
   setupComplete = true
 
-  pam.connect("auth-prompt-hidden", () => {
+  pam.connect("auth-prompt-hidden", (_pam: never, message: string) => {
     pam.supply_secret(password)
   })
 
-  pam.connect("auth-prompt-visible", () => {
-    pam.supply_secret(password)
+  pam.connect("auth-prompt-visible", (_pam: never, message: string) => {
+    setMessage(message || "Authentication requires additional input.", true)
   })
 
   pam.connect("auth-info", (_pam: never, message: string) => {
     setMessage(message)
-    pam.supply_secret(null)
   })
 
   pam.connect("auth-error", (_pam: never, message: string) => {
     setMessage(message, true)
-    pam.supply_secret(null)
   })
 
   pam.connect("fail", (_pam: never, message: string) => {
     authenticating = false
     password = ""
-    syncEntries()
+    clearEntries()
     setMessage(message || "Wrong password.", true)
     updateAuthUi()
     focusActiveEntry()
@@ -427,7 +454,6 @@ function ensureSetup() {
   sessionLock.connect("failed", () => {
     stopClock()
     setMessage("Session lock failed.", true)
-    console.error("Failed to acquire the session lock.")
   })
 }
 
@@ -440,7 +466,6 @@ export function lock() {
   }
 
   if (!Gtk4SessionLock.is_supported()) {
-    console.error("Gtk4SessionLock is not supported on this compositor.")
     return false
   }
 
