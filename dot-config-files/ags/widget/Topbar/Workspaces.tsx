@@ -14,38 +14,32 @@ export default function Workspaces() {
             .sort((a: any, b: any) => a.id - b.id),
     )
 
-    const clients = createBinding(hyprland, "clients").as((clients) =>
-        Array.from(clients ?? []) as any[],
-    )
-
     const [activeWorkspaceId, setActiveWorkspaceId] = createState(0)
-    const [activeAddress, setActiveAddress] = createState("")
 
     function refreshActiveWorkspaceId() {
-        const client = clients().find((client: any) => client.address === activeAddress())
+        const focusedMonitor = hyprland.focusedMonitor
+        const specialWorkspaceId = focusedMonitor?.specialWorkspace?.id ?? 0
+        const focusedMonitorWorkspaceId =
+            specialWorkspaceId < 0
+                ? specialWorkspaceId
+                : focusedMonitor?.activeWorkspace?.id
 
-        if (client?.workspace?.id != null) {
-            setActiveWorkspaceId(client.workspace.id)
-            return
-        }
-
-        const specialWorkspaceId = hyprland.focusedMonitor?.specialWorkspace?.id ?? 0
-        const workspaceId = hyprland.focusedWorkspace?.id ?? 0
-
-        setActiveWorkspaceId(specialWorkspaceId < 0 ? specialWorkspaceId : workspaceId)
+        setActiveWorkspaceId(focusedMonitorWorkspaceId ?? hyprland.focusedWorkspace?.id ?? 0)
     }
 
     refreshActiveWorkspaceId()
 
-    hyprland.connect("notify::clients", refreshActiveWorkspaceId)
-    hyprland.connect("event", (_hyprland: any, event: string, data?: string) => {
-        if (event === "activewindowv2" && data) {
-            setActiveAddress(data.trim())
-            refreshActiveWorkspaceId()
-            return
-        }
-
-        if (event === "activespecial" || event === "workspace") {
+    hyprland.connect("notify::focused-monitor", refreshActiveWorkspaceId)
+    hyprland.connect("notify::focused-workspace", refreshActiveWorkspaceId)
+    hyprland.connect("event", (_hyprland: any, event: string) => {
+        if (
+            event === "activespecial" ||
+            event === "workspace" ||
+            event === "focusedmon" ||
+            event === "moveworkspace" ||
+            event === "createworkspace" ||
+            event === "destroyworkspace"
+        ) {
             refreshActiveWorkspaceId()
         }
     })
