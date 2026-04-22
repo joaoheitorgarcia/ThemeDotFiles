@@ -58,7 +58,7 @@ window.Topbar {
     }
 
     .topbarAppBar {
-      background: #{'alpha('}#{$window-bg-color}#{', 0.5)'};
+      background: #{'alpha('}#{$window-bg-color}#{', 0.3)'};
       border-radius: 8px;
       margin-right: 2px;
 
@@ -75,6 +75,29 @@ window.Topbar {
         .icon {
           background: transparent;
           color: $accent_fg_color;
+        }
+      }
+
+      .appTray {
+        border-radius: 6px;
+        min-height: 28px;
+
+        .appTrayItem {
+          background: transparent;
+          border-radius: 6px;
+          min-width: 28px;
+          min-height: 28px;
+          padding: 0;
+        }
+
+        .appTrayItem:hover,
+        .appTrayItem:active,
+        .appTrayItem.trayPressed {
+          background: $window-bg-color;
+        }
+
+        .appTrayIcon {
+          -gtk-icon-size: 24px;
         }
       }
     }
