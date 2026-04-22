@@ -11,16 +11,18 @@ import Bluetooth from "./Topbar/Bluetooth"
 import Sound from "./Topbar/Sound"
 import Network from "./Topbar/Network"
 import AppTray from "./Topbar/AppTray"
+import { monitorId } from "./Common/Monitor"
 
 export default function Topbar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
+  const id = monitorId(gdkmonitor)
 
   return (
     <window
-      name="topbar"
+      name={`topbar-${id}`}
       class="Topbar"
       $={(win) => {
-        win.namespace = "ags-topbar"
+        win.namespace = `ags-topbar-${id}`
         win.gdkmonitor = gdkmonitor
         win.exclusivity = Astal.Exclusivity.EXCLUSIVE
         win.anchor = TOP | LEFT | RIGHT
@@ -63,7 +65,7 @@ export default function Topbar(gdkmonitor: Gdk.Monitor) {
             <NotificationList />
             <DateTime />
             <Bluetooth />
-            <Sound />
+            <Sound gdkmonitor={gdkmonitor} />
             <Network />
             <BatteryInfo/>
             <PowerActions /> 

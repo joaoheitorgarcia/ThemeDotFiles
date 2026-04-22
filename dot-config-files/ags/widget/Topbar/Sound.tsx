@@ -5,6 +5,10 @@ import { createBinding, createComputed, createState, For, type Accessor } from "
 import BoxIcon from "../Common/BoxIcon"
 
 type AudioNode = any
+type MonitorGeometry = { height?: number }
+type SoundProps = {
+    gdkmonitor?: { geometry?: MonitorGeometry }
+}
 
 const wireplumber = AstalWp.get_default()
 const audio = wireplumber.audio
@@ -269,7 +273,53 @@ function DeviceRow({ item }: { item: AudioNode }) {
     )
 }
 
-export default function Sound() {
+function DeviceScroller({
+    items,
+    emptyLabel,
+    emptyVisible,
+    visible,
+    maxHeight,
+}: {
+    items: Accessor<AudioNode[]>
+    emptyLabel: string
+    emptyVisible: Accessor<boolean>
+    visible: Accessor<boolean>
+    maxHeight: number
+}) {
+    return (
+        <scrolledwindow
+            class="soundDeviceScroller"
+            maxContentHeight={maxHeight}
+            minContentHeight={56}
+            propagateNaturalHeight
+            hscrollbarPolicy={Gtk.PolicyType.NEVER}
+            vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
+            visible={visible}
+        >
+            <box
+                class="soundDeviceRows"
+                orientation={Gtk.Orientation.VERTICAL}
+                spacing={6}
+            >
+                <For each={items}>
+                    {(item) => <DeviceRow item={item} />}
+                </For>
+
+                <label
+                    class="soundEmpty"
+                    label={emptyLabel}
+                    visible={emptyVisible}
+                />
+            </box>
+        </scrolledwindow>
+    )
+}
+
+export default function Sound({ gdkmonitor }: SoundProps = {}) {
+    const deviceMenuMaxHeight = Math.max(
+        160,
+        Math.floor((gdkmonitor?.geometry?.height ?? 960) * 0.45),
+    )
     const defaultSpeaker = createBinding(audio, "default-speaker")
     const defaultMicrophone = createBinding(audio, "default-microphone")
     const volume = createBinding(audio, "default-speaker", "volume")
@@ -356,6 +406,9 @@ export default function Sound() {
 
                     <scrolledwindow
                         class="soundApplicationScroller"
+                        maxContentHeight={deviceMenuMaxHeight}
+                        minContentHeight={56}
+                        propagateNaturalHeight
                         hscrollbarPolicy={Gtk.PolicyType.NEVER}
                         vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
                         visible={showApplications}
@@ -383,22 +436,13 @@ export default function Sound() {
                         onClicked={() => setShowOutputs((value) => !value)}
                     />
 
-                    <box
-                        class="soundDeviceRows"
-                        orientation={Gtk.Orientation.VERTICAL}
-                        spacing={6}
+                    <DeviceScroller
+                        items={outputs}
+                        emptyLabel="No outputs"
+                        emptyVisible={outputCount((value) => value === 0)}
                         visible={showOutputs}
-                    >
-                        <For each={outputs}>
-                            {(item) => <DeviceRow item={item} />}
-                        </For>
-
-                        <label
-                            class="soundEmpty"
-                            label="No outputs"
-                            visible={outputCount((value) => value === 0)}
-                        />
-                    </box>
+                        maxHeight={deviceMenuMaxHeight}
+                    />
 
                     <SectionHeader
                         label="Input"
@@ -406,22 +450,13 @@ export default function Sound() {
                         onClicked={() => setShowInputs((value) => !value)}
                     />
 
-                    <box
-                        class="soundDeviceRows"
-                        orientation={Gtk.Orientation.VERTICAL}
-                        spacing={6}
+                    <DeviceScroller
+                        items={inputs}
+                        emptyLabel="No inputs"
+                        emptyVisible={inputCount((value) => value === 0)}
                         visible={showInputs}
-                    >
-                        <For each={inputs}>
-                            {(item) => <DeviceRow item={item} />}
-                        </For>
-
-                        <label
-                            class="soundEmpty"
-                            label="No inputs"
-                            visible={inputCount((value) => value === 0)}
-                        />
-                    </box>
+                        maxHeight={deviceMenuMaxHeight}
+                    />
                 </box>
             </popover>
         </menubutton>
