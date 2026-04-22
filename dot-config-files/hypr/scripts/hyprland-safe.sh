@@ -2,15 +2,21 @@
 
 set -euo pipefail
 
-HYPRLAND_BIN="${HYPRLAND_BIN:-/usr/bin/Hyprland}"
+if [[ -z "${HYPRLAND_BIN:-}" ]]; then
+  if command -v start-hyprland >/dev/null 2>&1; then
+    HYPRLAND_BIN="$(command -v start-hyprland)"
+  else
+    HYPRLAND_BIN="/usr/bin/Hyprland"
+  fi
+fi
 
 if [[ ! -x "$HYPRLAND_BIN" ]]; then
-  HYPRLAND_BIN="$(command -v Hyprland)"
+  printf 'Hyprland launcher not found: %s\n' "$HYPRLAND_BIN" >&2
+  exit 1
 fi
 
 card_name() {
   local card="$1"
-
   basename -- "$card"
 }
 
@@ -43,14 +49,6 @@ gpu_label() {
   if [[ -n "$slot" ]] && command -v lspci >/dev/null 2>&1; then
     lspci -D -s "$slot" 2>/dev/null || true
   fi
-}
-
-append_card() {
-  local item="$1"
-  shift
-  local -n target="$1"
-
-  target+=("$item")
 }
 
 configure_drm_devices() {

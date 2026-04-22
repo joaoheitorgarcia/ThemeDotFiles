@@ -1,5 +1,6 @@
 import GLib from "gi://GLib?version=2.0"
 import AstalApps from "gi://AstalApps"
+import AstalHyprland from "gi://AstalHyprland"
 import Pango from "gi://Pango?version=1.0"
 import app from "ags/gtk4/app"
 import { Astal, Gdk, Gtk } from "ags/gtk4"
@@ -128,10 +129,26 @@ function isInsideCssClass(widget: Gtk.Widget | null, className: string) {
   return false
 }
 
-function syncToFocusedMonitor(window: any, fallback: Gdk.Monitor) {
-  const geometry = fallback.get_geometry()
+function monitorConnector(gdkmonitor: Gdk.Monitor) {
+  return String(gdkmonitor.get_connector?.() ?? gdkmonitor.connector ?? "").trim()
+}
 
-  window.gdkmonitor = fallback
+function focusedGdkMonitor(fallback: Gdk.Monitor) {
+  const hyprland = AstalHyprland.get_default?.()
+  const focusedName = String(hyprland?.focusedMonitor?.name ?? "").trim()
+
+  if (!focusedName) {
+    return fallback
+  }
+
+  return app.get_monitors().find((monitor) => monitorConnector(monitor) === focusedName) ?? fallback
+}
+
+function syncToFocusedMonitor(window: any, fallback: Gdk.Monitor) {
+  const monitor = focusedGdkMonitor(fallback)
+  const geometry = monitor.get_geometry()
+
+  window.gdkmonitor = monitor
   window.set_default_size(geometry.width, geometry.height)
 
   if (appMenuFrame) {
