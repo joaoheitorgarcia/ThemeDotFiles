@@ -11,6 +11,12 @@ cd "$HOME/ThemeDotFiles"
 ./scripts/setup-dotfiles.sh
 ```
 
+To also install the Arch packages and helper dependencies used by the config:
+
+```bash
+./scripts/setup-dotfiles.sh --install-deps
+```
+
 ## What the setup script does
 
 - Symlinks each top-level folder in `dot-config-files/` to `~/.config/`
@@ -24,7 +30,9 @@ cd "$HOME/ThemeDotFiles"
 ```bash
 ./scripts/setup-dotfiles.sh --dry-run
 ./scripts/setup-dotfiles.sh --force
+./scripts/setup-dotfiles.sh --install-deps
 ```
 
 - `--dry-run`: preview actions without changing anything
 - `--force`: replace conflicting symlinks that point somewhere else
+- `--install-deps`: install Arch packages, AUR packages when an AUR helper is available, Oh My Zsh plugins, AGS npm dependencies, nano as the default editor, and runtime services

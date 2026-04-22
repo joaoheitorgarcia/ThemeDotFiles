@@ -25,8 +25,6 @@ type ActiveControl = "wallpapers" | "prefer"
 type ThemePreviewColors = {
   surface: string
   surfaceDim: string
-  surfaceContainer: string
-  surfaceContainerHigh: string
   surfaceBright: string
   onSurface: string
   onSurfaceVariant: string
@@ -34,8 +32,6 @@ type ThemePreviewColors = {
   onPrimary: string
   secondary: string
   onSecondary: string
-  tertiary: string
-  onTertiary: string
   outline: string
   error: string
 }
@@ -68,8 +64,6 @@ function fallbackThemePreview(): ThemePreviewColors {
   return {
     surface: "#19120c",
     surfaceDim: "#19120c",
-    surfaceContainer: "#261e18",
-    surfaceContainerHigh: "#312822",
     surfaceBright: "#413730",
     onSurface: "#efe0d5",
     onSurfaceVariant: "#d6c3b6",
@@ -77,8 +71,6 @@ function fallbackThemePreview(): ThemePreviewColors {
     onPrimary: "#4c2700",
     secondary: "#e2c0a5",
     onSecondary: "#412c19",
-    tertiary: "#c3cb98",
-    onTertiary: "#2d330e",
     outline: "#9e8e82",
     error: "#ffb4ab",
   }
@@ -182,12 +174,6 @@ function previewFromMatugenJson(data: any): ThemePreviewColors {
   return {
     surface: colorFromMatugenJson(data, "surface", fallback.surface),
     surfaceDim: colorFromMatugenJson(data, "surface_dim", fallback.surfaceDim),
-    surfaceContainer: colorFromMatugenJson(data, "surface_container", fallback.surfaceContainer),
-    surfaceContainerHigh: colorFromMatugenJson(
-      data,
-      "surface_container_high",
-      fallback.surfaceContainerHigh,
-    ),
     surfaceBright: colorFromMatugenJson(data, "surface_bright", fallback.surfaceBright),
     onSurface: colorFromMatugenJson(data, "on_surface", fallback.onSurface),
     onSurfaceVariant: colorFromMatugenJson(
@@ -199,8 +185,6 @@ function previewFromMatugenJson(data: any): ThemePreviewColors {
     onPrimary: colorFromMatugenJson(data, "on_primary", fallback.onPrimary),
     secondary: colorFromMatugenJson(data, "secondary", fallback.secondary),
     onSecondary: colorFromMatugenJson(data, "on_secondary", fallback.onSecondary),
-    tertiary: colorFromMatugenJson(data, "tertiary", fallback.tertiary),
-    onTertiary: colorFromMatugenJson(data, "on_tertiary", fallback.onTertiary),
     outline: colorFromMatugenJson(data, "outline", fallback.outline),
     error: colorFromMatugenJson(data, "error", fallback.error),
   }

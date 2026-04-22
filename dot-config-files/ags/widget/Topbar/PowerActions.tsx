@@ -4,7 +4,6 @@ import { lock } from "../LockScreen"
 import { runCommand } from "../Common/RunCommand"
 
 type PowerAction = {
-    id: string
     label: string
     icon: string
     command?: string[]
@@ -12,10 +11,10 @@ type PowerAction = {
 }
 
 const actions: PowerAction[] = [
-    { id: "lock", label: "Lock", icon: "lock", action: () => lock() },
-    { id: "suspend", label: "Sleep", icon: "leaf", command: ["systemctl", "suspend"] },
-    { id: "reboot", label: "Restart", icon: "redo", command: ["reboot"] },
-    { id: "shutdown", label: "Shut Down", icon: "power", command: ["shutdown", "now"] },
+    { label: "Lock", icon: "lock", action: () => lock() },
+    { label: "Sleep", icon: "leaf", command: ["systemctl", "suspend"] },
+    { label: "Restart", icon: "redo", command: ["reboot"] },
+    { label: "Shut Down", icon: "power", command: ["shutdown", "now"] },
 ]
 
 
@@ -34,6 +33,9 @@ export default function PowerActions() {
             />
             <popover
                 hasArrow={false}
+                $={(widget) => {
+                    popover = widget
+                }}
             >
                 <box
                     orientation={Gtk.Orientation.VERTICAL}

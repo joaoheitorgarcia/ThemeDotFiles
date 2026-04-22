@@ -1,6 +1,6 @@
 import AstalBattery from "gi://AstalBattery"
 import AstalPowerProfiles from "gi://AstalPowerProfiles"
-import { createBinding, createComputed, With } from "gnim"
+import { createBinding, createComputed } from "gnim"
 import BoxIcon from "../Common/BoxIcon"
 import { Gtk } from "ags/gtk4"
 
@@ -35,18 +35,17 @@ export default function BatteryInfo() {
 
     type BatteryIconObject = {
         id: string
-        label: string
         icon: string
         iconColor: string
     }
 
     const batteryStates: BatteryIconObject[] = [
-        { id: "critical", label: "Critical", icon: "battery", iconColor: "#db2a2a" },
-        { id: "low", label: "Low", icon: "battery-low", iconColor: "#dba02a" },
-        { id: "medium", label: "Normal", icon: "battery-low", iconColor: "default" },
-        { id: "high", label: "High", icon: "battery-full", iconColor: "default" },
-        { id: "full", label: "Full", icon: "battery-full", iconColor: "default" },
-        { id: "charging", label: "Charging", icon: "bolt-circle", iconColor: "default" },
+        { id: "critical", icon: "battery", iconColor: "#db2a2a" },
+        { id: "low", icon: "battery-low", iconColor: "#dba02a" },
+        { id: "medium", icon: "battery-low", iconColor: "default" },
+        { id: "high", icon: "battery-full", iconColor: "default" },
+        { id: "full", icon: "battery-full", iconColor: "default" },
+        { id: "charging", icon: "bolt-circle", iconColor: "default" },
     ]
 
     function getCurrentBatteryState(): BatteryIconObject | undefined {
@@ -65,7 +64,7 @@ export default function BatteryInfo() {
                     stateId = "low"
                     break
                 case percent < 0.5:
-                    stateId = "high"
+                    stateId = "medium"
                     break
                 case percent < 0.95:
                     stateId = "high"

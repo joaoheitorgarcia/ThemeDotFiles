@@ -11,7 +11,6 @@ type AccessPoint = any
 const network = AstalNetwork.get_default()
 
 const [selectedAccessPoint, setSelectedAccessPoint] = createState<AccessPoint | null>(null)
-const [connectingAccessPoint, setConnectingAccessPoint] = createState<AccessPoint | null>(null)
 const [password, setPassword] = createState("")
 const [showPassword, setShowPassword] = createState(false)
 const [connectingPath, setConnectingPath] = createState("")
@@ -154,7 +153,6 @@ async function activateAccessPoint(
     }
 
     setConnectionError("")
-    setConnectingAccessPoint(accessPoint)
     setConnectingPath(id)
 
     try {
@@ -175,7 +173,6 @@ async function activateAccessPoint(
             setConnectionError("Could not connect. Check the password and try again.")
         }
     } finally {
-        setConnectingAccessPoint(null)
         setConnectingPath("")
     }
 }
@@ -467,7 +464,6 @@ function PasswordRow() {
 
 export default function Network() {
     const wifi = createBinding(network, "wifi")
-    const wired = createBinding(network, "wired")
     const primary = createBinding(network, "primary")
     const state = createBinding(network, "state")
     const wifiEnabled = createBinding(network, "wifi", "enabled").as((value) => Boolean(value))

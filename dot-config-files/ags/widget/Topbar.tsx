@@ -44,10 +44,6 @@ export default function Topbar(gdkmonitor: Gdk.Monitor) {
           <Workspaces/>
         </box>
     
-        {/* CENTER */}
-        <box $type="center">
-        </box>
-
         {/* END */}
         <box
           $type="end"

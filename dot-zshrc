@@ -96,6 +96,7 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='nvim'
 # fi
 export EDITOR=nano
+export VISUAL=nano
 
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
