@@ -96,6 +96,18 @@ window.Topbar {
           background: $window-bg-color;
         }
 
+        .appTrayItem.trayActionTaken,
+        .appTrayItem.trayActionTaken:hover,
+        .appTrayItem.trayActionTaken:active,
+        .appTrayItem.trayActionTaken:checked,
+        .appTrayItem.trayActionTaken > button,
+        .appTrayItem.trayActionTaken > button:hover,
+        .appTrayItem.trayActionTaken > button:active,
+        .appTrayItem.trayActionTaken > button:checked {
+          background: transparent;
+          background-color: transparent;
+        }
+
         .appTrayIcon {
           -gtk-icon-size: 24px;
         }
