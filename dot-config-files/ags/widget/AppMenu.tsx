@@ -15,6 +15,8 @@ const [selectedIndex, setSelectedIndex] = createState(0)
 
 let searchEntry: Gtk.Entry | null = null
 let appMenuFrame: Gtk.CenterBox | null = null
+let appMenuScroller: Gtk.ScrolledWindow | null = null
+let appMenuRows: Gtk.Box | null = null
 
 function appList() {
   return Array.from(applications.list ?? []) as Application[]
@@ -100,6 +102,7 @@ function openMenu() {
   refreshApplications()
   setQuery("")
   setSelectedIndex(0)
+  scrollSelectionIntoView(0)
   focusSearch()
 }
 
@@ -186,6 +189,51 @@ function moveSelection(delta: number) {
     if (next < 0) return count - 1
     if (next >= count) return 0
     return next
+  })
+}
+
+function appRowAtIndex(index: number) {
+  let child = appMenuRows?.get_first_child() ?? null
+  let current = 0
+
+  while (child) {
+    if (current === index) {
+      return child
+    }
+
+    current += 1
+    child = child.get_next_sibling()
+  }
+
+  return null
+}
+
+function scrollSelectionIntoView(index: number) {
+  if (!appMenuScroller || !appMenuRows || index < 0) {
+    return
+  }
+
+  const rows = appMenuRows
+
+  GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
+    const adjustment = appMenuScroller?.get_vadjustment()
+
+    if (!adjustment) {
+      return GLib.SOURCE_REMOVE
+    }
+
+    const selectedRow = appRowAtIndex(index)
+    const [hasBounds, bounds] = selectedRow?.compute_bounds(rows) ?? [false, null]
+
+    if (!hasBounds || !bounds) {
+      return GLib.SOURCE_REMOVE
+    }
+
+    const top = bounds.get_y()
+    const max = adjustment.get_upper() - adjustment.get_page_size()
+    adjustment.set_value(Math.max(adjustment.get_lower(), Math.min(max, top)))
+
+    return GLib.SOURCE_REMOVE
   })
 }
 
@@ -296,11 +344,17 @@ function AppMenuPanel() {
         hscrollbarPolicy={Gtk.PolicyType.NEVER}
         vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
         vexpand
+        $={(scrolledWindow) => {
+          appMenuScroller = scrolledWindow
+        }}
       >
         <box
           class="appMenuRows"
           orientation={Gtk.Orientation.VERTICAL}
           spacing={6}
+          $={(box) => {
+            appMenuRows = box
+          }}
         >
           <For each={filteredApplications}>
             {(application) => (
@@ -334,6 +388,8 @@ export default function AppMenu(gdkmonitor: Gdk.Monitor) {
       setSelectedIndex(-1)
     } else if (count > 0 && (currentIndex < 0 || currentIndex >= count)) {
       setSelectedIndex(0)
+    } else {
+      scrollSelectionIntoView(currentIndex)
     }
   })
 
