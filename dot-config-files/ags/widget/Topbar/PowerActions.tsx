@@ -13,7 +13,7 @@ type PowerAction = {
 const actions: PowerAction[] = [
     { label: "Lock", icon: "lock", action: () => lock() },
     { label: "Sleep", icon: "leaf", command: ["systemctl", "suspend"] },
-    { label: "Restart", icon: "redo", command: ["reboot"] },
+    { label: "Reboot", icon: "redo", command: ["reboot"] },
     { label: "Shut Down", icon: "power", command: ["shutdown", "now"] },
 ]
 

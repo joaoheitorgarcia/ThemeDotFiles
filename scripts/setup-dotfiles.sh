@@ -15,7 +15,7 @@ Options:
   --dry-run          Print actions without changing anything
   --force            Replace symlinks that point to a different target
   --install-deps     Install Arch packages needed by these dotfiles
-  --skip-gpu-detect  Do not update Hyprland AQ_DRM_DEVICES from detected GPUs
+  --skip-gpu-detect  Do not adjust Hyprland AQ_DRM_DEVICES setup
   -h, --help         Show this help
 
 What it does:
@@ -23,7 +23,7 @@ What it does:
   - Symlinks every top-level folder in dot-config-files/ to ~/.config/
   - Symlinks dot-zshrc to ~/.zshrc
   - Backs up existing real files/folders before replacing them
-  - Updates Hyprland AQ_DRM_DEVICES for the current GPU layout
+  - Keeps Hyprland AQ_DRM_DEVICES dynamic via the hyprland-safe launcher
 EOF
 }
 
@@ -78,6 +78,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
 CONFIG_SRC="$REPO_ROOT/dot-config-files"
 ZSHRC_SRC="$REPO_ROOT/dot-zshrc"
+ZPROFILE_SRC="$REPO_ROOT/dot-zprofile"
 CONFIG_DST="$HOME/.config"
 TS="$(date +%Y%m%d-%H%M%S)"
 
@@ -88,6 +89,11 @@ fi
 
 if [[ ! -f "$ZSHRC_SRC" ]]; then
   echo "Missing file: $ZSHRC_SRC" >&2
+  exit 1
+fi
+
+if [[ ! -f "$ZPROFILE_SRC" ]]; then
+  echo "Missing file: $ZPROFILE_SRC" >&2
   exit 1
 fi
 
@@ -346,37 +352,12 @@ while IFS= read -r dir; do
 done < <(find "$CONFIG_SRC" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort)
 
 link_one "$ZSHRC_SRC" "$HOME/.zshrc"
+link_one "$ZPROFILE_SRC" "$HOME/.zprofile"
 
-drm_card_path() {
-  local card="$1"
-  local card_name
-  local by_path
-
-  card_name="$(basename -- "$card")"
-
-  for by_path in /dev/dri/by-path/*-card; do
-    [[ -e "$by_path" ]] || continue
-    if [[ "$(readlink -f "$by_path")" == "/dev/dri/$card_name" ]]; then
-      printf '%s\n' "$by_path"
-      return 0
-    fi
-  done
-
-  printf '/dev/dri/%s\n' "$card_name"
-}
-
-update_hypr_gpu_order() {
+disable_static_hypr_gpu_order() {
   local conf="$CONFIG_SRC/hypr/hyprland.conf"
-  local card
-  local vendor
-  local path
-  local ordered
-  local replacement
   local tmp
-  local primary_cards=()
-  local fallback_cards=()
-  local nvidia_cards=()
-  local all_cards=()
+  local detected=""
 
   [[ "$GPU_DETECT" -eq 1 ]] || return 0
 
@@ -385,70 +366,32 @@ update_hypr_gpu_order() {
     return 0
   fi
 
-  while IFS= read -r card; do
-    [[ -r "$card/device/vendor" ]] || continue
-
-    vendor="$(<"$card/device/vendor")"
-    path="$(drm_card_path "$card")"
-
-    case "$vendor" in
-      0x10de) nvidia_cards+=("$path") ;;
-      0x1002|0x8086) primary_cards+=("$path") ;;
-      *) fallback_cards+=("$path") ;;
-    esac
-  done < <(find /sys/class/drm -maxdepth 1 -type l -name 'card[0-9]*' | sort -V)
-
-  all_cards=("${primary_cards[@]}" "${fallback_cards[@]}" "${nvidia_cards[@]}")
-
-  if [[ "${#all_cards[@]}" -lt 2 ]]; then
-    log "GPU detect: single/no GPU detected, disabling AQ_DRM_DEVICES override"
-
-    if [[ "$DRY_RUN" -eq 1 ]]; then
-      log "[dry-run] comment AQ_DRM_DEVICES in $conf"
-      return 0
-    fi
-
-    tmp="$(mktemp)"
-    awk '
-      /^[[:space:]]*env = AQ_DRM_DEVICES,/ {
-        print "# " $0
-        next
-      }
-      { print }
-    ' "$conf" > "$tmp"
-    mv "$tmp" "$conf"
-    return 0
+  if [[ -x "$CONFIG_SRC/hypr/scripts/hyprland-safe" ]]; then
+    detected="$("$CONFIG_SRC/hypr/scripts/hyprland-safe" --print-drm-devices || true)"
   fi
 
-  ordered="$(IFS=:; printf '%s' "${all_cards[*]}")"
-  replacement="env = AQ_DRM_DEVICES,$ordered"
-
-  log "GPU detect: $replacement"
+  if [[ -n "$detected" ]]; then
+    log "GPU detect: hyprland-safe will export AQ_DRM_DEVICES=$detected"
+  else
+    log "GPU detect: hyprland-safe will detect AQ_DRM_DEVICES when Hyprland starts"
+  fi
 
   if [[ "$DRY_RUN" -eq 1 ]]; then
-    log "[dry-run] update AQ_DRM_DEVICES in $conf"
+    log "[dry-run] comment static AQ_DRM_DEVICES entries in $conf"
     return 0
   fi
 
   tmp="$(mktemp)"
-  awk -v replacement="$replacement" '
-    /^[[:space:]]*#?[[:space:]]*env = AQ_DRM_DEVICES,/ {
-      if (!done) {
-        print replacement
-        done = 1
-      }
+  awk '
+    /^[[:space:]]*env = AQ_DRM_DEVICES,/ {
+      print "# " $0
       next
     }
     { print }
-    END {
-      if (!done) {
-        print replacement
-      }
-    }
   ' "$conf" > "$tmp"
   mv "$tmp" "$conf"
 }
 
-update_hypr_gpu_order
+disable_static_hypr_gpu_order
 
 log "Done."
