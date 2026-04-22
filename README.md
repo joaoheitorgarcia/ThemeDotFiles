@@ -2,6 +2,9 @@
 
 Personal dotfiles for config and shell setup.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0f1cbd6c-b9fe-43b7-95d6-d8bfce07d867" />
+
+
 ## Quick Setup (New PC)
 
 ```bash
