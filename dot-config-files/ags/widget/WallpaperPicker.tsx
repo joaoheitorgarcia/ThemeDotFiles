@@ -12,14 +12,77 @@ import {
   type BackgroundEntry,
 } from "./Common/BackgroundState"
 
+type MatugenMode = "light" | "dark"
+type MatugenPrefer =
+  | "darkness"
+  | "lightness"
+  | "saturation"
+  | "less-saturation"
+  | "value"
+  | "closest-to-fallback"
+type ActiveControl = "wallpapers" | "prefer"
+
+type ThemePreviewColors = {
+  surface: string
+  surfaceDim: string
+  surfaceContainer: string
+  surfaceContainerHigh: string
+  surfaceBright: string
+  onSurface: string
+  onSurfaceVariant: string
+  primary: string
+  onPrimary: string
+  secondary: string
+  onSecondary: string
+  tertiary: string
+  onTertiary: string
+  outline: string
+  error: string
+}
+
+const preferOptions: { id: MatugenPrefer; label: string }[] = [
+  { id: "saturation", label: "Saturation" },
+  { id: "less-saturation", label: "Muted" },
+  { id: "darkness", label: "Dark" },
+  { id: "lightness", label: "Light" },
+  { id: "value", label: "Value" },
+  { id: "closest-to-fallback", label: "Fallback" },
+]
+
 const [backgrounds, setBackgrounds] = createState<BackgroundEntry[]>([])
 const [selectedIndex, setSelectedIndex] = createState(0)
+const [selectedPrefer, setSelectedPrefer] = createState<MatugenPrefer>("saturation")
+const [activeControl, setActiveControl] = createState<ActiveControl>("wallpapers")
+const [matugenPreferOptions] = createState(preferOptions)
+const [themePreview, setThemePreview] = createState<ThemePreviewColors>(fallbackThemePreview())
 const selectedBackground = createComputed(() => backgrounds()[selectedIndex()] ?? null)
 const indexedBackgrounds = createComputed(() =>
   backgrounds().map((entry, index) => ({ ...entry, index })),
 )
 
 let wallpaperScroller: Gtk.ScrolledWindow | null = null
+let themePreviewSource = 0
+let themePreviewRequest = 0
+
+function fallbackThemePreview(): ThemePreviewColors {
+  return {
+    surface: "#19120c",
+    surfaceDim: "#19120c",
+    surfaceContainer: "#261e18",
+    surfaceContainerHigh: "#312822",
+    surfaceBright: "#413730",
+    onSurface: "#efe0d5",
+    onSurfaceVariant: "#d6c3b6",
+    primary: "#ffb778",
+    onPrimary: "#4c2700",
+    secondary: "#e2c0a5",
+    onSecondary: "#412c19",
+    tertiary: "#c3cb98",
+    onTertiary: "#2d330e",
+    outline: "#9e8e82",
+    error: "#ffb4ab",
+  }
+}
 
 function refreshBackgrounds() {
   const entries = listBackgrounds()
@@ -29,6 +92,7 @@ function refreshBackgrounds() {
   setBackgrounds(entries)
   setSelectedIndex(currentIndex >= 0 ? currentIndex : entries.length > 0 ? 0 : -1)
   scrollSelectionIntoView(currentIndex >= 0 ? currentIndex : 0)
+  scheduleThemePreview()
 }
 
 function closePicker() {
@@ -37,6 +101,20 @@ function closePicker() {
   if (window) {
     window.visible = false
   }
+}
+
+function isInsideCssClass(widget: Gtk.Widget | null, className: string) {
+  let current = widget
+
+  while (current) {
+    if (current.has_css_class(className)) {
+      return true
+    }
+
+    current = current.get_parent()
+  }
+
+  return false
 }
 
 export function toggleWallpaperPicker() {
@@ -56,7 +134,7 @@ function applyBackground(entry: BackgroundEntry | null | undefined) {
 
   selectBackground(entry)
   closePicker()
-  runMatugen(entry.path, mode)
+  runMatugen(entry.path, mode, selectedPrefer())
 }
 
 function restartAgs() {
@@ -64,16 +142,8 @@ function restartAgs() {
   app.quit()
 }
 
-function runMatugen(path: string, mode: "light" | "dark") {
-  const command = ["matugen", "image", path, "-m", mode, "--prefer", "lightness"]
-  // prefer modes for matugen:
-  // - saturation: picks the most vivid / colorful candidate.
-  // - less-saturation: picks a more muted / neutral candidate.
-  // - darkness: prefers darker candidate colors.
-  // - lightness: prefers lighter candidate colors.
-  // - value: prefers colors with higher HSV “value”, usually brighter / stronger - looking colors.
-  // - closest-to-fallback: picks the candidate closest to your configured fallback color.
-
+function runMatugen(path: string, mode: MatugenMode, prefer: MatugenPrefer) {
+  const command = ["matugen", "image", path, "-m", mode, "--prefer", prefer]
 
   try {
     const process = Gio.Subprocess.new(
@@ -102,6 +172,107 @@ function runMatugen(path: string, mode: "light" | "dark") {
   }
 }
 
+function colorFromMatugenJson(data: any, name: string, fallback: string) {
+  return data?.colors?.[name]?.dark?.color ?? data?.colors?.[name]?.default?.color ?? fallback
+}
+
+function previewFromMatugenJson(data: any): ThemePreviewColors {
+  const fallback = fallbackThemePreview()
+
+  return {
+    surface: colorFromMatugenJson(data, "surface", fallback.surface),
+    surfaceDim: colorFromMatugenJson(data, "surface_dim", fallback.surfaceDim),
+    surfaceContainer: colorFromMatugenJson(data, "surface_container", fallback.surfaceContainer),
+    surfaceContainerHigh: colorFromMatugenJson(
+      data,
+      "surface_container_high",
+      fallback.surfaceContainerHigh,
+    ),
+    surfaceBright: colorFromMatugenJson(data, "surface_bright", fallback.surfaceBright),
+    onSurface: colorFromMatugenJson(data, "on_surface", fallback.onSurface),
+    onSurfaceVariant: colorFromMatugenJson(
+      data,
+      "on_surface_variant",
+      fallback.onSurfaceVariant,
+    ),
+    primary: colorFromMatugenJson(data, "primary", fallback.primary),
+    onPrimary: colorFromMatugenJson(data, "on_primary", fallback.onPrimary),
+    secondary: colorFromMatugenJson(data, "secondary", fallback.secondary),
+    onSecondary: colorFromMatugenJson(data, "on_secondary", fallback.onSecondary),
+    tertiary: colorFromMatugenJson(data, "tertiary", fallback.tertiary),
+    onTertiary: colorFromMatugenJson(data, "on_tertiary", fallback.onTertiary),
+    outline: colorFromMatugenJson(data, "outline", fallback.outline),
+    error: colorFromMatugenJson(data, "error", fallback.error),
+  }
+}
+
+function scheduleThemePreview() {
+  if (themePreviewSource) {
+    GLib.Source.remove(themePreviewSource)
+  }
+
+  themePreviewSource = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 120, () => {
+    themePreviewSource = 0
+    updateThemePreview()
+    return GLib.SOURCE_REMOVE
+  })
+}
+
+function updateThemePreview() {
+  const entry = selectedBackground()
+
+  if (!entry) {
+    setThemePreview(fallbackThemePreview())
+    return
+  }
+
+  const request = ++themePreviewRequest
+  const mode = pickMatugenMode(entry.path)
+  const command = [
+    "matugen",
+    "image",
+    entry.path,
+    "-m",
+    mode,
+    "--prefer",
+    selectedPrefer(),
+    "--dry-run",
+    "-j",
+    "hex",
+    "--quiet",
+  ]
+
+  try {
+    const process = Gio.Subprocess.new(
+      command,
+      Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE,
+    )
+
+    process.communicate_utf8_async(null, null, (_process, result) => {
+      try {
+        const [, stdout, stderr] = process.communicate_utf8_finish(result)
+
+        if (request !== themePreviewRequest) {
+          return
+        }
+
+        if (!process.get_successful()) {
+          console.error(
+            `matugen preview failed (${process.get_exit_status()}): ${stderr || stdout || command.join(" ")}`,
+          )
+          return
+        }
+
+        setThemePreview(previewFromMatugenJson(JSON.parse(stdout)))
+      } catch (error) {
+        console.error(`Failed to generate matugen preview: ${command.join(" ")}`, error)
+      }
+    })
+  } catch (error) {
+    console.error(`Failed to spawn matugen preview: ${command.join(" ")}`, error)
+  }
+}
+
 function relativeLuminance(red: number, green: number, blue: number) {
   function toLinear(value: number) {
     const normalized = value / 255
@@ -113,7 +284,7 @@ function relativeLuminance(red: number, green: number, blue: number) {
   return 0.2126 * toLinear(red) + 0.7152 * toLinear(green) + 0.0722 * toLinear(blue)
 }
 
-function pickMatugenMode(path: string): "light" | "dark" {
+function pickMatugenMode(path: string): MatugenMode {
   try {
     const pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, 64, 64, true)
     const pixels = pixbuf.get_pixels()
@@ -161,6 +332,22 @@ function moveSelection(delta: number) {
     scrollSelectionIntoView(next)
     return next
   })
+  scheduleThemePreview()
+}
+
+function movePreference(delta: number) {
+  const currentIndex = preferOptions.findIndex((option) => option.id === selectedPrefer())
+  const nextIndex = Math.max(
+    0,
+    Math.min(preferOptions.length - 1, currentIndex + delta),
+  )
+
+  setSelectedPrefer(preferOptions[nextIndex]?.id ?? "saturation")
+  scheduleThemePreview()
+}
+
+function isFirstPreferenceSelected() {
+  return preferOptions[0]?.id === selectedPrefer()
 }
 
 function scrollSelectionIntoView(index: number) {
@@ -220,10 +407,32 @@ function scrollHorizontal(scrolledWindow: Gtk.ScrolledWindow, dx: number, dy: nu
 function handleKey(keyval: number) {
   switch (keyval) {
     case Gdk.KEY_Left:
-      moveSelection(-1)
+      if (activeControl() !== "prefer") {
+        moveSelection(-1)
+      }
       return true
     case Gdk.KEY_Right:
-      moveSelection(1)
+      if (activeControl() !== "prefer") {
+        moveSelection(1)
+      }
+      return true
+    case Gdk.KEY_Up:
+      if (activeControl() === "prefer") {
+        if (isFirstPreferenceSelected()) {
+          setActiveControl("wallpapers")
+        } else {
+          movePreference(-1)
+        }
+      } else {
+        setActiveControl("wallpapers")
+      }
+      return true
+    case Gdk.KEY_Down:
+      if (activeControl() === "prefer") {
+        movePreference(1)
+      } else if (selectedBackground()) {
+        setActiveControl("prefer")
+      }
       return true
     case Gdk.KEY_Return:
     case Gdk.KEY_KP_Enter:
@@ -244,17 +453,25 @@ function BackgroundCard({
   entry: BackgroundEntry
   index: number
 }) {
-  const isSelected = selectedIndex((value) => value === index)
+  const cardClass = createComputed(() => {
+    if (selectedIndex() !== index) {
+      return "wallpaperCard"
+    }
+
+    return activeControl() === "prefer"
+      ? "wallpaperCard wallpaperCardSelectedDim"
+      : "wallpaperCard wallpaperCardSelected"
+  })
   const isCurrent = currentBackgroundPath((path) => path === entry.path)
 
   return (
     <button
-      class={isSelected((selected) =>
-        selected ? "wallpaperCard wallpaperCardSelected" : "wallpaperCard",
-      )}
+      class={cardClass}
       onClicked={() => {
+        setActiveControl("wallpapers")
         setSelectedIndex(index)
-        applyBackground(entry)
+        scrollSelectionIntoView(index)
+        scheduleThemePreview()
       }}
       $={(button) => button.set_cursor_from_name("pointer")}
     >
@@ -281,6 +498,210 @@ function BackgroundCard({
         />
       </box>
     </button>
+  )
+}
+
+function PreferButton({ option }: { option: { id: MatugenPrefer; label: string } }) {
+  const buttonClass = createComputed(() => {
+    if (activeControl() === "prefer" && selectedPrefer() === option.id) {
+      return "wallpaperPreferButton wallpaperPreferButtonSelected wallpaperPreferButtonFocused"
+    }
+
+    return "wallpaperPreferButton"
+  })
+
+  return (
+    <button
+      class={buttonClass}
+      hexpand
+      halign={Gtk.Align.FILL}
+      onClicked={() => {
+        setActiveControl("prefer")
+        setSelectedPrefer(option.id)
+        scheduleThemePreview()
+      }}
+      $={(button) => button.set_cursor_from_name("pointer")}
+    >
+      <box>
+        <label label={option.label} />
+      </box>
+    </button>
+  )
+}
+
+function SelectedBackgroundPanel() {
+  const name = selectedBackground((entry) => entry?.name ?? "")
+
+  return (
+    <box
+      class="wallpaperSelectionPanel"
+      spacing={12}
+      visible={selectedBackground((entry) => Boolean(entry))}
+    >
+      <box
+        orientation={Gtk.Orientation.VERTICAL}
+        spacing={8}
+        hexpand
+      >
+        <label
+          class="wallpaperSelectionName"
+          label={name}
+          ellipsize={Pango.EllipsizeMode.END}
+          halign={Gtk.Align.START}
+          xalign={0}
+        />
+
+        <box
+          class="wallpaperPreferOptions"
+          orientation={Gtk.Orientation.VERTICAL}
+          spacing={6}
+        >
+          <For each={matugenPreferOptions}>
+            {(option) => <PreferButton option={option as { id: MatugenPrefer; label: string }} />}
+          </For>
+        </box>
+      </box>
+    </box>
+  )
+}
+
+function ThemePreviewCard({
+  title,
+  children,
+}: {
+  title: string
+  children: JSX.Element
+}) {
+  return (
+    <box
+      class="wallpaperThemePreviewCard"
+      orientation={Gtk.Orientation.VERTICAL}
+      spacing={8}
+      hexpand
+    >
+      <label
+        class="wallpaperThemePreviewTitle"
+        label={title}
+        halign={Gtk.Align.START}
+      />
+
+      {children}
+    </box>
+  )
+}
+
+function MenuThemePreview() {
+  const shellCss = createComputed(() => {
+    const colors = themePreview()
+    return `background: ${colors.surfaceDim}; color: ${colors.onSurface};`
+  })
+  const selectedCss = createComputed(() => {
+    const colors = themePreview()
+    return `background: ${colors.primary}; color: ${colors.onPrimary};`
+  })
+  const mutedCss = createComputed(() => `color: ${themePreview().onSurfaceVariant};`)
+
+  return (
+    <ThemePreviewCard title="Menu">
+      <box
+        class="wallpaperMenuPreview"
+        orientation={Gtk.Orientation.VERTICAL}
+        spacing={6}
+        css={shellCss}
+      >
+        <box spacing={8}>
+          <box class="wallpaperPreviewDot" css={createComputed(() => `background: ${themePreview().primary};`)} />
+          <label label="Launcher" halign={Gtk.Align.START} />
+        </box>
+        <box class="wallpaperPreviewRowSelected" css={selectedCss}>
+          <label label="Firefox" halign={Gtk.Align.START} />
+        </box>
+        <box class="wallpaperPreviewRow">
+          <label label="Terminal" halign={Gtk.Align.START} />
+          <label label="dev" halign={Gtk.Align.END} hexpand css={mutedCss} />
+        </box>
+      </box>
+    </ThemePreviewCard>
+  )
+}
+
+function TerminalThemePreview() {
+  const terminalCss = createComputed(() => {
+    const colors = themePreview()
+    return `background: ${colors.surface}; color: ${colors.onSurface}; border: 1px solid ${colors.surfaceBright};`
+  })
+  const promptCss = createComputed(() => `color: ${themePreview().primary};`)
+  const accentCss = createComputed(() => `color: ${themePreview().secondary};`)
+  const errorCss = createComputed(() => `color: ${themePreview().error};`)
+
+  return (
+    <ThemePreviewCard title="Cmd">
+      <box
+        class="wallpaperTerminalPreview"
+        orientation={Gtk.Orientation.VERTICAL}
+        spacing={4}
+        css={terminalCss}
+      >
+        <label label="$user@host" halign={Gtk.Align.START} css={promptCss} />
+        <label label="~/Personal Projects/ThemeDotFiles % ls" halign={Gtk.Align.START} />
+        <label label="dot-config-files  README.md" halign={Gtk.Align.START} css={accentCss} />
+        <label label="status: themed preview" halign={Gtk.Align.START} css={errorCss} />
+      </box>
+    </ThemePreviewCard>
+  )
+}
+
+function YaziThemePreview() {
+  const paneCss = createComputed(() => {
+    const colors = themePreview()
+    return `background: ${colors.surface}; color: ${colors.onSurface}; border: 1px solid ${colors.outline};`
+  })
+  const tabCss = createComputed(() => {
+    const colors = themePreview()
+    return `background: ${colors.primary}; color: ${colors.onPrimary};`
+  })
+  const selectedCss = createComputed(() => {
+    const colors = themePreview()
+    return `background: ${colors.secondary}; color: ${colors.onSecondary};`
+  })
+  const mutedCss = createComputed(() => `color: ${themePreview().onSurfaceVariant};`)
+
+  return (
+    <ThemePreviewCard title="Yazi">
+      <box
+        class="wallpaperYaziPreview"
+        orientation={Gtk.Orientation.VERTICAL}
+        spacing={5}
+        css={paneCss}
+      >
+        <box class="wallpaperYaziTab" css={tabCss}>
+          <label label="ThemeDotFiles" halign={Gtk.Align.START} />
+        </box>
+        <box spacing={6}>
+          <label label="ags/" halign={Gtk.Align.START} css={mutedCss} />
+          <label label="matugen/" halign={Gtk.Align.START} />
+        </box>
+        <box class="wallpaperPreviewRowSelected" css={selectedCss}>
+          <label label="WallpaperPicker.tsx" halign={Gtk.Align.START} />
+        </box>
+        <label label="theme.toml  hyprland.conf" halign={Gtk.Align.START} css={mutedCss} />
+      </box>
+    </ThemePreviewCard>
+  )
+}
+
+function ThemePreviewPanel() {
+  return (
+    <box
+      class="wallpaperThemePreviewPanel"
+      spacing={10}
+      visible={selectedBackground((entry) => Boolean(entry))}
+      hexpand
+    >
+      <MenuThemePreview />
+      <TerminalThemePreview />
+      <YaziThemePreview />
+    </box>
   )
 }
 
@@ -326,6 +747,15 @@ function PickerPanel() {
         label="No backgrounds found"
         visible={backgrounds((items) => items.length === 0)}
       />
+
+      <box
+        class="wallpaperPickerDetails"
+        spacing={10}
+        visible={selectedBackground((entry) => Boolean(entry))}
+      >
+        <SelectedBackgroundPanel />
+        <ThemePreviewPanel />
+      </box>
     </box>
   )
 }
@@ -377,6 +807,18 @@ export default function WallpaperPicker(gdkmonitor: Gdk.Monitor) {
         vexpand
         halign={Gtk.Align.FILL}
         valign={Gtk.Align.FILL}
+        $={(overlay) => {
+          const click = Gtk.GestureClick.new()
+          click.set_button(0)
+          click.connect("pressed", (_gesture, _presses, x, y) => {
+            const target = overlay.pick(x, y, Gtk.PickFlags.DEFAULT)
+
+            if (!isInsideCssClass(target, "wallpaperPickerPanel")) {
+              closePicker()
+            }
+          })
+          overlay.add_controller(click)
+        }}
       >
         <box
           $type="center"

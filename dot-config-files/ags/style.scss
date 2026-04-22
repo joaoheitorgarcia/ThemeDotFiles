@@ -857,6 +857,12 @@ window.WallpaperPicker {
     background: #{'alpha('}#{$accent-color}#{', 0.16)'};
   }
 
+  .wallpaperCardSelectedDim,
+  .wallpaperCardSelectedDim:hover {
+    border: 1px solid #{'alpha('}#{$accent-color}#{', 0.48)'};
+    background: #{'alpha('}#{$accent-color}#{', 0.08)'};
+  }
+
   .wallpaperPreview {
     min-width: 184px;
     min-height: 252px;
@@ -878,6 +884,110 @@ window.WallpaperPicker {
     margin: 32px 0;
     font-size: 12px;
     color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+  }
+
+  .wallpaperPickerDetails {
+    min-height: 138px;
+  }
+
+  .wallpaperSelectionPanel {
+    min-width: 210px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #{'alpha('}#{$window-fg-color}#{', 0.06)'};
+    border: 1px solid #{'alpha('}#{$window-fg-color}#{', 0.12)'};
+  }
+
+  .wallpaperSelectionName {
+    font-size: 12px;
+    font-weight: 700;
+    color: $window-fg-color;
+  }
+
+  .wallpaperPreferOptions {
+    min-width: 150px;
+  }
+
+  .wallpaperPreferButton {
+    min-height: 30px;
+    padding: 5px 9px;
+    border-radius: 8px;
+    background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+    border: 1px solid transparent;
+    color: $window-fg-color;
+  }
+
+  .wallpaperPreferButton:hover {
+    background: #{'alpha('}#{$window-fg-color}#{', 0.12)'};
+  }
+
+  .wallpaperPreferButtonSelected,
+  .wallpaperPreferButtonSelected:hover {
+    background: $accent-color;
+    color: $accent-fg-color;
+  }
+
+  .wallpaperPreferButtonFocused,
+  .wallpaperPreferButtonFocused:hover {
+    border-color: $window-fg-color;
+  }
+
+  .wallpaperApplyButton {
+    min-height: 32px;
+    padding: 6px 16px;
+    border-radius: 8px;
+    background: $accent-color;
+    color: $accent-fg-color;
+  }
+
+  .wallpaperApplyButton:hover {
+    background: #{'alpha('}#{$accent-color}#{', 0.86)'};
+    color: $accent-fg-color;
+  }
+
+  .wallpaperThemePreviewPanel {
+    min-height: 138px;
+  }
+
+  .wallpaperThemePreviewCard {
+    min-height: 118px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #{'alpha('}#{$window-fg-color}#{', 0.06)'};
+    border: 1px solid #{'alpha('}#{$window-fg-color}#{', 0.12)'};
+    color: $window-fg-color;
+  }
+
+  .wallpaperThemePreviewTitle {
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .wallpaperMenuPreview,
+  .wallpaperTerminalPreview,
+  .wallpaperYaziPreview {
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 10px;
+  }
+
+  .wallpaperTerminalPreview,
+  .wallpaperYaziPreview {
+    font-family: "JetBrainsMono Nerd Font", "monospace";
+  }
+
+  .wallpaperPreviewRow,
+  .wallpaperPreviewRowSelected,
+  .wallpaperYaziTab {
+    min-height: 22px;
+    padding: 3px 7px;
+    border-radius: 6px;
+  }
+
+  .wallpaperPreviewDot {
+    min-width: 10px;
+    min-height: 10px;
+    border-radius: 999px;
   }
 }
 

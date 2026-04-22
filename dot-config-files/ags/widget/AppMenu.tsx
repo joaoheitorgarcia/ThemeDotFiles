@@ -111,6 +111,20 @@ function closeMenu() {
   }
 }
 
+function isInsideCssClass(widget: Gtk.Widget | null, className: string) {
+  let current = widget
+
+  while (current) {
+    if (current.has_css_class(className)) {
+      return true
+    }
+
+    current = current.get_parent()
+  }
+
+  return false
+}
+
 function syncToFocusedMonitor(window: any, fallback: Gdk.Monitor) {
   const geometry = fallback.get_geometry()
 
@@ -366,6 +380,17 @@ export default function AppMenu(gdkmonitor: Gdk.Monitor) {
         $={(centerbox) => {
           appMenuFrame = centerbox
           centerbox.set_center_widget(AppMenuPanel())
+
+          const click = Gtk.GestureClick.new()
+          click.set_button(0)
+          click.connect("pressed", (_gesture, _presses, x, y) => {
+            const target = centerbox.pick(x, y, Gtk.PickFlags.DEFAULT)
+
+            if (!isInsideCssClass(target, "appMenuPanel")) {
+              closeMenu()
+            }
+          })
+          centerbox.add_controller(click)
         }}
       />
     </window>
