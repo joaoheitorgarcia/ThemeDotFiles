@@ -6,10 +6,7 @@ import Gtk4SessionLock from "gi://Gtk4SessionLock?version=1.0"
 import { Gtk } from "ags/gtk4"
 import app from "ags/gtk4/app"
 import BoxIcon from "./Common/BoxIcon"
-
-const wallpaperFile = Gio.File.new_for_path(
-  `${SRC}/assets/background-images/car-sunset.png`,
-)
+import { currentBackgroundPath } from "./Common/BackgroundState"
 
 const sessionLock = new Gtk4SessionLock.Instance()
 const pam = new AstalAuth.Pam()
@@ -64,7 +61,7 @@ function LockSurface({ refs, onPasswordChanged, onUnlock }: LockSurfaceProps) {
   const background = (
     <Gtk.Picture
       class="lockScreenWallpaper"
-      file={wallpaperFile}
+      file={currentBackgroundPath((path) => Gio.File.new_for_path(path))}
       hexpand
       vexpand
       canShrink
@@ -154,7 +151,7 @@ function LockSurface({ refs, onPasswordChanged, onUnlock }: LockSurfaceProps) {
             entry.connect("changed", () => onPasswordChanged(entry))
             entry.connect("activate", () => onUnlock(entry))
             entry.connect("notify::has-focus", () => {
-              if (entry.has_focus()) {
+              if (entry.hasFocus) {
                 const surface = findSurfaceByEntry(entry)
                 if (surface) {
                   activeSurface = surface

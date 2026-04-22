@@ -1,6 +1,5 @@
 import GLib from "gi://GLib?version=2.0"
 import AstalApps from "gi://AstalApps"
-import AstalHyprland from "gi://AstalHyprland"
 import Pango from "gi://Pango?version=1.0"
 import app from "ags/gtk4/app"
 import { Astal, Gdk, Gtk } from "ags/gtk4"
@@ -9,7 +8,6 @@ import { createComputed, createEffect, createState, For, type Accessor } from "g
 type Application = any
 
 const applications = new AstalApps.Apps()
-const hyprland = AstalHyprland.get_default()
 
 const [allApplications, setAllApplications] = createState<Application[]>([])
 const [query, setQuery] = createState("")
@@ -113,25 +111,10 @@ function closeMenu() {
   }
 }
 
-function monitorConnector(monitor: Gdk.Monitor) {
-  return String(monitor.get_connector?.() ?? monitor.connector ?? "").trim()
-}
-
-function focusedMonitor(fallback: Gdk.Monitor) {
-  const focusedName = String(hyprland?.focusedMonitor?.name ?? hyprland?.focused_monitor?.name ?? "").trim()
-
-  if (!focusedName) {
-    return fallback
-  }
-
-  return app.get_monitors().find((monitor) => monitorConnector(monitor) === focusedName) ?? fallback
-}
-
 function syncToFocusedMonitor(window: any, fallback: Gdk.Monitor) {
-  const monitor = focusedMonitor(fallback)
-  const geometry = monitor.get_geometry()
+  const geometry = fallback.get_geometry()
 
-  window.gdkmonitor = monitor
+  window.gdkmonitor = fallback
   window.set_default_size(geometry.width, geometry.height)
 
   if (appMenuFrame) {

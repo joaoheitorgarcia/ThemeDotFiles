@@ -2,10 +2,7 @@ import Gio from "gi://Gio"
 import app from "ags/gtk4/app"
 import { Astal, Gdk, Gtk } from "ags/gtk4"
 import { monitorId } from "./Common/Monitor"
-
-const backgroundFile = Gio.File.new_for_path(
-  `${SRC}/assets/background-images/car-sunset.png`,
-)
+import { currentBackgroundPath } from "./Common/BackgroundState"
 
 export default function Background(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT, BOTTOM } = Astal.WindowAnchor
@@ -27,7 +24,7 @@ export default function Background(gdkmonitor: Gdk.Monitor) {
     >
       <Gtk.Picture
         class="BackgroundImage"
-        file={backgroundFile}
+        file={currentBackgroundPath((path) => Gio.File.new_for_path(path))}
         hexpand
         vexpand
         canShrink

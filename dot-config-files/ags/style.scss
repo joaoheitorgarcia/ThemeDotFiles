@@ -58,7 +58,7 @@ window.Topbar {
     }
 
     .topbarAppBar {
-      background: #{'alpha('}#{$window-bg-color}#{', 0.3)'};
+      background: #{'alpha('}#{$window-bg-color}#{', 0.5)'};
       border-radius: 8px;
       margin-right: 2px;
 
@@ -798,6 +798,84 @@ window.AppMenu {
 
   .appMenuEmpty {
     margin: 42px 0;
+    font-size: 12px;
+    color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
+  }
+}
+
+window.WallpaperPicker {
+  background: none;
+  background-color: transparent;
+  font-family: "Bruno Ace SC", "Cantarell", sans-serif;
+
+  .wallpaperPickerOverlay {
+    background: none;
+    background-color: transparent;
+  }
+
+  .wallpaperPickerPanel {
+    padding: 16px;
+    border-radius: 16px;
+    background: $window-bg-color;
+    border: 2px solid #{'alpha('}#{$window-fg-color}#{', 0.16)'};
+    color: $window-fg-color;
+    box-shadow: 0 12px 36px rgba(black, 0.28);
+  }
+
+  .wallpaperPickerTitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: $window-fg-color;
+  }
+
+  .wallpaperPickerScroller {
+    min-height: 260px;
+    min-width: 0;
+  }
+
+  .wallpaperPickerRow {
+    padding: 2px 0 8px;
+  }
+
+  .wallpaperCard {
+    min-width: 200px;
+    min-height: 300px;
+    padding: 8px;
+    border-radius: 10px;
+    background: #{'alpha('}#{$window-fg-color}#{', 0.06)'};
+    border: 1px solid #{'alpha('}#{$window-fg-color}#{', 0.16)'};
+    color: $window-fg-color;
+  }
+
+  .wallpaperCard:hover {
+    background: #{'alpha('}#{$window-fg-color}#{', 0.10)'};
+  }
+
+  .wallpaperCardSelected,
+  .wallpaperCardSelected:hover {
+    border: 3px solid $accent-color;
+    background: #{'alpha('}#{$accent-color}#{', 0.16)'};
+  }
+
+  .wallpaperPreview {
+    min-width: 184px;
+    min-height: 252px;
+    border-radius: 8px;
+    background: #{'alpha('}#{$window-fg-color}#{', 0.08)'};
+  }
+
+  .wallpaperName {
+    font-size: 11px;
+    color: $window-fg-color;
+  }
+
+  .wallpaperNameCurrent {
+    color: $accent-color;
+    font-weight: 700;
+  }
+
+  .wallpaperPickerEmpty {
+    margin: 32px 0;
     font-size: 12px;
     color: #{'alpha('}#{$window-fg-color}#{', 0.72)'};
   }

@@ -24,13 +24,12 @@ export default function Workspaces() {
                 ? specialWorkspaceId
                 : focusedMonitor?.activeWorkspace?.id
 
-        setActiveWorkspaceId(focusedMonitorWorkspaceId ?? hyprland.focusedWorkspace?.id ?? 0)
+        setActiveWorkspaceId(focusedMonitorWorkspaceId ?? 0)
     }
 
     refreshActiveWorkspaceId()
 
     hyprland.connect("notify::focused-monitor", refreshActiveWorkspaceId)
-    hyprland.connect("notify::focused-workspace", refreshActiveWorkspaceId)
     hyprland.connect("event", (_hyprland: any, event: string) => {
         if (
             event === "activespecial" ||
