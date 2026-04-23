@@ -5,12 +5,13 @@ import type { Accessor } from "gnim"
 
 type BoxIconVariant = "basic" | "brands" | "filled"
 type IconName = string | Accessor<string>
+type IconColor = string | Accessor<string>
 
 type BoxIconProps = {
     name: IconName
     variant?: BoxIconVariant
     size?: number
-    color?: string
+    color?: IconColor
     class?: string
     css?: string
     $?: (area: Gtk.DrawingArea) => void
@@ -85,6 +86,10 @@ export default function BoxIcon({
         return typeof name === "function" ? name() : name
     }
 
+    function getColor() {
+        return typeof color === "function" ? color() : color
+    }
+
     return (
         <drawingarea
             {...props}
@@ -95,7 +100,11 @@ export default function BoxIcon({
             $={(area) => {
                 area.set_draw_func((_area, cr, width, height) => {
                     const path = getIconPath(getName(), variant)
-                    const resolvedColor = color == "default"  || color == undefined ? area.get_color().to_string() : color
+                    const iconColor = getColor()
+                    const resolvedColor =
+                        iconColor === "default" || iconColor === undefined
+                            ? area.get_color().to_string()
+                            : iconColor
                     const handle = getHandle(path, resolvedColor)
 
                     if (!handle) {
@@ -115,6 +124,10 @@ export default function BoxIcon({
 
                 if (typeof name === "function") {
                     name.subscribe(() => area.queue_draw())
+                }
+
+                if (typeof color === "function") {
+                    color.subscribe(() => area.queue_draw())
                 }
 
                 $?.(area)

@@ -183,10 +183,10 @@ export default function BatteryInfo() {
             $={(button) => button.set_cursor_from_name("pointer")}
         >
             <BoxIcon
-                name={currentBatteryState()?.icon ?? 'Error'}
+                name={currentBatteryState((state) => state?.icon ?? "alert-circle")}
                 size={18}
                 class="icon"
-                color={currentBatteryState()?.iconColor ?? 'default'}
+                color={currentBatteryState((state) => state?.iconColor ?? "default")}
             />
             <popover hasArrow={false}>
                 <box
