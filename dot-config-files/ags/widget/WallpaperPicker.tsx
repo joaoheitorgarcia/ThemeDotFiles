@@ -130,7 +130,7 @@ function applyBackground(entry: BackgroundEntry | null | undefined) {
 }
 
 function restartAgs() {
-  GLib.spawn_command_line_async("sh -lc 'sleep 0.2; ags run ~/.config/ags/app.ts'")
+  GLib.spawn_command_line_async("sh -lc 'sleep 0.2; GSK_RENDERER=cairo DRI_PRIME=0 __NV_PRIME_RENDER_OFFLOAD=0 ags run ~/.config/ags/app.ts'")
   app.quit()
 }
 
